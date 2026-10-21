@@ -1,0 +1,109 @@
+
+.navbar-hospital {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 14px 24px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e1e7ef;
+  min-height: 76px;
+}
+
+.navbar-marca {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: #183153;
+}
+
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background-color: #1763ac;
+  color: white;
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.navbar-titulo {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.navbar-titulo strong {
+  font-size: 18px;
+}
+
+.navbar-titulo small {
+  font-size: 12px;
+  color: #52647a;
+}
+
+.navbar-usuario {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.usuario-info {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+  gap: 3px;
+}
+
+.usuario-info strong {
+  font-size: 14px;
+  color: #183153;
+}
+
+.usuario-info small {
+  font-size: 12px;
+  color: #52647a;
+}
+
+.btn-salir {
+  padding: 9px 16px;
+  background-color: #1763ac;
+  color: white;
+  border: none;
+  border-radius: 7px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.btn-salir:hover {
+  background-color: #104c86;
+}
+
+.btn-salir:focus-visible,
+.navbar-marca:focus-visible {
+  outline: 3px solid #f59e0b;
+  outline-offset: 3px;
+}
+
+@media (max-width: 600px) {
+  .navbar-hospital {
+    padding: 12px;
+    flex-wrap: wrap;
+  }
+
+  .navbar-titulo small {
+    display: none;
+  }
+
+  .navbar-usuario {
+    gap: 10px;
+  }
+
+  .usuario-info {
+    display: none;
+  }
+}

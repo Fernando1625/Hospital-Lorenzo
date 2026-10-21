@@ -1,1 +1,31 @@
-<p>navbar works!</p>
+<header class="navbar-hospital">
+
+  <!-- Identidad del hospital -->
+  <a class="navbar-marca" routerLink="/dashboard">
+    <span class="navbar-logo" aria-hidden="true">+</span>
+
+    <span class="navbar-titulo">
+      <strong>Hospital-Lorenzo</strong>
+      <small>Sistema de Gestión Hospitalaria</small>
+    </span>
+  </a>
+
+  <!-- Usuario y cierre de sesión -->
+  <div class="navbar-usuario">
+
+    <div class="usuario-info">
+      <strong>{{ nombreUsuario }}</strong>
+      <small>{{ rolUsuario }}</small> 
+    </div>
+
+    <button
+      type="button"
+      class="btn-salir"
+      routerLink="/login"
+      aria-label="Volver al inicio de sesión">
+      Salir
+    </button>
+
+  </div>
+
+</header>
