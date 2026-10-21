@@ -1,1 +1,64 @@
-<p>sidebar works!</p>
+
+<aside class="sidebar-hospital">
+
+  <div class="sidebar-header">
+    <h2>Menú principal</h2>
+    <p>Gestión hospitalaria</p>
+  </div>
+
+  <nav class="sidebar-menu" aria-label="Navegación principal">
+
+    <!-- Dashboard -->
+    <a routerLink="/dashboard"
+       routerLinkActive="activo"
+       [routerLinkActiveOptions]="{ exact: true }">
+      <span class="icono" aria-hidden="true">▦</span>
+      <span>Dashboard</span>
+    </a>
+
+    <!-- Pacientes -->
+    <a routerLink="/pacientes"
+       routerLinkActive="activo">
+      <span class="icono" aria-hidden="true">👥</span>
+      <span>Pacientes</span>
+    </a>
+
+    <!-- Médicos -->
+    <a routerLink="/medicos"
+       routerLinkActive="activo">
+      <span class="icono" aria-hidden="true">🩺</span>
+      <span>Médicos</span>
+    </a>
+
+    <!-- Citas -->
+    <a routerLink="/citas"
+       routerLinkActive="activo">
+      <span class="icono" aria-hidden="true">📅</span>
+      <span>Citas médicas</span>
+    </a>
+
+    <!-- Historial -->
+    <a routerLink="/historial"
+       routerLinkActive="activo">
+      <span class="icono" aria-hidden="true">📋</span>
+      <span>Historial clínico</span>
+    </a>
+
+    <!-- Usuarios -->
+    <a routerLink="/usuarios"
+       routerLinkActive="activo">
+      <span class="icono" aria-hidden="true">⚙️</span>
+      <span>Usuarios</span>
+    </a>
+
+    <!-- Facturación -->
+    <a routerLink="/facturacion"
+       routerLinkActive="activo">
+      <span class="icono" aria-hidden="true">🧾</span>
+      <span>Facturación</span>
+    </a>
+
+  </nav>
+
+</aside>
+

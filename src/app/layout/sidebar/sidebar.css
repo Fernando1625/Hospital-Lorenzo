@@ -1,0 +1,92 @@
+
+/* Contenedor principal del menú lateral */
+.sidebar-hospital {
+  width: 250px;
+  min-width: 250px;
+  background-color: #15324f;
+  color: white;
+  padding: 24px 14px;
+  box-sizing: border-box;
+  min-height: 100%;
+}
+
+/* Encabezado del menú */
+.sidebar-header {
+  padding: 0 12px 20px;
+  border-bottom: 1px solid #39546e;
+  margin-bottom: 20px;
+}
+
+.sidebar-header h2 {
+  font-size: 18px;
+  margin: 0 0 6px;
+  color: white;
+}
+
+.sidebar-header p {
+  font-size: 13px;
+  margin: 0;
+  color: #c5d7e8;
+}
+
+/* Opciones de navegación */
+.sidebar-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.sidebar-menu a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  color: #e8f1fa;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+/* Efecto al pasar el cursor */
+.sidebar-menu a:hover {
+  background-color: #27506f;
+}
+
+/* Opción seleccionada */
+.sidebar-menu a.activo {
+  background-color: #275c8d;
+  color: white;
+  font-weight: 600;
+}
+
+/* Navegación mediante teclado */
+.sidebar-menu a:focus-visible {
+  outline: 3px solid #f5bb45;
+  outline-offset: 2px;
+}
+
+.icono {
+  font-size: 19px;
+  width: 24px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+/* Adaptación a pantallas pequeñas */
+@media (max-width: 768px) {
+  .sidebar-hospital {
+    width: 100%;
+    min-width: 0;
+    padding: 12px;
+  }
+
+  .sidebar-menu {
+    flex-direction: row;
+    overflow-x: auto;
+  }
+
+  .sidebar-menu a {
+    white-space: nowrap;
+  }
+}
