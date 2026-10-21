@@ -1,1 +1,15 @@
-<p>main-layout works!</p>
+<div class = "hospital-layout">
+
+    <!-- Barra superior -->
+    <app-navbar></app-navbar>
+    <div class = layout-body>
+
+        <!-- Menu lateral -->
+        <app-sidebar></app-sidebar>
+
+        <!-- Contenido de cada modulo -->
+        <main class = "main-content">
+            <router-outlet></router-outlet>
+        </main>
+    </div>
+</div>
