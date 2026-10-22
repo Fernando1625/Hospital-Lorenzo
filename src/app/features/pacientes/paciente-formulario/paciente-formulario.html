@@ -2,7 +2,9 @@
 <section class="formulario-paciente">
 
   <div class="encabezado">
-    <h1>Registrar paciente</h1>
+    <h1>
+      {{ modoEdicion ? 'Editar paciente' : 'Registrar paciente' }}
+    </h1>
     <p>Complete los datos del nuevo paciente.</p>
   </div>
 
@@ -129,10 +131,14 @@
         Cancelar
       </a>
 
-      <button type="submit" class="btn-guardar">
-        Guardar paciente
-      </button>
-    </div>
+      <button
+      type="submit"
+      class="btn-guardar"
+      [disabled]="pacienteNoEncontrado">
+      {{ modoEdicion ? 'Guardar cambios' : 'Guardar paciente' }}
+    </button>
+    
+  </div>
 
   </form>
 </section>

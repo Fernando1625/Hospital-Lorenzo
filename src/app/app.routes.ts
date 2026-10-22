@@ -89,8 +89,23 @@ export const routes: Routes = [
           import('./features/pacientes/paciente-formulario/paciente-formulario')
         .then(m => m.PacienteFormulario)
       },
+      // Consultar información de un paciente
+      {
+        path: 'pacientes/:id',
+        loadComponent: () =>
+          import('./features/pacientes/paciente-detalle/paciente-detalle')
+        .then(m => m.PacienteDetalle)
+      },
       
+      // Editar un paciente existente
+      {
+        path: 'pacientes/:id/editar',
+        loadComponent: () =>
+          import('./features/pacientes/paciente-formulario/paciente-formulario')
+        .then(m => m.PacienteFormulario)
+      },
     ]
+
   },
 
   // Rutas no encontradas
