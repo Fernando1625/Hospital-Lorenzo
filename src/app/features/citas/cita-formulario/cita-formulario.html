@@ -1,1 +1,122 @@
-<p>cita-formulario works!</p>
+<section class="formulario-cita">
+  <div class="encabezado">
+    <h1>Programar cita médica</h1>
+    <p>Complete los datos para agendar una consulta.</p>
+  </div>
+
+  <form [formGroup]="formulario" (ngSubmit)="guardarCita()" class="tarjeta">
+    <h2>Información de la cita</h2>
+
+    <p class="ayuda">
+      Todos los campos son obligatorios. La duración de la consulta es de 30 minutos.
+    </p>
+
+    <div class="campos">
+      <!-- Paciente -->
+      <div class="campo">
+        <label for="pacienteId">Paciente *</label>
+
+        <select id="pacienteId" formControlName="pacienteId" (change)="alCambiarFecha()">
+          <option [ngValue]="0">Seleccione un paciente</option>
+
+          @for (paciente of pacientesActivos; track paciente.id) {
+            <option [ngValue]="paciente.id">
+              {{ paciente.nombres }} {{ paciente.apellidos }} - {{ paciente.cedula }}
+            </option>
+          }
+        </select>
+      </div>
+
+      <!-- Médico -->
+      <div class="campo">
+        <label for="medicoId">Médico *</label>
+
+        <select id="medicoId" formControlName="medicoId" (change)="alCambiarMedico()">
+          <option [ngValue]="0">Seleccione un médico</option>
+
+          @for (medico of medicosActivos; track medico.id) {
+            <option [ngValue]="medico.id">{{ medico.nombres }} {{ medico.apellidos }}</option>
+          }
+        </select>
+      </div>
+
+      <!-- Especialidad -->
+      <div class="campo">
+        <label for="especialidad">Especialidad *</label>
+
+        <select id="especialidad" formControlName="especialidad">
+          <option value="">Seleccione una especialidad</option>
+
+          @for (esp of especialidadesDisponibles; track esp) {
+            <option [value]="esp">{{ esp }}</option>
+          }
+        </select>
+      </div>
+
+      <!-- Fecha -->
+      <div class="campo">
+        <label for="fecha">Fecha de la cita *</label>
+
+        <input
+          id="fecha"
+          type="date"
+          [min]="fechaMinima"
+          formControlName="fecha"
+          (change)="alCambiarFecha()"
+        />
+      </div>
+
+      <!-- Hora -->
+      <div class="campo">
+        <label for="horaInicio">Hora disponible *</label>
+
+        <select id="horaInicio" formControlName="horaInicio">
+          <option value="">Seleccione una hora</option>
+
+          @for (hora of horasDisponibles; track hora) {
+            <option [value]="hora">{{ hora }}</option>
+          }
+        </select>
+
+        @if (
+          formulario.controls.medicoId.value > 0 &&
+          formulario.controls.pacienteId.value > 0 &&
+          formulario.controls.fecha.value &&
+          horasDisponibles.length === 0
+        ) {
+          <small class="aviso"> No hay horarios disponibles para esta fecha. </small>
+        }
+      </div>
+
+      <!-- Motivo -->
+      <div class="campo ancho-completo">
+        <label for="motivo">Motivo de consulta *</label>
+
+        <textarea
+          id="motivo"
+          rows="4"
+          maxlength="300"
+          formControlName="motivo"
+          placeholder="Ingrese el motivo general de la cita"
+        >
+        </textarea>
+      </div>
+    </div>
+
+    @if (formulario.invalid && formulario.touched) {
+      <p class="aviso" role="status">Revise los campos obligatorios y complete la información.</p>
+    }
+
+    @if (mensajeError) {
+      <div class="mensaje-error" role="alert">
+        {{ mensajeError }}
+      </div>
+    }
+
+    <div class="botones">
+      <a routerLink="/citas" class="btn-cancelar"> Cancelar </a>
+
+      <button type="submit" class="btn-guardar">Guardar cita</button>
+    </div>
+  </form>
+</section>
