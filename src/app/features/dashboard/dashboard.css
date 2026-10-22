@@ -1,0 +1,150 @@
+
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  color: #183153;
+}
+
+.dashboard-header h1 {
+  font-size: 28px;
+  margin: 0 0 8px;
+}
+
+.dashboard-header p {
+  color: #52647a;
+  margin: 0;
+}
+
+/* Tarjetas de indicadores */
+.estadisticas {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.tarjeta {
+  background: white;
+  padding: 22px;
+  border: 1px solid #e1e7ef;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.tarjeta span {
+  color: #52647a;
+  font-size: 14px;
+}
+
+.tarjeta h2 {
+  font-size: 32px;
+  margin: 12px 0 0;
+  color: #1763ac;
+}
+
+/* Secciones */
+.seccion {
+  background: white;
+  padding: 22px;
+  border: 1px solid #e1e7ef;
+  border-radius: 12px;
+}
+
+.seccion h2 {
+  font-size: 19px;
+  margin: 0 0 20px;
+}
+
+/* Accesos rápidos */
+.accesos {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.accesos a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 15px;
+  background-color: #edf4fb;
+  color: #14558f;
+  text-decoration: none;
+  font-weight: 600;
+  border-radius: 8px;
+}
+
+.accesos a:hover {
+  background-color: #dbeaf8;
+}
+
+.accesos a:focus-visible {
+  outline: 3px solid #f59e0b;
+  outline-offset: 2px;
+}
+
+/* Tabla */
+.tabla-contenedor {
+  width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+th, td {
+  padding: 14px;
+  border-bottom: 1px solid #e1e7ef;
+  font-size: 14px;
+}
+
+th {
+  color: #52647a;
+  background-color: #f7f9fc;
+}
+
+.estado {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.confirmada {
+  background-color: #e2f4eb;
+  color: #176344;
+}
+
+.pendiente {
+  background-color: #fff0d9;
+  color: #865314;
+}
+
+/* Diseño adaptable */
+@media (max-width: 1100px) {
+  .estadisticas,
+  .accesos {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .estadisticas,
+  .accesos {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-header h1 {
+    font-size: 23px;
+  }
+
+  .tarjeta,
+  .seccion {
+    padding: 16px;
+  }
+}
