@@ -1,1 +1,39 @@
-<p>confirm-dialog works!</p>
+
+<div class="dialog-fondo" (click)="cancelar()">
+
+  <div
+    class="dialog-contenido"
+    role="alertdialog"
+    aria-modal="true"
+    aria-labelledby="titulo-confirmacion"
+    aria-describedby="mensaje-confirmacion"
+    tabindex="-1"
+    (click)="$event.stopPropagation()">
+
+    <div class="dialog-encabezado">
+      <h2 id="titulo-confirmacion">{{ titulo() }}</h2>
+    </div>
+
+    <p id="mensaje-confirmacion">{{ mensaje() }}</p>
+
+    <div class="dialog-botones">
+
+      <button
+        type="button"
+        class="btn-cancelar"
+        (click)="cancelar()">
+        Cancelar
+      </button>
+
+      <button
+        type="button"
+        class="btn-confirmar"
+        (click)="confirmar()">
+        {{ textoConfirmar() }}
+      </button>
+
+    </div>
+
+  </div>
+
+</div>

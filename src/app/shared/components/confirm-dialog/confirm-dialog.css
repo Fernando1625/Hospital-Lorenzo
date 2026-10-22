@@ -1,0 +1,73 @@
+
+.dialog-fondo {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.62);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 1000;
+}
+
+.dialog-contenido {
+  background: #ffffff;
+  padding: 28px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 440px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.18);
+  color: #183153;
+}
+
+.dialog-encabezado h2 {
+  font-size: 21px;
+  margin: 0;
+}
+
+.dialog-contenido p {
+  color: #52647a;
+  line-height: 1.6;
+  margin: 18px 0 26px;
+}
+
+.dialog-botones {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.dialog-botones button {
+  padding: 11px 18px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-cancelar {
+  background-color: #e8edf3;
+  color: #183153;
+}
+
+.btn-confirmar {
+  background-color: #1763ac;
+  color: #ffffff;
+}
+
+.btn-confirmar:hover {
+  background-color: #104c86;
+}
+
+.dialog-botones button:focus-visible {
+  outline: 3px solid #f59e0b;
+  outline-offset: 3px;
+}
+
+@media (max-width: 500px) {
+  .dialog-contenido {
+    padding: 20px;
+  }
+}

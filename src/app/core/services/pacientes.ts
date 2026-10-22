@@ -112,5 +112,25 @@ export class PacientesService {
 
     return true;
   }
+  
+  // Activar o desactivar un paciente
+  cambiarEstadoPaciente(id: number): boolean {
+
+    const paciente = this.obtenerPacientePorId(id);
+
+    if (!paciente) {
+      return false;
+    }
+
+    this.pacientesSignal.update(pacientes =>
+      pacientes.map(p =>
+        p.id === id
+          ? { ...p, estado: !p.estado }
+          : p
+      )
+    );
+
+    return true;
+  }
 
 }
