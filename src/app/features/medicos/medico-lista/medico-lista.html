@@ -1,135 +1,174 @@
 
-<section class="medicos">
+  <section class="medicos">
 
-  <!-- Encabezado -->
-   <div class="encabezado">
-    <div>
-    <h1>Gestión de médicos</h1>
-    <p>Administración del personal médico</p>
-  </div>
-   
-  <a routerLink="/medicos/nuevo" class="btn-nuevo">
-    + Nuevo médico
-  </a>
-</div>
-
-  <!-- Indicadores -->
-  <div class="estadisticas">
-
-    <div class="tarjeta">
-      <span>Total de médicos</span>
-      <h2>{{ totalMedicos }}</h2>
+    <!-- Encabezado -->
+    <div class="encabezado">
+      <div>
+      <h1>Gestión de médicos</h1>
+      <p>Administración del personal médico</p>
     </div>
-
-    <div class="tarjeta">
-      <span>Médicos activos</span>
-      <h2>{{ medicosActivos }}</h2>
-    </div>
-
-    <div class="tarjeta">
-      <span>Médicos inactivos</span>
-      <h2>{{ medicosInactivos }}</h2>
-    </div>
-
+    
+    <a routerLink="/medicos/nuevo" class="btn-nuevo">
+      + Nuevo médico
+    </a>
   </div>
 
-  <!-- Listado -->
-  <div class="contenedor">
+    <!-- Indicadores -->
+    <div class="estadisticas">
 
-    <div class="filtros">
-
-      <div class="campo-filtro">
-        <label for="buscarMedico">Buscar médico</label>
-
-        <input
-          id="buscarMedico"
-          type="search"
-          placeholder="Nombre, cédula o especialidad"
-          [(ngModel)]="busqueda">
+      <div class="tarjeta">
+        <span>Total de médicos</span>
+        <h2>{{ totalMedicos }}</h2>
       </div>
 
-      <div class="campo-filtro">
-        <label for="estadoMedico">Estado</label>
+      <div class="tarjeta">
+        <span>Médicos activos</span>
+        <h2>{{ medicosActivos }}</h2>
+      </div>
 
-        <select id="estadoMedico"
-                [(ngModel)]="filtroEstado">
-          <option value="todos">Todos</option>
-          <option value="activos">Activos</option>
-          <option value="inactivos">Inactivos</option>
-        </select>
+      <div class="tarjeta">
+        <span>Médicos inactivos</span>
+        <h2>{{ medicosInactivos }}</h2>
       </div>
 
     </div>
 
-    <div class="tabla-contenedor">
+    <!-- Listado -->
+    <div class="contenedor">
 
-      <table>
-        <thead>
-          <tr>
-            <th scope="col">Cédula</th>
-            <th scope="col">Médico</th>
-            <th scope="col">Especialidades</th>
-            <th scope="col">Teléfono</th>
-            <th scope="col">Estado</th>
-            <th scope="col">Acciones</th>
-          </tr>
-        </thead>
+      <div class="filtros">
 
-        <tbody>
-          @for (medico of medicosFiltrados; track medico.id) {
+        <div class="campo-filtro">
+          <label for="buscarMedico">Buscar médico</label>
+
+          <input
+            id="buscarMedico"
+            type="search"
+            placeholder="Nombre, cédula o especialidad"
+            [(ngModel)]="busqueda">
+        </div>
+
+        <div class="campo-filtro">
+          <label for="estadoMedico">Estado</label>
+
+          <select id="estadoMedico"
+                  [(ngModel)]="filtroEstado">
+            <option value="todos">Todos</option>
+            <option value="activos">Activos</option>
+            <option value="inactivos">Inactivos</option>
+          </select>
+        </div>
+
+      </div>
+
+      <div class="tabla-contenedor">
+
+        <table>
+          <thead>
             <tr>
-              <td>{{ medico.cedula }}</td>
-              <td>
-                {{ medico.nombres }} {{ medico.apellidos }}
-              </td>
-              <td>{{ medico.especialidades.join(', ') }}</td>
-              <td>{{ medico.telefono }}</td>
-              <td>
-                <span
-                  class="estado"
-                  [class.activo]="medico.estado"
-                  [class.inactivo]="!medico.estado">
-                  {{ medico.estado ? 'Activo' : 'Inactivo' }}
-                </span>
-              </td>
-              
-              <td>
-                <div class="acciones">
+              <th scope="col">Cédula</th>
+              <th scope="col">Médico</th>
+              <th scope="col">Especialidades</th>
+              <th scope="col">Teléfono</th>
+              <th scope="col">Estado</th>
+              <th scope="col">Acciones</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @for (medico of medicosFiltrados; track medico.id) {
+              <tr>
+                <td>{{ medico.cedula }}</td>
+                <td>
+                  {{ medico.nombres }} {{ medico.apellidos }}
+                </td>
+                <td>{{ medico.especialidades.join(', ') }}</td>
+                <td>{{ medico.telefono }}</td>
+                <td>
+                  <span
+                    class="estado"
+                    [class.activo]="medico.estado"
+                    [class.inactivo]="!medico.estado">
+                    {{ medico.estado ? 'Activo' : 'Inactivo' }}
+                  </span>
+                </td>
+                
+                <td>
+                  <div class="acciones">
+                    <a
+                    [routerLink]="['/medicos', medico.id]"
+                    class="btn-ver">
+                    Ver
+                  </a>
                   <a
-                  [routerLink]="['/medicos', medico.id]"
-                  class="btn-ver">
-                  Ver
+                  [routerLink]="['/medicos', medico.id, 'editar']"
+                  class="btn-editar">
+                  Editar
                 </a>
                 <a
-                [routerLink]="['/medicos', medico.id, 'editar']"
-                class="btn-editar">
-                Editar
+                [routerLink]="['/medicos', medico.id, 'horarios']"
+                class="btn-horarios">
+                Horarios
               </a>
-              <a
-              [routerLink]="['/medicos', medico.id, 'horarios']"
-              class="btn-horarios">
-              Horarios
-            </a>
-          </div>
-        </td>
+              <button
+              type="button"
+              class="btn-estado"
+              [class.desactivar]="medico.estado"
+              [class.activar]="!medico.estado"
+              (click)="solicitarCambioEstado(medico)">
+              {{ medico.estado ? 'Desactivar' : 'Activar' }}
+            </button>
 
-            </tr>
-          } @empty {
-            <tr>
-              <td colspan="6" class="sin-resultados">
-                No se encontraron médicos.
-              </td>
-            </tr>
-          }
-        </tbody>
-      </table>
+            </div>
+          </td>
+
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="6" class="sin-resultados">
+                  No se encontraron médicos.
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+
+      </div>
+
+      <p class="total">
+        Registros encontrados: {{ medicosFiltrados.length }}
+      </p>
 
     </div>
 
-    <p class="total">
-      Registros encontrados: {{ medicosFiltrados.length }}
-    </p>
+  </section>
 
-  </div>
+  
+<!-- Mensaje del resultado -->
+@if (mensajeOperacion) {
+  <p class="mensaje-operacion" role="status">
+    {{ mensajeOperacion }}
+  </p>
+}
 
-</section>
+<!-- Confirmación del cambio de estado -->
+@if (medicoSeleccionado; as medico) {
+
+  <app-confirm-dialog
+    titulo="Confirmar cambio de estado"
+    [mensaje]="
+      '¿Deseas ' +
+      (medico.estado ? 'desactivar' : 'activar') +
+      ' al médico ' +
+      medico.nombres + ' ' +
+      medico.apellidos + '?'
+    "
+    [textoConfirmar]="
+      medico.estado ? 'Desactivar' : 'Activar'
+    "
+    (confirmado)="confirmarCambioEstado()"
+    (cancelado)="cancelarCambioEstado()">
+  </app-confirm-dialog>
+
+}
+

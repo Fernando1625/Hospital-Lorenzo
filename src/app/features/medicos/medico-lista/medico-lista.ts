@@ -5,11 +5,12 @@ import { RouterLink } from '@angular/router';
 
 import { MedicosService } from '../../../core/services/medicos';
 import { Medico } from '../../../shared/models/medico.model';
+import { ConfirmDialog } from '../../../shared/components/confirm-dialog/confirm-dialog';
 
 @Component({
   selector: 'app-medicos-lista',
   standalone: true,
-  imports: [FormsModule, RouterLink],
+  imports: [FormsModule, RouterLink, ConfirmDialog],
   templateUrl: './medico-lista.html',
   styleUrl: './medico-lista.css'
 })
@@ -22,9 +23,10 @@ export class MedicosLista {
 
   medicos = this.medicosService.medicos;
 
-  // Obtener médicos según los filtros
-  get medicosFiltrados(): Medico[] {
+  medicoSeleccionado: Medico | null = null;
+  mensajeOperacion = '';
 
+  get medicosFiltrados(): Medico[] {
     const texto = this.busqueda.toLowerCase().trim();
 
     return this.medicos().filter(medico => {
@@ -33,8 +35,8 @@ export class MedicosLista {
         medico.cedula.includes(texto) ||
         medico.nombres.toLowerCase().includes(texto) ||
         medico.apellidos.toLowerCase().includes(texto) ||
-        medico.especialidades.some(esp =>
-          esp.toLowerCase().includes(texto)
+        medico.especialidades.some(e =>
+          e.toLowerCase().includes(texto)
         );
 
       const coincideEstado =
@@ -56,5 +58,36 @@ export class MedicosLista {
 
   get medicosInactivos(): number {
     return this.medicos().filter(m => !m.estado).length;
+  }
+
+  solicitarCambioEstado(medico: Medico): void {
+    this.mensajeOperacion = '';
+    this.medicoSeleccionado = medico;
+  }
+
+  confirmarCambioEstado(): void {
+    if (!this.medicoSeleccionado) {
+      return;
+    }
+
+    const medico = this.medicoSeleccionado;
+
+    const actualizado =
+      this.medicosService.cambiarEstadoMedico(medico.id);
+
+    if (actualizado) {
+      this.mensajeOperacion =
+        `El médico ${medico.nombres} ${medico.apellidos} fue ` +
+        `${medico.estado ? 'desactivado' : 'activado'} correctamente.`;
+    } else {
+      this.mensajeOperacion =
+        'No se pudo actualizar el estado del médico.';
+    }
+
+    this.medicoSeleccionado = null;
+  }
+
+  cancelarCambioEstado(): void {
+    this.medicoSeleccionado = null;
   }
 }

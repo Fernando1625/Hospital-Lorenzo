@@ -120,4 +120,26 @@ export class MedicosService {
     return true;
   }
 
+  
+  // Activar o desactivar un médico existente
+  cambiarEstadoMedico(id: number): boolean {
+
+    const medico = this.obtenerMedicoPorId(id);
+
+    if (!medico) {
+      return false;
+    }
+
+    this.medicosSignal.update(medicos =>
+      medicos.map(m =>
+        m.id === id
+          ? { ...m, estado: !m.estado }
+          : m
+      )
+    );
+
+    return true;
+  }
+
+
 }
