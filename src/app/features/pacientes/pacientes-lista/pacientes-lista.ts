@@ -1,4 +1,3 @@
-
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -12,10 +11,9 @@ import { ConfirmDialog } from '../../../shared/components/confirm-dialog/confirm
   standalone: true,
   imports: [FormsModule, RouterLink, ConfirmDialog],
   templateUrl: './pacientes-lista.html',
-  styleUrl: './pacientes-lista.css'
+  styleUrl: './pacientes-lista.css',
 })
 export class PacientesLista {
-
   private pacientesService = inject(PacientesService);
 
   busqueda = '';
@@ -28,13 +26,13 @@ export class PacientesLista {
   mensajeOperacion = '';
 
   get pacientesFiltrados(): Paciente[] {
-
     const texto = this.busqueda.toLowerCase().trim();
 
-    return this.pacientes().filter(paciente =>
-      paciente.cedula.includes(texto) ||
-      paciente.nombres.toLowerCase().includes(texto) ||
-      paciente.apellidos.toLowerCase().includes(texto)
+    return this.pacientes().filter(
+      (paciente) =>
+        paciente.cedula.includes(texto) ||
+        paciente.nombres.toLowerCase().includes(texto) ||
+        paciente.apellidos.toLowerCase().includes(texto),
     );
   }
 
@@ -46,23 +44,20 @@ export class PacientesLista {
 
   // Ejecutar la acción confirmada
   confirmarCambioEstado(): void {
-
     if (!this.pacienteSeleccionado) {
       return;
     }
 
     const paciente = this.pacienteSeleccionado;
 
-    const resultado = this.pacientesService
-      .cambiarEstadoPaciente(paciente.id);
+    const resultado = this.pacientesService.cambiarEstadoPaciente(paciente.id);
 
     if (resultado) {
       this.mensajeOperacion =
         `El paciente ${paciente.nombres} ${paciente.apellidos} ` +
         `fue ${paciente.estado ? 'desactivado' : 'activado'} correctamente.`;
     } else {
-      this.mensajeOperacion =
-        'No se pudo actualizar el estado del paciente.';
+      this.mensajeOperacion = 'No se pudo actualizar el estado del paciente.';
     }
 
     this.pacienteSeleccionado = null;

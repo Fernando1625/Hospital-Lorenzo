@@ -1,11 +1,5 @@
-
 export type EstadoCita =
-  | 'Programada'
-  | 'Confirmada'
-  | 'En atención'
-  | 'Atendida'
-  | 'Cancelada'
-  | 'No asistió';
+  'Programada' | 'Confirmada' | 'En atención' | 'Atendida' | 'Cancelada' | 'No asistió';
 
 export interface Cita {
   id: number;

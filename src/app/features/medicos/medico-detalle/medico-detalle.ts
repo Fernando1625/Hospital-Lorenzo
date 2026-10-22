@@ -9,10 +9,9 @@ import { Medico } from '../../../shared/models/medico.model';
   standalone: true,
   imports: [RouterLink],
   templateUrl: './medico-detalle.html',
-  styleUrl: './medico-detalle.css'
+  styleUrl: './medico-detalle.css',
 })
 export class MedicoDetalle {
-
   private route = inject(ActivatedRoute);
   private medicosService = inject(MedicosService);
 

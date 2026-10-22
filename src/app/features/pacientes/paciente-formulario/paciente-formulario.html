@@ -1,6 +1,4 @@
-
 <section class="formulario-paciente">
-
   <div class="encabezado">
     <h1>
       {{ modoEdicion ? 'Editar paciente' : 'Registrar paciente' }}
@@ -8,116 +6,78 @@
     <p>Complete los datos del nuevo paciente.</p>
   </div>
 
-  <form [formGroup]="formulario"
-        (ngSubmit)="guardarPaciente()"
-        class="tarjeta">
-
+  <form [formGroup]="formulario" (ngSubmit)="guardarPaciente()" class="tarjeta">
     <h2>Información personal</h2>
 
-    <p class="obligatorios">
-      Los campos con * son obligatorios.
-    </p>
+    <p class="obligatorios">Los campos con * son obligatorios.</p>
 
     <div class="campos">
-
       <div class="campo">
         <label for="cedula">Cédula *</label>
-        <input id="cedula"
-               type="text"
-               maxlength="10"
-               inputmode="numeric"
-               formControlName="cedula">
+        <input
+          id="cedula"
+          type="text"
+          maxlength="10"
+          inputmode="numeric"
+          formControlName="cedula"
+        />
 
-        @if (formulario.controls.cedula.touched &&
-             formulario.controls.cedula.invalid) {
-          <small class="error">
-            Ingrese una cédula de 10 dígitos.
-          </small>
+        @if (formulario.controls.cedula.touched && formulario.controls.cedula.invalid) {
+          <small class="error"> Ingrese una cédula de 10 dígitos. </small>
         }
       </div>
 
       <div class="campo">
         <label for="nombres">Nombres *</label>
-        <input id="nombres"
-               type="text"
-               maxlength="60"
-               formControlName="nombres">
+        <input id="nombres" type="text" maxlength="60" formControlName="nombres" />
 
-        @if (formulario.controls.nombres.touched &&
-             formulario.controls.nombres.invalid) {
-          <small class="error">
-            Ingrese los nombres del paciente.
-          </small>
+        @if (formulario.controls.nombres.touched && formulario.controls.nombres.invalid) {
+          <small class="error"> Ingrese los nombres del paciente. </small>
         }
       </div>
 
       <div class="campo">
         <label for="apellidos">Apellidos *</label>
-        <input id="apellidos"
-               type="text"
-               maxlength="60"
-               formControlName="apellidos">
+        <input id="apellidos" type="text" maxlength="60" formControlName="apellidos" />
 
-        @if (formulario.controls.apellidos.touched &&
-             formulario.controls.apellidos.invalid) {
-          <small class="error">
-            Ingrese los apellidos del paciente.
-          </small>
+        @if (formulario.controls.apellidos.touched && formulario.controls.apellidos.invalid) {
+          <small class="error"> Ingrese los apellidos del paciente. </small>
         }
       </div>
 
       <div class="campo">
-        <label for="fechaNacimiento">
-          Fecha de nacimiento *
-        </label>
-        <input id="fechaNacimiento"
-               type="date"
-               formControlName="fechaNacimiento">
+        <label for="fechaNacimiento"> Fecha de nacimiento * </label>
+        <input id="fechaNacimiento" type="date" formControlName="fechaNacimiento" />
 
-        @if (formulario.controls.fechaNacimiento.touched &&
-             formulario.controls.fechaNacimiento.invalid) {
-          <small class="error">
-            Seleccione la fecha de nacimiento.
-          </small>
+        @if (
+          formulario.controls.fechaNacimiento.touched && formulario.controls.fechaNacimiento.invalid
+        ) {
+          <small class="error"> Seleccione la fecha de nacimiento. </small>
         }
       </div>
 
       <div class="campo">
         <label for="telefono">Teléfono</label>
-        <input id="telefono"
-               type="tel"
-               maxlength="10"
-               formControlName="telefono">
+        <input id="telefono" type="tel" maxlength="10" formControlName="telefono" />
 
-        @if (formulario.controls.telefono.touched &&
-             formulario.controls.telefono.invalid) {
-          <small class="error">
-            Ingrese un celular válido de 10 dígitos.
-          </small>
+        @if (formulario.controls.telefono.touched && formulario.controls.telefono.invalid) {
+          <small class="error"> Ingrese un celular válido de 10 dígitos. </small>
         }
       </div>
 
       <div class="campo">
         <label for="correo">Correo electrónico</label>
-        <input id="correo"
-               type="email"
-               formControlName="correo">
+        <input id="correo" type="email" formControlName="correo" />
 
-        @if (formulario.controls.correo.touched &&
-             formulario.controls.correo.invalid) {
-          <small class="error">
-            Ingrese un correo electrónico válido.
-          </small>
+        @if (formulario.controls.correo.touched && formulario.controls.correo.invalid) {
+          <small class="error"> Ingrese un correo electrónico válido. </small>
         }
       </div>
 
       <div class="campo ancho-completo">
         <label for="direccion">Dirección</label>
-        <input id="direccion"
-               type="text"
-               formControlName="direccion">
+        <input id="direccion" type="text" formControlName="direccion" />
       </div>
-
     </div>
 
     @if (mensajeError) {
@@ -127,18 +87,11 @@
     }
 
     <div class="botones">
-      <a routerLink="/pacientes" class="btn-cancelar">
-        Cancelar
-      </a>
+      <a routerLink="/pacientes" class="btn-cancelar"> Cancelar </a>
 
-      <button
-      type="submit"
-      class="btn-guardar"
-      [disabled]="pacienteNoEncontrado">
-      {{ modoEdicion ? 'Guardar cambios' : 'Guardar paciente' }}
-    </button>
-    
-  </div>
-
+      <button type="submit" class="btn-guardar" [disabled]="pacienteNoEncontrado">
+        {{ modoEdicion ? 'Guardar cambios' : 'Guardar paciente' }}
+      </button>
+    </div>
   </form>
 </section>

@@ -1,15 +1,6 @@
-
 import { Component, inject } from '@angular/core';
-import {
-  FormBuilder,
-  ReactiveFormsModule,
-  Validators
-} from '@angular/forms';
-import {
-  ActivatedRoute,
-  Router,
-  RouterLink
-} from '@angular/router';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 import { PacientesService } from '../../../core/services/pacientes';
 
@@ -18,10 +9,9 @@ import { PacientesService } from '../../../core/services/pacientes';
   standalone: true,
   imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './paciente-formulario.html',
-  styleUrl: './paciente-formulario.css'
+  styleUrl: './paciente-formulario.css',
 })
 export class PacienteFormulario {
-
   private fb = inject(FormBuilder);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
@@ -34,22 +24,13 @@ export class PacienteFormulario {
   estadoActual = true;
 
   formulario = this.fb.nonNullable.group({
-    cedula: ['', [
-      Validators.required,
-      Validators.pattern(/^\d{10}$/)
-    ]],
-    nombres: ['', [
-      Validators.required,
-      Validators.maxLength(60)
-    ]],
-    apellidos: ['', [
-      Validators.required,
-      Validators.maxLength(60)
-    ]],
+    cedula: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
+    nombres: ['', [Validators.required, Validators.maxLength(60)]],
+    apellidos: ['', [Validators.required, Validators.maxLength(60)]],
     fechaNacimiento: ['', Validators.required],
     telefono: ['', Validators.pattern(/^(09\d{8})?$/)],
     correo: ['', Validators.email],
-    direccion: ['']
+    direccion: [''],
   });
 
   constructor() {
@@ -82,13 +63,12 @@ export class PacienteFormulario {
         fechaNacimiento: paciente.fechaNacimiento,
         telefono: paciente.telefono,
         correo: paciente.correo,
-        direccion: paciente.direccion
+        direccion: paciente.direccion,
       });
     }
   }
 
   guardarPaciente(): void {
-
     this.mensajeError = '';
 
     if (this.pacienteNoEncontrado) {
@@ -103,8 +83,7 @@ export class PacienteFormulario {
     const datos = this.formulario.getRawValue();
 
     if (datos.fechaNacimiento > this.fechaActual()) {
-      this.mensajeError =
-        'La fecha de nacimiento no puede ser futura.';
+      this.mensajeError = 'La fecha de nacimiento no puede ser futura.';
       return;
     }
 
@@ -116,31 +95,21 @@ export class PacienteFormulario {
       telefono: datos.telefono.trim(),
       correo: datos.correo.trim(),
       direccion: datos.direccion.trim(),
-      estado: this.estadoActual
+      estado: this.estadoActual,
     };
 
     if (this.modoEdicion && this.pacienteId !== null) {
-
-      const actualizado = this.pacientesService.actualizarPaciente(
-        this.pacienteId,
-        pacienteDatos
-      );
+      const actualizado = this.pacientesService.actualizarPaciente(this.pacienteId, pacienteDatos);
 
       if (!actualizado) {
-        this.mensajeError =
-          'No se pudo actualizar el paciente. Verifique la cédula.';
+        this.mensajeError = 'No se pudo actualizar el paciente. Verifique la cédula.';
         return;
       }
-
     } else {
-
-      const registrado = this.pacientesService.registrarPaciente(
-        pacienteDatos
-      );
+      const registrado = this.pacientesService.registrarPaciente(pacienteDatos);
 
       if (!registrado) {
-        this.mensajeError =
-          'Ya existe un paciente con esta cédula.';
+        this.mensajeError = 'Ya existe un paciente con esta cédula.';
         return;
       }
     }

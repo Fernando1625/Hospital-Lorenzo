@@ -1,12 +1,10 @@
-
 import { Injectable, signal } from '@angular/core';
 import { Cita } from '../../shared/models/cita.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CitasService {
-
   // Citas ficticias para probar el frontend
   private citasSignal = signal<Cita[]>([
     {
@@ -18,7 +16,7 @@ export class CitasService {
       horaInicio: '09:00',
       horaFin: '09:30',
       motivo: 'Consulta de control',
-      estado: 'Confirmada'
+      estado: 'Confirmada',
     },
     {
       id: 2,
@@ -29,7 +27,7 @@ export class CitasService {
       horaInicio: '14:00',
       horaFin: '14:30',
       motivo: 'Primera consulta',
-      estado: 'Programada'
+      estado: 'Programada',
     },
     {
       id: 3,
@@ -40,8 +38,8 @@ export class CitasService {
       horaInicio: '10:00',
       horaFin: '10:30',
       motivo: 'Consulta de seguimiento',
-      estado: 'Cancelada'
-    }
+      estado: 'Cancelada',
+    },
   ]);
 
   // Consulta reactiva de las citas
@@ -49,9 +47,7 @@ export class CitasService {
 
   // Buscar cita por identificador
   obtenerCitaPorId(id: number): Cita | undefined {
-    return this.citasSignal().find(
-      cita => cita.id === id
-    );
+    return this.citasSignal().find((cita) => cita.id === id);
   }
 
   // Comprobar conflictos de horario
@@ -60,48 +56,39 @@ export class CitasService {
     fecha: string,
     horaInicio: string,
     horaFin: string,
-    citaExcluirId?: number
+    citaExcluirId?: number,
   ): boolean {
-
-    return this.citasSignal().some(cita =>
-      cita.medicoId === medicoId &&
-      cita.fecha === fecha &&
-      cita.id !== citaExcluirId &&
-      !['Cancelada', 'No asistió'].includes(cita.estado) &&
-      horaInicio < cita.horaFin &&
-      horaFin > cita.horaInicio
+    return this.citasSignal().some(
+      (cita) =>
+        cita.medicoId === medicoId &&
+        cita.fecha === fecha &&
+        cita.id !== citaExcluirId &&
+        !['Cancelada', 'No asistió'].includes(cita.estado) &&
+        horaInicio < cita.horaFin &&
+        horaFin > cita.horaInicio,
     );
   }
 
   // Registrar una nueva cita
   registrarCita(datos: Omit<Cita, 'id'>): boolean {
-
     if (
       !datos.fecha ||
       datos.horaInicio >= datos.horaFin ||
-      this.existeConflicto(
-        datos.medicoId,
-        datos.fecha,
-        datos.horaInicio,
-        datos.horaFin
-      )
+      this.existeConflicto(datos.medicoId, datos.fecha, datos.horaInicio, datos.horaFin)
     ) {
       return false;
     }
 
     const citasActuales = this.citasSignal();
 
-    const nuevoId = Math.max(
-      0,
-      ...citasActuales.map(cita => cita.id)
-    ) + 1;
+    const nuevoId = Math.max(0, ...citasActuales.map((cita) => cita.id)) + 1;
 
-    this.citasSignal.update(citas => [
+    this.citasSignal.update((citas) => [
       ...citas,
       {
         ...datos,
-        id: nuevoId
-      }
+        id: nuevoId,
+      },
     ]);
 
     return true;

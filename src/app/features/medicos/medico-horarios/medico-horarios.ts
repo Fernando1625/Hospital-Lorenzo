@@ -1,10 +1,5 @@
-
 import { Component, computed, inject, signal } from '@angular/core';
-import {
-  FormBuilder,
-  ReactiveFormsModule,
-  Validators
-} from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
 import { MedicosService } from '../../../core/services/medicos';
@@ -15,10 +10,9 @@ import { HorariosService } from '../../../core/services/horarios';
   standalone: true,
   imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './medico-horarios.html',
-  styleUrl: './medico-horarios.css'
+  styleUrl: './medico-horarios.css',
 })
 export class MedicoHorarios {
-
   private route = inject(ActivatedRoute);
   private fb = inject(FormBuilder);
   private medicosService = inject(MedicosService);
@@ -38,30 +32,24 @@ export class MedicoHorarios {
     { id: 4, nombre: 'Jueves' },
     { id: 5, nombre: 'Viernes' },
     { id: 6, nombre: 'Sábado' },
-    { id: 7, nombre: 'Domingo' }
+    { id: 7, nombre: 'Domingo' },
   ];
 
   horarios = computed(() =>
-    this.horariosService.horarios()
-      .filter(h => h.medicoId === this.medicoId)
-      .sort((a, b) =>
-        a.diaSemana - b.diaSemana ||
-        a.horaInicio.localeCompare(b.horaInicio)
-      )
+    this.horariosService
+      .horarios()
+      .filter((h) => h.medicoId === this.medicoId)
+      .sort((a, b) => a.diaSemana - b.diaSemana || a.horaInicio.localeCompare(b.horaInicio)),
   );
 
   formulario = this.fb.nonNullable.group({
-    diaSemana: [1, [
-      Validators.required,
-      Validators.min(1),
-      Validators.max(7)
-    ]],
+    diaSemana: [1, [Validators.required, Validators.min(1), Validators.max(7)]],
     horaInicio: ['08:00', Validators.required],
-    horaFin: ['12:00', Validators.required]
+    horaFin: ['12:00', Validators.required],
   });
 
   nombreDia(numero: number): string {
-    return this.dias.find(d => d.id === numero)?.nombre ?? '';
+    return this.dias.find((d) => d.id === numero)?.nombre ?? '';
   }
 
   guardarHorario(): void {
@@ -81,8 +69,7 @@ export class MedicoHorarios {
     const datos = this.formulario.getRawValue();
 
     if (datos.horaInicio >= datos.horaFin) {
-      this.mensajeError =
-        'La hora de finalización debe ser posterior a la de inicio.';
+      this.mensajeError = 'La hora de finalización debe ser posterior a la de inicio.';
       return;
     }
 
@@ -90,12 +77,11 @@ export class MedicoHorarios {
       medicoId: this.medicoId,
       diaSemana: Number(datos.diaSemana),
       horaInicio: datos.horaInicio,
-      horaFin: datos.horaFin
+      horaFin: datos.horaFin,
     });
 
     if (!registrado) {
-      this.mensajeError =
-        'El horario es inválido o se superpone con otro registrado.';
+      this.mensajeError = 'El horario es inválido o se superpone con otro registrado.';
       return;
     }
 
