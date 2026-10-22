@@ -216,3 +216,23 @@ th {
   outline-offset: 2px;
 }
 
+.btn-horarios {
+  display: inline-block;
+  padding: 8px 12px;
+  border-radius: 6px;
+  background: #e2f4eb;
+  color: #176344;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.btn-horarios:hover {
+  background: #ccebdc;
+}
+
+.btn-horarios:focus-visible {
+  outline: 3px solid #f59e0b;
+  outline-offset: 2px;
+}
