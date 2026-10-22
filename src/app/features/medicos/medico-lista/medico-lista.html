@@ -105,8 +105,13 @@
                 class="btn-editar">
                 Editar
               </a>
-            </div>
-          </td>
+              <a
+              [routerLink]="['/medicos', medico.id, 'horarios']"
+              class="btn-horarios">
+              Horarios
+            </a>
+          </div>
+        </td>
 
             </tr>
           } @empty {

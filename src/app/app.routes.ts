@@ -127,7 +127,15 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/medicos/medico-formulario/medico-formulario')
         .then(m => m.MedicoFormulario)
-      }
+      },
+      
+      // Horarios de atención de un médico
+      {
+        path: 'medicos/:id/horarios',
+        loadComponent: () =>
+          import('./features/medicos/medico-horarios/medico-horarios')
+        .then(m => m.MedicoHorarios)
+      },
     ]
   },
 
