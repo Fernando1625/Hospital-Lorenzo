@@ -1,6 +1,7 @@
 
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 
 import { MedicosService } from '../../../core/services/medicos';
 import { Medico } from '../../../shared/models/medico.model';
@@ -8,7 +9,7 @@ import { Medico } from '../../../shared/models/medico.model';
 @Component({
   selector: 'app-medicos-lista',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, RouterLink],
   templateUrl: './medico-lista.html',
   styleUrl: './medico-lista.css'
 })

@@ -104,6 +104,14 @@ export const routes: Routes = [
           import('./features/pacientes/paciente-formulario/paciente-formulario')
         .then(m => m.PacienteFormulario)
       },
+
+      // Registrar nuevo médico
+      {
+        path: 'medicos/nuevo',
+        loadComponent: () =>
+          import('./features/medicos/medico-formulario/medico-formulario')
+            .then(m => m.MedicoFormulario)
+      },
     ]
 
   },
