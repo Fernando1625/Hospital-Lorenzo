@@ -181,3 +181,49 @@ th {
   outline-offset: 2px;
 }
 
+
+.btn-estado {
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* Desactivar */
+.desactivar {
+  background: #fff0ef;
+  color: #a32119;
+}
+
+.desactivar:hover {
+  background: #fbd5d2;
+}
+
+/* Activar */
+.activar {
+  background: #e2f4eb;
+  color: #176344;
+}
+
+.activar:hover {
+  background: #ccebdc;
+}
+
+.btn-estado:focus-visible {
+  outline: 3px solid #f59e0b;
+  outline-offset: 2px;
+}
+
+.mensaje-operacion {
+  padding: 12px 16px;
+  margin-top: 18px;
+  border: 1px solid #b6ddc5;
+  background: #e2f4eb;
+  color: #176344;
+  border-radius: 8px;
+}
+
+

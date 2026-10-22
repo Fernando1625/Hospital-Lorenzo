@@ -1,9 +1,30 @@
-import { Component } from '@angular/core';
+
+import { Component, input, output } from '@angular/core';
 
 @Component({
-  imports: [],
   selector: 'app-confirm-dialog',
-  styleUrl: './confirm-dialog.css',
+  standalone: true,
   templateUrl: './confirm-dialog.html',
+  styleUrl: './confirm-dialog.css'
 })
-export class ConfirmDialog {}
+export class ConfirmDialog {
+
+  titulo = input<string>('Confirmar acción');
+
+  mensaje = input<string>('¿Deseas continuar?');
+
+  textoConfirmar = input<string>('Confirmar');
+
+  // Avisar al componente padre de la decisión
+  confirmado = output<void>();
+
+  cancelado = output<void>();
+
+  confirmar(): void {
+    this.confirmado.emit();
+  }
+
+  cancelar(): void {
+    this.cancelado.emit();
+  }
+}

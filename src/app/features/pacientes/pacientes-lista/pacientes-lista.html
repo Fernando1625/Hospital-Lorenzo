@@ -14,8 +14,7 @@
     </a>
 
  </div>
-
-  <!-- Contenedor de la tabla -->
+ <!-- Contenedor de la tabla -->
   <div class="contenedor">
 
     <div class="buscador">
@@ -58,35 +57,72 @@
               </td>
               <td>
                 <div class="acciones">
+
                    <a
                    [routerLink]="['/pacientes', paciente.id]" 
                    class="btn-ver">
                    Ver
                   </a>
+                  
                   <a
                   [routerLink]="['/pacientes', paciente.id, 'editar']"
                   class="btn-editar">
                   Editar
                 </a>
-              </div>
-            </td>
-          </tr>
-          
-          } @empty {
-            <tr>
-              <td colspan="5" class="sin-resultados">
-                No se encontraron pacientes.
-              </td>
-            </tr>
-          }
-        </tbody>
-      </table>
-    </div>
+                <button
+                type="button"
+                class="btn-estado"
+                [class.desactivar]="paciente.estado"
+                [class.activar]="!paciente.estado"
+                (click)="solicitarCambioEstado(paciente)">
+                {{ paciente.estado ? 'Desactivar' : 'Activar' }}
+              </button>
+            </div>
+          </td>
+        </tr>
+      } @empty {
+        <tr>
+          <td colspan="6" class="sin-resultados">
+            No se encontraron pacientes.
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
 
-    <p class="total">
-      Registros encontrados: {{ pacientesFiltrados.length }}
-    </p>
-
-  </div>
-
+<p class="total">
+  Registros encontrados: {{ pacientesFiltrados.length }}
+</p>
+</div>
 </section>
+
+
+<!-- Resultado de la operación -->
+@if (mensajeOperacion) {
+  <p class="mensaje-operacion" role="status">
+    {{ mensajeOperacion }}
+  </p>
+}
+
+<!-- Confirmación del cambio de estado -->
+@if (pacienteSeleccionado; as paciente) {
+
+  <app-confirm-dialog
+    titulo="Confirmar cambio de estado"
+    [mensaje]="
+      '¿Deseas ' +
+      (paciente.estado ? 'desactivar' : 'activar') +
+      ' al paciente ' +
+      paciente.nombres + ' ' +
+      paciente.apellidos + '?'
+    "
+    [textoConfirmar]="
+      paciente.estado ? 'Desactivar' : 'Activar'
+    "
+    (confirmado)="confirmarCambioEstado()"
+    (cancelado)="cancelarCambioEstado()">
+  </app-confirm-dialog>
+
+}
+
