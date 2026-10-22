@@ -1,1 +1,109 @@
-<p>medico-lista works!</p>
+
+<section class="medicos">
+
+  <!-- Encabezado -->
+  <div class="encabezado">
+    <div>
+      <h1>Gestión de médicos</h1>
+      <p>Administración del personal médico</p>
+    </div>
+  </div>
+
+  <!-- Indicadores -->
+  <div class="estadisticas">
+
+    <div class="tarjeta">
+      <span>Total de médicos</span>
+      <h2>{{ totalMedicos }}</h2>
+    </div>
+
+    <div class="tarjeta">
+      <span>Médicos activos</span>
+      <h2>{{ medicosActivos }}</h2>
+    </div>
+
+    <div class="tarjeta">
+      <span>Médicos inactivos</span>
+      <h2>{{ medicosInactivos }}</h2>
+    </div>
+
+  </div>
+
+  <!-- Listado -->
+  <div class="contenedor">
+
+    <div class="filtros">
+
+      <div class="campo-filtro">
+        <label for="buscarMedico">Buscar médico</label>
+
+        <input
+          id="buscarMedico"
+          type="search"
+          placeholder="Nombre, cédula o especialidad"
+          [(ngModel)]="busqueda">
+      </div>
+
+      <div class="campo-filtro">
+        <label for="estadoMedico">Estado</label>
+
+        <select id="estadoMedico"
+                [(ngModel)]="filtroEstado">
+          <option value="todos">Todos</option>
+          <option value="activos">Activos</option>
+          <option value="inactivos">Inactivos</option>
+        </select>
+      </div>
+
+    </div>
+
+    <div class="tabla-contenedor">
+
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Cédula</th>
+            <th scope="col">Médico</th>
+            <th scope="col">Especialidades</th>
+            <th scope="col">Teléfono</th>
+            <th scope="col">Estado</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @for (medico of medicosFiltrados; track medico.id) {
+            <tr>
+              <td>{{ medico.cedula }}</td>
+              <td>
+                {{ medico.nombres }} {{ medico.apellidos }}
+              </td>
+              <td>{{ medico.especialidades.join(', ') }}</td>
+              <td>{{ medico.telefono }}</td>
+              <td>
+                <span
+                  class="estado"
+                  [class.activo]="medico.estado"
+                  [class.inactivo]="!medico.estado">
+                  {{ medico.estado ? 'Activo' : 'Inactivo' }}
+                </span>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="5" class="sin-resultados">
+                No se encontraron médicos.
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+
+    </div>
+
+    <p class="total">
+      Registros encontrados: {{ medicosFiltrados.length }}
+    </p>
+
+  </div>
+
+</section>

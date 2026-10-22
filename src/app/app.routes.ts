@@ -48,7 +48,7 @@ export const routes: Routes = [
         path: 'medicos',
         loadComponent: () =>
           import('./features/medicos/medico-lista/medico-lista')
-            .then(m => m.MedicoLista)
+            .then(m => m.MedicosLista)
       },
 
       // Gestión de citas médicas
