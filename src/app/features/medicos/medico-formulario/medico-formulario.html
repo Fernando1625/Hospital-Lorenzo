@@ -2,9 +2,18 @@
 <section class="formulario-medico">
 
   <div class="encabezado">
-    <h1>Registrar médico</h1>
+    <h1>
+      {{ modoEdicion ? 'Editar médico' : 'Registrar médico' }}
+    </h1>
     <p>Complete los datos del profesional de salud.</p>
   </div>
+
+  @if (medicoNoEncontrado) {
+  <div class="mensaje-error" role="alert">
+    No se encontró el médico solicitado.
+    <a routerLink="/medicos">Volver al listado</a>
+  </div>
+}
 
   <form
     [formGroup]="formulario"
@@ -153,10 +162,13 @@
       <a routerLink="/medicos" class="btn-cancelar">
         Cancelar
       </a>
-
-      <button type="submit" class="btn-guardar">
-        Guardar médico
-      </button>
+      
+      <button
+      type="submit"
+      class="btn-guardar"
+      [disabled]="medicoNoEncontrado">
+      {{ modoEdicion ? 'Guardar cambios' : 'Guardar médico' }}
+    </button>
 
     </div>
 

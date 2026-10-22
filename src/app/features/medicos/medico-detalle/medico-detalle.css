@@ -1,0 +1,99 @@
+
+.detalle-medico {
+  color: #183153;
+}
+
+.encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.encabezado h1 {
+  font-size: 28px;
+  margin: 0 0 8px;
+}
+
+.encabezado p {
+  color: #52647a;
+  margin: 0;
+}
+
+.tarjeta {
+  padding: 26px;
+  background-color: white;
+  border: 1px solid #e1e7ef;
+  border-radius: 12px;
+  margin-bottom: 24px;
+}
+
+.tarjeta h2 {
+  margin-top: 0;
+  font-size: 22px;
+}
+
+.tarjeta h3 {
+  margin-top: 25px;
+  font-size: 18px;
+}
+
+.datos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 24px;
+}
+
+.datos p {
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.especialidades {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 0;
+  list-style: none;
+}
+
+.especialidades li {
+  padding: 8px 12px;
+  background: #edf4fb;
+  color: #14558f;
+  border-radius: 7px;
+  font-size: 14px;
+}
+
+.btn-editar,
+.btn-volver {
+  display: inline-block;
+  padding: 12px 18px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.btn-editar {
+  background: #1763ac;
+  color: white;
+}
+
+.btn-volver {
+  background: #e8edf3;
+  color: #183153;
+}
+
+.btn-editar:focus-visible,
+.btn-volver:focus-visible {
+  outline: 3px solid #f59e0b;
+  outline-offset: 3px;
+}
+
+@media (max-width: 650px) {
+  .datos {
+    grid-template-columns: 1fr;
+  }
+}

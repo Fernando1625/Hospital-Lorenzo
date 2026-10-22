@@ -84,4 +84,40 @@ export class MedicosService {
 
     return true;
   }
+  
+  // Actualizar los datos de un médico existente
+  actualizarMedico(
+    id: number,
+    datos: Omit<Medico, 'id'>
+  ): boolean {
+
+    const medicoActual = this.obtenerMedicoPorId(id);
+
+    if (!medicoActual) {
+      return false;
+    }
+
+    // Verificar que la cédula no pertenezca a otro médico
+    const cedulaDuplicada = this.medicosSignal().some(
+      medico =>
+        medico.cedula === datos.cedula &&
+        medico.id !== id
+    );
+
+    if (cedulaDuplicada) {
+      return false;
+    }
+
+    // Actualizar solamente al médico seleccionado
+    this.medicosSignal.update(medicos =>
+      medicos.map(medico =>
+        medico.id === id
+          ? { ...datos, id }
+          : medico
+      )
+    );
+
+    return true;
+  }
+
 }

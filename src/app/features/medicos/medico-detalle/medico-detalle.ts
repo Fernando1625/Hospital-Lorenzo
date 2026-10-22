@@ -1,9 +1,28 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+
+import { MedicosService } from '../../../core/services/medicos';
+import { Medico } from '../../../shared/models/medico.model';
 
 @Component({
-  imports: [],
   selector: 'app-medico-detalle',
-  styleUrl: './medico-detalle.css',
+  standalone: true,
+  imports: [RouterLink],
   templateUrl: './medico-detalle.html',
+  styleUrl: './medico-detalle.css'
 })
-export class MedicoDetalle {}
+export class MedicoDetalle {
+
+  private route = inject(ActivatedRoute);
+  private medicosService = inject(MedicosService);
+
+  medico?: Medico;
+
+  constructor() {
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+
+    if (Number.isInteger(id) && id > 0) {
+      this.medico = this.medicosService.obtenerMedicoPorId(id);
+    }
+  }
+}

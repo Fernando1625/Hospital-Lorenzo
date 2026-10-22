@@ -173,3 +173,46 @@ th {
   outline: 3px solid #f59e0b;
   outline-offset: 3px;
 }
+
+
+.acciones {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-ver,
+.btn-editar {
+  display: inline-block;
+  padding: 8px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.btn-ver {
+  background: #e8edf3;
+  color: #183153;
+}
+
+.btn-editar {
+  background: #1763ac;
+  color: white;
+}
+
+.btn-ver:hover {
+  background: #d7e1ec;
+}
+
+.btn-editar:hover {
+  background: #104c86;
+}
+
+.btn-ver:focus-visible,
+.btn-editar:focus-visible {
+  outline: 3px solid #f59e0b;
+  outline-offset: 2px;
+}
+

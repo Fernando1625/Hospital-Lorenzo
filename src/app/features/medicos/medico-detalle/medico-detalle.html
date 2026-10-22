@@ -1,1 +1,61 @@
-<p>medico-detalle works!</p>
+
+<section class="detalle-medico">
+
+  @if (medico; as m) {
+
+    <div class="encabezado">
+      <div>
+        <h1>Detalle del médico</h1>
+        <p>Información del profesional de salud</p>
+      </div>
+
+      <a
+        [routerLink]="['/medicos', m.id, 'editar']"
+        class="btn-editar">
+        Editar médico
+      </a>
+    </div>
+
+    <div class="tarjeta">
+
+      <h2>{{ m.nombres }} {{ m.apellidos }}</h2>
+
+      <div class="datos">
+        <p><strong>Cédula:</strong> {{ m.cedula }}</p>
+        <p><strong>Nombres:</strong> {{ m.nombres }}</p>
+        <p><strong>Apellidos:</strong> {{ m.apellidos }}</p>
+        <p><strong>Teléfono:</strong>
+          {{ m.telefono || 'No registrado' }}
+        </p>
+        <p><strong>Correo:</strong>
+          {{ m.correo || 'No registrado' }}
+        </p>
+        <p><strong>Estado:</strong>
+          {{ m.estado ? 'Activo' : 'Inactivo' }}
+        </p>
+      </div>
+
+      <h3>Especialidades médicas</h3>
+
+      <ul class="especialidades">
+        @for (especialidad of m.especialidades; track especialidad) {
+          <li>{{ especialidad }}</li>
+        }
+      </ul>
+
+    </div>
+
+  } @else {
+
+    <div class="tarjeta" role="alert">
+      <h2>Médico no encontrado</h2>
+      <p>No existe un médico con ese identificador.</p>
+    </div>
+
+  }
+
+  <a routerLink="/medicos" class="btn-volver">
+    Volver al listado
+  </a>
+
+</section>

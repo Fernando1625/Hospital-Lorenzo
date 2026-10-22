@@ -166,3 +166,8 @@
     padding: 16px;
   }
 }
+
+.btn-guardar:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

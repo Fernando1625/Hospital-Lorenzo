@@ -71,6 +71,7 @@
             <th scope="col">Especialidades</th>
             <th scope="col">Teléfono</th>
             <th scope="col">Estado</th>
+            <th scope="col">Acciones</th>
           </tr>
         </thead>
 
@@ -91,10 +92,26 @@
                   {{ medico.estado ? 'Activo' : 'Inactivo' }}
                 </span>
               </td>
+              
+              <td>
+                <div class="acciones">
+                  <a
+                  [routerLink]="['/medicos', medico.id]"
+                  class="btn-ver">
+                  Ver
+                </a>
+                <a
+                [routerLink]="['/medicos', medico.id, 'editar']"
+                class="btn-editar">
+                Editar
+              </a>
+            </div>
+          </td>
+
             </tr>
           } @empty {
             <tr>
-              <td colspan="5" class="sin-resultados">
+              <td colspan="6" class="sin-resultados">
                 No se encontraron médicos.
               </td>
             </tr>
