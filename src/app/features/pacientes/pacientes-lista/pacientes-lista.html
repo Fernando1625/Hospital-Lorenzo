@@ -38,6 +38,7 @@
             <th scope="col">Apellidos</th>
             <th scope="col">Teléfono</th>
             <th scope="col">Estado</th>
+            <th scope="col">Acciones</th>
           </tr>
         </thead>
 
@@ -55,7 +56,22 @@
                   {{ paciente.estado ? 'Activo' : 'Inactivo' }}
                 </span>
               </td>
-            </tr>
+              <td>
+                <div class="acciones">
+                   <a
+                   [routerLink]="['/pacientes', paciente.id]" 
+                   class="btn-ver">
+                   Ver
+                  </a>
+                  <a
+                  [routerLink]="['/pacientes', paciente.id, 'editar']"
+                  class="btn-editar">
+                  Editar
+                </a>
+              </div>
+            </td>
+          </tr>
+          
           } @empty {
             <tr>
               <td colspan="5" class="sin-resultados">

@@ -70,4 +70,47 @@ export class PacientesService {
 
     return true;
   }
+
+  
+  // Buscar un paciente por su ID
+  obtenerPacientePorId(id: number): Paciente | undefined {
+    return this.pacientesSignal().find(
+      paciente => paciente.id === id
+    );
+  }
+
+  // Actualizar los datos de un paciente
+  actualizarPaciente(
+    id: number,
+    datos: Omit<Paciente, 'id'>
+  ): boolean {
+
+    const pacienteActual = this.obtenerPacientePorId(id);
+
+    if (!pacienteActual) {
+      return false;
+    }
+
+    // Evitar que otra persona tenga la misma cédula
+    const cedulaDuplicada = this.pacientesSignal().some(
+      paciente =>
+        paciente.cedula === datos.cedula &&
+        paciente.id !== id
+    );
+
+    if (cedulaDuplicada) {
+      return false;
+    }
+
+    this.pacientesSignal.update(pacientes =>
+      pacientes.map(paciente =>
+        paciente.id === id
+          ? { ...datos, id }
+          : paciente
+      )
+    );
+
+    return true;
+  }
+
 }

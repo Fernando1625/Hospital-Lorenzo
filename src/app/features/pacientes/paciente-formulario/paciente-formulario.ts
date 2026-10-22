@@ -5,7 +5,11 @@ import {
   ReactiveFormsModule,
   Validators
 } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import {
+  ActivatedRoute,
+  Router,
+  RouterLink
+} from '@angular/router';
 
 import { PacientesService } from '../../../core/services/pacientes';
 
@@ -20,9 +24,14 @@ export class PacienteFormulario {
 
   private fb = inject(FormBuilder);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
   private pacientesService = inject(PacientesService);
 
   mensajeError = '';
+  modoEdicion = false;
+  pacienteNoEncontrado = false;
+  pacienteId: number | null = null;
+  estadoActual = true;
 
   formulario = this.fb.nonNullable.group({
     cedula: ['', [
@@ -43,9 +52,48 @@ export class PacienteFormulario {
     direccion: ['']
   });
 
+  constructor() {
+    const idParametro = this.route.snapshot.paramMap.get('id');
+
+    if (idParametro !== null) {
+      this.modoEdicion = true;
+      const id = Number(idParametro);
+
+      if (!Number.isInteger(id) || id <= 0) {
+        this.pacienteNoEncontrado = true;
+        return;
+      }
+
+      const paciente = this.pacientesService.obtenerPacientePorId(id);
+
+      if (!paciente) {
+        this.pacienteNoEncontrado = true;
+        return;
+      }
+
+      this.pacienteId = paciente.id;
+      this.estadoActual = paciente.estado;
+
+      // Cargar los datos existentes en el formulario
+      this.formulario.patchValue({
+        cedula: paciente.cedula,
+        nombres: paciente.nombres,
+        apellidos: paciente.apellidos,
+        fechaNacimiento: paciente.fechaNacimiento,
+        telefono: paciente.telefono,
+        correo: paciente.correo,
+        direccion: paciente.direccion
+      });
+    }
+  }
+
   guardarPaciente(): void {
 
     this.mensajeError = '';
+
+    if (this.pacienteNoEncontrado) {
+      return;
+    }
 
     if (this.formulario.invalid) {
       this.formulario.markAllAsTouched();
@@ -60,21 +108,41 @@ export class PacienteFormulario {
       return;
     }
 
-    const registrado = this.pacientesService.registrarPaciente({
-      ...datos,
+    const pacienteDatos = {
       cedula: datos.cedula.trim(),
       nombres: datos.nombres.trim(),
       apellidos: datos.apellidos.trim(),
+      fechaNacimiento: datos.fechaNacimiento,
       telefono: datos.telefono.trim(),
       correo: datos.correo.trim(),
       direccion: datos.direccion.trim(),
-      estado: true
-    });
+      estado: this.estadoActual
+    };
 
-    if (!registrado) {
-      this.mensajeError =
-        'Ya existe un paciente con esta cédula.';
-      return;
+    if (this.modoEdicion && this.pacienteId !== null) {
+
+      const actualizado = this.pacientesService.actualizarPaciente(
+        this.pacienteId,
+        pacienteDatos
+      );
+
+      if (!actualizado) {
+        this.mensajeError =
+          'No se pudo actualizar el paciente. Verifique la cédula.';
+        return;
+      }
+
+    } else {
+
+      const registrado = this.pacientesService.registrarPaciente(
+        pacienteDatos
+      );
+
+      if (!registrado) {
+        this.mensajeError =
+          'Ya existe un paciente con esta cédula.';
+        return;
+      }
     }
 
     this.router.navigate(['/pacientes']);
