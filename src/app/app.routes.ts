@@ -24,8 +24,8 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./layout/main-layout/main-layout')
         .then(m => m.MainLayout),
-
-    children: [
+        
+        children: [
 
       // Dashboard
       {
@@ -112,14 +112,44 @@ export const routes: Routes = [
           import('./features/medicos/medico-formulario/medico-formulario')
             .then(m => m.MedicoFormulario)
       },
+      
+      // Consultar información de un médico
+      {
+        path: 'medicos/:id',
+        loadComponent: () =>
+          import('./features/medicos/medico-detalle/medico-detalle')
+        .then(m => m.MedicoDetalle)
+      },
+      
+      // Editar un médico existente
+      {
+        path: 'medicos/:id/editar',
+        loadComponent: () =>
+          import('./features/medicos/medico-formulario/medico-formulario')
+        .then(m => m.MedicoFormulario)
+      }
     ]
-
   },
 
   // Rutas no encontradas
   {
     path: '**',
     redirectTo: 'login'
-  }
-
+  },
+  
+  // Consultar información de un médico
+  {
+    path: 'medicos/:id',
+    loadComponent: () =>
+      import('./features/medicos/medico-detalle/medico-detalle')
+    .then(m => m.MedicoDetalle)
+  },
+  
+  // Editar un médico existente
+  {
+    path: 'medicos/:id/editar',
+    loadComponent: () =>
+      import('./features/medicos/medico-formulario/medico-formulario')
+    .then(m => m.MedicoFormulario)
+  },
 ];

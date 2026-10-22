@@ -5,7 +5,11 @@ import {
   ReactiveFormsModule,
   Validators
 } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import {
+  ActivatedRoute,
+  Router,
+  RouterLink
+} from '@angular/router';
 
 import { MedicosService } from '../../../core/services/medicos';
 
@@ -20,11 +24,15 @@ export class MedicoFormulario {
 
   private fb = inject(FormBuilder);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
   private medicosService = inject(MedicosService);
 
   mensajeError = '';
+  modoEdicion = false;
+  medicoNoEncontrado = false;
+  medicoId: number | null = null;
+  estadoActual = true;
 
-  // Catálogo temporal de especialidades
   especialidadesDisponibles: string[] = [
     'Medicina general',
     'Cardiología',
@@ -38,7 +46,6 @@ export class MedicoFormulario {
 
   especialidadesSeleccionadas: string[] = [];
 
-  // Formulario reactivo
   formulario = this.fb.nonNullable.group({
     cedula: ['', [
       Validators.required,
@@ -60,7 +67,45 @@ export class MedicoFormulario {
     ]]
   });
 
-  // Seleccionar o quitar especialidades
+  constructor() {
+    const idParametro = this.route.snapshot.paramMap.get('id');
+
+    if (idParametro !== null) {
+      this.modoEdicion = true;
+
+      const id = Number(idParametro);
+
+      if (!Number.isInteger(id) || id <= 0) {
+        this.medicoNoEncontrado = true;
+        return;
+      }
+
+      const medico = this.medicosService.obtenerMedicoPorId(id);
+
+      if (!medico) {
+        this.medicoNoEncontrado = true;
+        return;
+      }
+
+      this.medicoId = medico.id;
+      this.estadoActual = medico.estado;
+
+      // Cargar los datos existentes
+      this.formulario.patchValue({
+        cedula: medico.cedula,
+        nombres: medico.nombres,
+        apellidos: medico.apellidos,
+        telefono: medico.telefono,
+        correo: medico.correo
+      });
+
+      // Cargar las especialidades seleccionadas
+      this.especialidadesSeleccionadas = [
+        ...medico.especialidades
+      ];
+    }
+  }
+
   cambiarEspecialidad(
     especialidad: string,
     seleccionado: boolean
@@ -78,10 +123,13 @@ export class MedicoFormulario {
     }
   }
 
-  // Guardar el nuevo médico
   guardarMedico(): void {
 
     this.mensajeError = '';
+
+    if (this.medicoNoEncontrado) {
+      return;
+    }
 
     if (this.formulario.invalid) {
       this.formulario.markAllAsTouched();
@@ -102,24 +150,43 @@ export class MedicoFormulario {
       return;
     }
 
-    const registrado = this.medicosService.registrarMedico({
+    const medicoDatos = {
       cedula: datos.cedula.trim(),
       nombres: datos.nombres.trim(),
       apellidos: datos.apellidos.trim(),
       telefono: datos.telefono.trim(),
       correo: datos.correo.trim(),
       especialidades: [...this.especialidadesSeleccionadas],
-      estado: true
-    });
+      estado: this.estadoActual
+    };
 
-    if (!registrado) {
-      this.mensajeError =
-        'Ya existe un médico registrado con esta cédula.';
-      return;
+    if (this.modoEdicion && this.medicoId !== null) {
+
+      const actualizado = this.medicosService.actualizarMedico(
+        this.medicoId,
+        medicoDatos
+      );
+
+      if (!actualizado) {
+        this.mensajeError =
+          'No se pudo actualizar. Verifique que la cédula no esté duplicada.';
+        return;
+      }
+
+    } else {
+
+      const registrado = this.medicosService.registrarMedico(
+        medicoDatos
+      );
+
+      if (!registrado) {
+        this.mensajeError =
+          'Ya existe un médico con esta cédula.';
+        return;
+      }
     }
 
-    // Regresar al listado
+    // Volver al listado de médicos
     this.router.navigate(['/medicos']);
   }
 }
-  
