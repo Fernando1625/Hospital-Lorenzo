@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 import { PacientesService } from '../../../core/services/pacientes';
 import { MedicosService } from '../../../core/services/medicos';
@@ -27,6 +27,46 @@ export class CitaFormulario {
 
   pacientes = this.pacientesService.pacientes;
   medicos = this.medicosService.medicos;
+
+  private route = inject(ActivatedRoute);
+
+  modoEdicion = false;
+  citaNoEncontrada = false;
+  citaId: number | null = null;
+
+  constructor() {
+    const idParametro = this.route.snapshot.paramMap.get('id');
+
+    if (idParametro !== null) {
+      this.modoEdicion = true;
+
+      const id = Number(idParametro);
+
+      if (!Number.isInteger(id) || id <= 0) {
+        this.citaNoEncontrada = true;
+        return;
+      }
+
+      const cita = this.citasService.obtenerCitaPorId(id);
+
+      if (!cita || !['Programada', 'Confirmada'].includes(cita.estado)) {
+        this.citaNoEncontrada = true;
+        return;
+      }
+
+      this.citaId = cita.id;
+
+      // Cargar datos existentes
+      this.formulario.patchValue({
+        pacienteId: cita.pacienteId,
+        medicoId: cita.medicoId,
+        especialidad: cita.especialidad,
+        fecha: cita.fecha,
+        horaInicio: cita.horaInicio,
+        motivo: cita.motivo,
+      });
+    }
+  }
 
   // Pacientes habilitados
   get pacientesActivos() {
@@ -123,6 +163,7 @@ export class CitaFormulario {
           fecha,
           horaInicio,
           horaFin,
+          this.citaId ?? undefined,
         );
 
         const conflictoPaciente = this.citasService.pacienteTieneConflicto(
@@ -130,6 +171,7 @@ export class CitaFormulario {
           fecha,
           horaInicio,
           horaFin,
+          this.citaId ?? undefined,
         );
 
         const ahora = new Date();
@@ -193,6 +235,33 @@ export class CitaFormulario {
       motivo: datos.motivo.trim(),
       estado: 'Programada',
     });
+  //preguntar si esta bien implementado
+    const citaDatos = {
+      pacienteId: datos.pacienteId,
+      medicoId: datos.medicoId,
+      especialidad: datos.especialidad,
+      fecha: datos.fecha,
+      horaInicio: datos.horaInicio,
+      horaFin,
+      motivo: datos.motivo.trim(),
+    };
+
+    let guardado = false;
+
+    if (this.modoEdicion && this.citaId !== null) {
+      guardado = this.citasService.reprogramarCita(this.citaId, citaDatos);
+    } else if (!this.modoEdicion) {
+      guardado = this.citasService.registrarCita({
+        ...citaDatos,
+        estado: 'Programada',
+      });
+    }
+
+    if (!guardado) {
+      this.mensajeError =
+        'No se pudo guardar la cita. Verifique los datos y el horario disponible.';
+      return;
+    }
 
     if (!registrado) {
       this.mensajeError = 'No se pudo registrar la cita. Verifique los datos y la disponibilidad.';

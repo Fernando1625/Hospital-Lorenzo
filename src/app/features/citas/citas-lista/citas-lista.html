@@ -83,6 +83,7 @@
             <th scope="col">Fecha</th>
             <th scope="col">Horario</th>
             <th scope="col">Estado</th>
+            <th scope="col">Acciones</th>
           </tr>
         </thead>
 
@@ -119,6 +120,26 @@
                   {{ cita.estado }}
                 </span>
               </td>
+
+              <td>
+                <div class="acciones">
+                  <a [routerLink]="['/citas', cita.id]" class="btn-ver"> Ver </a>
+
+                  @if (puedeModificar(cita)) {
+                    <a [routerLink]="['/citas', cita.id, 'editar']" class="btn-editar">
+                      Reprogramar
+                    </a>
+
+                    <button
+                      type="button"
+                      class="btn-cancelar-cita"
+                      (click)="solicitarCancelacion(cita)"
+                    >
+                      Cancelar
+                    </button>
+                  }
+                </div>
+              </td>
             </tr>
           } @empty {
             <tr>
@@ -132,3 +153,28 @@
     <p class="total">Registros encontrados: {{ citasFiltradas.length }}</p>
   </div>
 </section>
+
+@if (mensajeOperacion) {
+  <p class="mensaje-operacion" role="status">
+    {{ mensajeOperacion }}
+  </p>
+}
+
+@if (citaSeleccionada; as cita) {
+  <app-confirm-dialog
+    titulo="Cancelar cita médica"
+    [mensaje]="
+      '¿Deseas cancelar la cita N.º ' +
+      cita.id +
+      ' programada para el ' +
+      cita.fecha +
+      ' a las ' +
+      cita.horaInicio +
+      '?'
+    "
+    textoConfirmar="Cancelar cita"
+    (confirmado)="confirmarCancelacion()"
+    (cancelado)="cancelarOperacion()"
+  >
+  </app-confirm-dialog>
+}

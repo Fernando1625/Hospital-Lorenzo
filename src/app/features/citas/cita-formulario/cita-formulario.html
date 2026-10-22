@@ -1,10 +1,24 @@
 <section class="formulario-cita">
   <div class="encabezado">
-    <h1>Programar cita médica</h1>
+    <h1>
+      {{ modoEdicion ? 'Reprogramar cita médica' : 'Programar cita médica' }}
+    </h1>
     <p>Complete los datos para agendar una consulta.</p>
   </div>
 
-  <form [formGroup]="formulario" (ngSubmit)="guardarCita()" class="tarjeta">
+  @if (citaNoEncontrada) {
+    <div class="mensaje-error" role="alert">
+      La cita no existe o no permite reprogramación.
+      <a routerLink="/citas">Volver al listado</a>
+    </div>
+  }
+
+  <form
+    [formGroup]="formulario"
+    (ngSubmit)="guardarCita()"
+    class="tarjeta"
+    [hidden]="citaNoEncontrada"
+  >
     <h2>Información de la cita</h2>
 
     <p class="ayuda">
@@ -116,7 +130,9 @@
     <div class="botones">
       <a routerLink="/citas" class="btn-cancelar"> Cancelar </a>
 
-      <button type="submit" class="btn-guardar">Guardar cita</button>
+      <button type="submit" class="btn-guardar">
+        {{ modoEdicion ? 'Guardar cambios' : 'Guardar cita' }}
+      </button>
     </div>
   </form>
 </section>

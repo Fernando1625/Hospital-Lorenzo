@@ -219,3 +219,65 @@ th {
   outline: 3px solid #f59e0b;
   outline-offset: 3px;
 }
+
+.acciones {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.btn-ver,
+.btn-editar,
+.btn-cancelar-cita {
+  display: inline-block;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: none;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn-ver {
+  background: #e8edf3;
+  color: #183153;
+}
+
+.btn-editar {
+  background: #1763ac;
+  color: white;
+}
+
+.btn-cancelar-cita {
+  background: #fff0ef;
+  color: #a32119;
+}
+
+.btn-ver:hover {
+  background: #d7e1ec;
+}
+
+.btn-editar:hover {
+  background: #104c86;
+}
+
+.btn-cancelar-cita:hover {
+  background: #fbd5d2;
+}
+
+.acciones a:focus-visible,
+.acciones button:focus-visible {
+  outline: 3px solid #f59e0b;
+  outline-offset: 2px;
+}
+
+.mensaje-operacion {
+  padding: 12px 16px;
+  margin-top: 18px;
+  background: #e2f4eb;
+  color: #176344;
+  border-radius: 8px;
+}
