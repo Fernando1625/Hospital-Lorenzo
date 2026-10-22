@@ -153,3 +153,23 @@ th {
     font-size: 23px;
   }
 }
+
+.btn-nuevo {
+  display: inline-block;
+  padding: 12px 18px;
+  background: #1763ac;
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.btn-nuevo:hover {
+  background: #104c86;
+}
+
+.btn-nuevo:focus-visible {
+  outline: 3px solid #f59e0b;
+  outline-offset: 3px;
+}
