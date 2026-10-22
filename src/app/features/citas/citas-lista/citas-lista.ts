@@ -7,11 +7,12 @@ import { MedicosService } from '../../../core/services/medicos';
 
 import { Cita, EstadoCita } from '../../../shared/models/cita.model';
 import { RouterLink } from '@angular/router';
+import { ConfirmDialog } from '../../../shared/components/confirm-dialog/confirm-dialog';
 
 @Component({
   selector: 'app-citas-lista',
   standalone: true,
-  imports: [FormsModule, RouterLink],
+  imports: [FormsModule, RouterLink, ConfirmDialog],
   templateUrl: './citas-lista.html',
   styleUrl: './citas-lista.css',
 })
@@ -25,6 +26,40 @@ export class CitasLista {
   filtroFecha = '';
 
   citas = this.citasService.citas;
+
+  citaSeleccionada: Cita | null = null;
+  mensajeOperacion = '';
+
+  puedeModificar(cita: Cita): boolean {
+    return ['Programada', 'Confirmada'].includes(cita.estado);
+  }
+
+  solicitarCancelacion(cita: Cita): void {
+    if (!this.puedeModificar(cita)) {
+      return;
+    }
+
+    this.mensajeOperacion = '';
+    this.citaSeleccionada = cita;
+  }
+
+  confirmarCancelacion(): void {
+    if (!this.citaSeleccionada) {
+      return;
+    }
+
+    const resultado = this.citasService.cancelarCita(this.citaSeleccionada.id);
+
+    this.mensajeOperacion = resultado
+      ? 'La cita médica fue cancelada correctamente.'
+      : 'No se pudo cancelar la cita médica.';
+
+    this.citaSeleccionada = null;
+  }
+
+  cancelarOperacion(): void {
+    this.citaSeleccionada = null;
+  }
 
   // Consultar el nombre de un paciente
   nombrePaciente(id: number): string {

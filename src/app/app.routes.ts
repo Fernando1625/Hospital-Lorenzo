@@ -132,6 +132,20 @@ export const routes: Routes = [
             (m) => m.MedicoHorarios,
           ),
       },
+
+      // Reprogramar una cita médica
+      {
+        path: 'citas/:id/editar',
+        loadComponent: () =>
+          import('./features/citas/cita-formulario/cita-formulario').then((m) => m.CitaFormulario),
+      },
+
+      // Consultar detalles de una cita
+      {
+        path: 'citas/:id',
+        loadComponent: () =>
+          import('./features/citas/cita-detalle/cita-detalle').then((m) => m.CitaDetalle),
+      }
     ],
   },
 

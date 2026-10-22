@@ -1,0 +1,86 @@
+
+.detalle-cita {
+  color: #183153;
+}
+
+.encabezado {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.encabezado h1 {
+  margin: 0 0 8px;
+  font-size: 28px;
+}
+
+.encabezado p {
+  color: #52647a;
+  margin: 0;
+}
+
+.tarjeta {
+  background: white;
+  border: 1px solid #e1e7ef;
+  border-radius: 12px;
+  padding: 26px;
+  margin-bottom: 24px;
+}
+
+.tarjeta h2 {
+  margin: 0 0 20px;
+  font-size: 21px;
+}
+
+.datos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 24px;
+}
+
+.datos p {
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.ancho-completo {
+  grid-column: 1 / -1;
+}
+
+.btn-editar,
+.btn-volver {
+  display: inline-block;
+  padding: 12px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.btn-editar {
+  background: #1763ac;
+  color: white;
+}
+
+.btn-volver {
+  background: #e8edf3;
+  color: #183153;
+}
+
+.btn-editar:focus-visible,
+.btn-volver:focus-visible {
+  outline: 3px solid #f59e0b;
+  outline-offset: 3px;
+}
+
+@media (max-width: 650px) {
+  .datos {
+    grid-template-columns: 1fr;
+  }
+
+  .ancho-completo {
+    grid-column: auto;
+  }
+}

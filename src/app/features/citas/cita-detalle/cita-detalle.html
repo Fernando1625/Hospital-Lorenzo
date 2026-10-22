@@ -1,1 +1,67 @@
-<p>cita-detalle works!</p>
+<section class="detalle-cita">
+  @if (cita; as c) {
+    <div class="encabezado">
+      <div>
+        <h1>Detalle de la cita médica</h1>
+        <p>Información de la consulta programada</p>
+      </div>
+
+      @if (permiteReprogramar) {
+        <a [routerLink]="['/citas', c.id, 'editar']" class="btn-editar"> Reprogramar cita </a>
+      }
+    </div>
+
+    <div class="tarjeta">
+      <h2>Cita N.º {{ c.id }}</h2>
+
+      <div class="datos">
+        <p>
+          <strong>Paciente:</strong>
+          {{ paciente?.nombres }} {{ paciente?.apellidos }}
+        </p>
+
+        <p>
+          <strong>Médico:</strong>
+          {{ medico?.nombres }} {{ medico?.apellidos }}
+        </p>
+
+        <p>
+          <strong>Especialidad:</strong>
+          {{ c.especialidad }}
+        </p>
+
+        <p>
+          <strong>Fecha:</strong>
+          {{ c.fecha }}
+        </p>
+
+        <p>
+          <strong>Hora de inicio:</strong>
+          {{ c.horaInicio }}
+        </p>
+
+        <p>
+          <strong>Hora de finalización:</strong>
+          {{ c.horaFin }}
+        </p>
+
+        <p>
+          <strong>Estado:</strong>
+          {{ c.estado }}
+        </p>
+
+        <p class="ancho-completo">
+          <strong>Motivo de consulta:</strong>
+          {{ c.motivo }}
+        </p>
+      </div>
+    </div>
+  } @else {
+    <div class="tarjeta" role="alert">
+      <h2>Cita no encontrada</h2>
+      <p>No existe una cita con el identificador solicitado.</p>
+    </div>
+  }
+
+  <a routerLink="/citas" class="btn-volver"> Volver al listado </a>
+</section>

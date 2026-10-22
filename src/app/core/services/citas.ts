@@ -1,5 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { Cita } from '../../shared/models/cita.model';
+
 import { inject } from '@angular/core';
 import { PacientesService } from './pacientes';
 import { MedicosService } from './medicos';
@@ -153,6 +154,94 @@ export class CitasService {
     return true;
   }
 
+  reprogramarCita(
+    id: number,
+    datos: Pick<
+      Cita,
+      'pacienteId' | 'medicoId' | 'especialidad' | 'fecha' | 'horaInicio' | 'horaFin' | 'motivo'
+    >,
+  ): boolean {
+    const citaActual = this.obtenerCitaPorId(id);
+
+    // Solo estas citas permiten reprogramación
+    if (!citaActual || !['Programada', 'Confirmada'].includes(citaActual.estado)) {
+      return false;
+    }
+
+    const paciente = this.pacientesService.obtenerPacientePorId(datos.pacienteId);
+
+    const medico = this.medicosService.obtenerMedicoPorId(datos.medicoId);
+
+    if (!paciente?.estado || !medico?.estado) {
+      return false;
+    }
+
+    if (!medico.especialidades.includes(datos.especialidad)) {
+      return false;
+    }
+
+    if (!this.fechaValida(datos.fecha)) {
+      return false;
+    }
+
+    const hoy = new Date();
+
+    const fechaActual =
+      `${hoy.getFullYear()}-` +
+      `${String(hoy.getMonth() + 1).padStart(2, '0')}-` +
+      `${String(hoy.getDate()).padStart(2, '0')}`;
+
+    if (datos.fecha < fechaActual) {
+      return false;
+    }
+
+    const formatoHora = /^([01]\d|2[0-3]):[0-5]\d$/;
+
+    if (
+      !formatoHora.test(datos.horaInicio) ||
+      !formatoHora.test(datos.horaFin) ||
+      datos.horaFin !== this.calcularHoraFin(datos.horaInicio) ||
+      datos.horaFin > '23:59'
+    ) {
+      return false;
+    }
+
+    const horaActual =
+      `${String(hoy.getHours()).padStart(2, '0')}:` +
+      `${String(hoy.getMinutes()).padStart(2, '0')}`;
+
+    if (datos.fecha === fechaActual && datos.horaInicio <= horaActual) {
+      return false;
+    }
+
+    if (!this.estaDentroHorario(datos.medicoId, datos.fecha, datos.horaInicio, datos.horaFin)) {
+      return false;
+    }
+
+    // Excluir la propia cita de los conflictos
+    if (this.existeConflicto(datos.medicoId, datos.fecha, datos.horaInicio, datos.horaFin, id)) {
+      return false;
+    }
+
+    if (
+      this.pacienteTieneConflicto(
+        datos.pacienteId,
+        datos.fecha,
+        datos.horaInicio,
+        datos.horaFin,
+        id,
+      )
+    ) {
+      return false;
+    }
+
+    this.citasSignal.update((citas) =>
+      citas.map((cita) => (cita.id === id ? { ...cita, ...datos, estado: 'Programada' } : cita)),
+    );
+
+    return true;
+  }
+
   private pacientesService = inject(PacientesService);
   private medicosService = inject(MedicosService);
   private horariosService = inject(HorariosService);
@@ -217,14 +306,30 @@ export class CitasService {
     fecha: string,
     horaInicio: string,
     horaFin: string,
+    citaExcluirId?: number,
   ): boolean {
     return this.citasSignal().some(
       (cita) =>
         cita.pacienteId === pacienteId &&
+        cita.id !== citaExcluirId &&
         cita.fecha === fecha &&
         !['Cancelada', 'No asistió'].includes(cita.estado) &&
         horaInicio < cita.horaFin &&
         horaFin > cita.horaInicio,
     );
+  }
+
+  cancelarCita(id: number): boolean {
+    const cita = this.obtenerCitaPorId(id);
+
+    if (!cita || !['Programada', 'Confirmada'].includes(cita.estado)) {
+      return false;
+    }
+
+    this.citasSignal.update((citas) =>
+      citas.map((c) => (c.id === id ? { ...c, estado: 'Cancelada' } : c)),
+    );
+
+    return true;
   }
 }
