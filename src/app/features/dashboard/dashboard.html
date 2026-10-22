@@ -1,1 +1,95 @@
-<p>dashboard works!</p>
+
+<section class="dashboard">
+
+  <!-- Encabezado -->
+  <div class="dashboard-header">
+    <h1>Panel principal</h1>
+    <p>Bienvenido al sistema de gestión hospitalaria.</p>
+  </div>
+
+  <!-- Indicadores -->
+  <div class="estadisticas">
+
+    <div class="tarjeta">
+      <span>Pacientes registrados</span>
+      <h2>{{ totalPacientes }}</h2>
+    </div>
+
+    <div class="tarjeta">
+      <span>Médicos activos</span>
+      <h2>{{ medicosActivos }}</h2>
+    </div>
+
+    <div class="tarjeta">
+      <span>Citas de hoy</span>
+      <h2>{{ citasHoy }}</h2>
+    </div>
+
+    <div class="tarjeta">
+      <span>Citas pendientes</span>
+      <h2>{{ citasPendientes }}</h2>
+    </div>
+
+  </div>
+
+  <!-- Accesos rápidos -->
+  <div class="seccion">
+    <h2>Accesos rápidos</h2>
+
+    <div class="accesos">
+      <a routerLink="/pacientes/nuevo">
+        Registrar paciente
+      </a>
+
+      <a routerLink="/citas/nueva">
+        Programar cita
+      </a>
+
+      <a routerLink="/medicos">
+        Consultar médicos
+      </a>
+
+      <a routerLink="/facturacion">
+        Facturación
+      </a>
+    </div>
+  </div>
+
+  <!-- Listado de citas -->
+  <div class="seccion">
+    <h2>Próximas citas</h2>
+
+    <div class="tabla-contenedor">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Paciente</th>
+            <th scope="col">Médico</th>
+            <th scope="col">Hora</th>
+            <th scope="col">Estado</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @for (cita of proximasCitas; track $index) {
+            <tr>
+              <td>{{ cita.paciente }}</td>
+              <td>{{ cita.medico }}</td>
+              <td>{{ cita.hora }}</td>
+              <td>
+                <span
+                  class="estado"
+                  [class.confirmada]="cita.estado === 'Confirmada'"
+                  [class.pendiente]="cita.estado === 'Pendiente'">
+                  {{ cita.estado }}
+                </span>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</section>
