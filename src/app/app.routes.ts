@@ -81,8 +81,15 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/facturacion/facturas-lista/facturas-lista')
             .then(m => m.FacturasLista)
-      }
+      },
 
+      {
+        path: 'pacientes/nuevo',
+        loadComponent: () =>
+          import('./features/pacientes/paciente-formulario/paciente-formulario')
+        .then(m => m.PacienteFormulario)
+      },
+      
     ]
   },
 

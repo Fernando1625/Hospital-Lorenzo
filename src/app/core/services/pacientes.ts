@@ -1,4 +1,73 @@
-import { Service } from '@angular/core';
 
-@Service()
-export class Pacientes {}
+import { Injectable, signal } from '@angular/core';
+import { Paciente } from '../../shared/models/paciente.model';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class PacientesService {
+
+  private pacientesSignal = signal<Paciente[]>([
+    {
+      id: 1,
+      cedula: '0701234567',
+      nombres: 'Ana María',
+      apellidos: 'Pérez López',
+      fechaNacimiento: '1999-05-12',
+      telefono: '0991234567',
+      correo: 'ana@example.com',
+      direccion: 'Machala',
+      estado: true
+    },
+    {
+      id: 2,
+      cedula: '0709876543',
+      nombres: 'Luis Alberto',
+      apellidos: 'Torres Mendoza',
+      fechaNacimiento: '1988-08-20',
+      telefono: '0987654321',
+      correo: 'luis@example.com',
+      direccion: 'El Guabo',
+      estado: true
+    }
+  ]);
+
+  // Lista de solo lectura para los componentes
+  pacientes = this.pacientesSignal.asReadonly();
+
+  // Comprobar que no exista la misma cédula
+  existeCedula(cedula: string): boolean {
+    return this.pacientesSignal().some(
+      paciente => paciente.cedula === cedula
+    );
+  }
+
+  // Registrar un nuevo paciente
+  registrarPaciente(
+    datos: Omit<Paciente, 'id'>
+  ): boolean {
+
+    if (this.existeCedula(datos.cedula)) {
+      return false;
+    }
+
+    const pacientesActuales = this.pacientesSignal();
+
+    const nuevoId = Math.max(
+      0,
+      ...pacientesActuales.map(p => p.id)
+    ) + 1;
+
+    const nuevoPaciente: Paciente = {
+      ...datos,
+      id: nuevoId
+    };
+
+    this.pacientesSignal.update(pacientes => [
+      ...pacientes,
+      nuevoPaciente
+    ]);
+
+    return true;
+  }
+}
