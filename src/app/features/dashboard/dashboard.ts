@@ -6,10 +6,9 @@ import { RouterLink } from '@angular/router';
   standalone: true,
   imports: [RouterLink],
   templateUrl: './dashboard.html',
-  styleUrl: './dashboard.css'
+  styleUrl: './dashboard.css',
 })
 export class Dashboard {
-
   totalPacientes = 125;
   medicosActivos = 18;
   citasHoy = 24;
@@ -20,13 +19,13 @@ export class Dashboard {
       paciente: 'Ana Pérez',
       medico: 'Dr. Carlos López',
       hora: '09:00',
-      estado: 'Confirmada'
+      estado: 'Confirmada',
     },
     {
       paciente: 'Luis Torres',
       medico: 'Dra. María Gómez',
       hora: '10:30',
-      estado: 'Pendiente'
-    }
+      estado: 'Pendiente',
+    },
   ];
 }

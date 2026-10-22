@@ -1,4 +1,3 @@
-
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
@@ -6,20 +5,16 @@ import { CitasService } from '../../../core/services/citas';
 import { PacientesService } from '../../../core/services/pacientes';
 import { MedicosService } from '../../../core/services/medicos';
 
-import {
-  Cita,
-  EstadoCita
-} from '../../../shared/models/cita.model';
+import { Cita, EstadoCita } from '../../../shared/models/cita.model';
 
 @Component({
   selector: 'app-citas-lista',
   standalone: true,
   imports: [FormsModule],
   templateUrl: './citas-lista.html',
-  styleUrl: './citas-lista.css'
+  styleUrl: './citas-lista.css',
 })
 export class CitasLista {
-
   private citasService = inject(CitasService);
   private pacientesService = inject(PacientesService);
   private medicosService = inject(MedicosService);
@@ -32,9 +27,7 @@ export class CitasLista {
 
   // Consultar el nombre de un paciente
   nombrePaciente(id: number): string {
-
-    const paciente =
-      this.pacientesService.obtenerPacientePorId(id);
+    const paciente = this.pacientesService.obtenerPacientePorId(id);
 
     if (!paciente) {
       return 'Paciente no encontrado';
@@ -45,9 +38,7 @@ export class CitasLista {
 
   // Consultar el nombre de un médico
   nombreMedico(id: number): string {
-
-    const medico =
-      this.medicosService.obtenerMedicoPorId(id);
+    const medico = this.medicosService.obtenerMedicoPorId(id);
 
     if (!medico) {
       return 'Médico no encontrado';
@@ -58,39 +49,26 @@ export class CitasLista {
 
   // Obtener citas según búsqueda y filtros
   get citasFiltradas(): Cita[] {
-
     const texto = this.busqueda.toLowerCase().trim();
 
     return this.citas()
-      .filter(cita => {
+      .filter((cita) => {
+        const nombrePaciente = this.nombrePaciente(cita.pacienteId).toLowerCase();
 
-        const nombrePaciente =
-          this.nombrePaciente(cita.pacienteId).toLowerCase();
-
-        const nombreMedico =
-          this.nombreMedico(cita.medicoId).toLowerCase();
+        const nombreMedico = this.nombreMedico(cita.medicoId).toLowerCase();
 
         const coincideBusqueda =
           nombrePaciente.includes(texto) ||
           nombreMedico.includes(texto) ||
           cita.especialidad.toLowerCase().includes(texto);
 
-        const coincideEstado =
-          this.filtroEstado === 'todos' ||
-          cita.estado === this.filtroEstado;
+        const coincideEstado = this.filtroEstado === 'todos' || cita.estado === this.filtroEstado;
 
-        const coincideFecha =
-          !this.filtroFecha ||
-          cita.fecha === this.filtroFecha;
+        const coincideFecha = !this.filtroFecha || cita.fecha === this.filtroFecha;
 
-        return coincideBusqueda &&
-               coincideEstado &&
-               coincideFecha;
+        return coincideBusqueda && coincideEstado && coincideFecha;
       })
-      .sort((a, b) =>
-        a.fecha.localeCompare(b.fecha) ||
-        a.horaInicio.localeCompare(b.horaInicio)
-      );
+      .sort((a, b) => a.fecha.localeCompare(b.fecha) || a.horaInicio.localeCompare(b.horaInicio));
   }
 
   get totalCitas(): number {
@@ -98,8 +76,6 @@ export class CitasLista {
   }
 
   contarPorEstado(estado: EstadoCita): number {
-    return this.citas().filter(
-      cita => cita.estado === estado
-    ).length;
+    return this.citas().filter((cita) => cita.estado === estado).length;
   }
 }

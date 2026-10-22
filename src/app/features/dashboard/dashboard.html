@@ -1,6 +1,4 @@
-
 <section class="dashboard">
-
   <!-- Encabezado -->
   <div class="dashboard-header">
     <h1>Panel principal</h1>
@@ -9,7 +7,6 @@
 
   <!-- Indicadores -->
   <div class="estadisticas">
-
     <div class="tarjeta">
       <span>Pacientes registrados</span>
       <h2>{{ totalPacientes }}</h2>
@@ -29,7 +26,6 @@
       <span>Citas pendientes</span>
       <h2>{{ citasPendientes }}</h2>
     </div>
-
   </div>
 
   <!-- Accesos rápidos -->
@@ -37,21 +33,13 @@
     <h2>Accesos rápidos</h2>
 
     <div class="accesos">
-      <a routerLink="/pacientes/nuevo">
-        Registrar paciente
-      </a>
+      <a routerLink="/pacientes/nuevo"> Registrar paciente </a>
 
-      <a routerLink="/citas/nueva">
-        Programar cita
-      </a>
+      <a routerLink="/citas/nueva"> Programar cita </a>
 
-      <a routerLink="/medicos">
-        Consultar médicos
-      </a>
+      <a routerLink="/medicos"> Consultar médicos </a>
 
-      <a routerLink="/facturacion">
-        Facturación
-      </a>
+      <a routerLink="/facturacion"> Facturación </a>
     </div>
   </div>
 
@@ -80,7 +68,8 @@
                 <span
                   class="estado"
                   [class.confirmada]="cita.estado === 'Confirmada'"
-                  [class.pendiente]="cita.estado === 'Pendiente'">
+                  [class.pendiente]="cita.estado === 'Pendiente'"
+                >
                   {{ cita.estado }}
                 </span>
               </td>
@@ -89,7 +78,5 @@
         </tbody>
       </table>
     </div>
-
   </div>
-
 </section>

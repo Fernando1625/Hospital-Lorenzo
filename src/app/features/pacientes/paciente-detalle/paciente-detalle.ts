@@ -1,4 +1,3 @@
-
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
@@ -10,10 +9,9 @@ import { Paciente } from '../../../shared/models/paciente.model';
   standalone: true,
   imports: [RouterLink],
   templateUrl: './paciente-detalle.html',
-  styleUrl: './paciente-detalle.css'
+  styleUrl: './paciente-detalle.css',
 })
 export class PacienteDetalle {
-
   private route = inject(ActivatedRoute);
   private pacientesService = inject(PacientesService);
 

@@ -1,12 +1,10 @@
-
 import { Injectable, signal } from '@angular/core';
 import { Medico } from '../../shared/models/medico.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class MedicosService {
-
   // Datos ficticios para el desarrollo del frontend
   private medicosSignal = signal<Medico[]>([
     {
@@ -17,7 +15,7 @@ export class MedicosService {
       telefono: '0991234567',
       correo: 'carlos@example.com',
       especialidades: ['Cardiología'],
-      estado: true
+      estado: true,
     },
     {
       id: 2,
@@ -27,7 +25,7 @@ export class MedicosService {
       telefono: '0987654321',
       correo: 'maria@example.com',
       especialidades: ['Pediatría'],
-      estado: true
+      estado: true,
     },
     {
       id: 3,
@@ -37,8 +35,8 @@ export class MedicosService {
       telefono: '0974561230',
       correo: 'jose@example.com',
       especialidades: ['Medicina general'],
-      estado: false
-    }
+      estado: false,
+    },
   ]);
 
   // Lectura de médicos desde los componentes
@@ -46,51 +44,36 @@ export class MedicosService {
 
   // Obtener un médico según su identificador
   obtenerMedicoPorId(id: number): Medico | undefined {
-    return this.medicosSignal().find(
-      medico => medico.id === id
-    );
+    return this.medicosSignal().find((medico) => medico.id === id);
   }
 
   // Comprobar si una cédula ya está registrada
   existeCedula(cedula: string): boolean {
-    return this.medicosSignal().some(
-      medico => medico.cedula === cedula
-    );
+    return this.medicosSignal().some((medico) => medico.cedula === cedula);
   }
 
   // Registrar un nuevo médico
   registrarMedico(datos: Omit<Medico, 'id'>): boolean {
-
     if (this.existeCedula(datos.cedula)) {
       return false;
     }
 
     const medicosActuales = this.medicosSignal();
 
-    const nuevoId = Math.max(
-      0,
-      ...medicosActuales.map(medico => medico.id)
-    ) + 1;
+    const nuevoId = Math.max(0, ...medicosActuales.map((medico) => medico.id)) + 1;
 
     const nuevoMedico: Medico = {
       ...datos,
-      id: nuevoId
+      id: nuevoId,
     };
 
-    this.medicosSignal.update(medicos => [
-      ...medicos,
-      nuevoMedico
-    ]);
+    this.medicosSignal.update((medicos) => [...medicos, nuevoMedico]);
 
     return true;
   }
-  
-  // Actualizar los datos de un médico existente
-  actualizarMedico(
-    id: number,
-    datos: Omit<Medico, 'id'>
-  ): boolean {
 
+  // Actualizar los datos de un médico existente
+  actualizarMedico(id: number, datos: Omit<Medico, 'id'>): boolean {
     const medicoActual = this.obtenerMedicoPorId(id);
 
     if (!medicoActual) {
@@ -99,9 +82,7 @@ export class MedicosService {
 
     // Verificar que la cédula no pertenezca a otro médico
     const cedulaDuplicada = this.medicosSignal().some(
-      medico =>
-        medico.cedula === datos.cedula &&
-        medico.id !== id
+      (medico) => medico.cedula === datos.cedula && medico.id !== id,
     );
 
     if (cedulaDuplicada) {
@@ -109,33 +90,23 @@ export class MedicosService {
     }
 
     // Actualizar solamente al médico seleccionado
-    this.medicosSignal.update(medicos =>
-      medicos.map(medico =>
-        medico.id === id
-          ? { ...datos, id }
-          : medico
-      )
+    this.medicosSignal.update((medicos) =>
+      medicos.map((medico) => (medico.id === id ? { ...datos, id } : medico)),
     );
 
     return true;
   }
 
-  
   // Activar o desactivar un médico existente
   cambiarEstadoMedico(id: number): boolean {
-
     const medico = this.obtenerMedicoPorId(id);
 
     if (!medico) {
       return false;
     }
 
-    this.medicosSignal.update(medicos =>
-      medicos.map(m =>
-        m.id === id
-          ? { ...m, estado: !m.estado }
-          : m
-      )
+    this.medicosSignal.update((medicos) =>
+      medicos.map((m) => (m.id === id ? { ...m, estado: !m.estado } : m)),
     );
 
     return true;

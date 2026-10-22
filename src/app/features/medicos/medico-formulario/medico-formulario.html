@@ -1,6 +1,4 @@
-
 <section class="formulario-medico">
-
   <div class="encabezado">
     <h1>
       {{ modoEdicion ? 'Editar médico' : 'Registrar médico' }}
@@ -9,24 +7,17 @@
   </div>
 
   @if (medicoNoEncontrado) {
-  <div class="mensaje-error" role="alert">
-    No se encontró el médico solicitado.
-    <a routerLink="/medicos">Volver al listado</a>
-  </div>
-}
+    <div class="mensaje-error" role="alert">
+      No se encontró el médico solicitado.
+      <a routerLink="/medicos">Volver al listado</a>
+    </div>
+  }
 
-  <form
-    [formGroup]="formulario"
-    (ngSubmit)="guardarMedico()"
-    class="tarjeta">
-
+  <form [formGroup]="formulario" (ngSubmit)="guardarMedico()" class="tarjeta">
     <h2>Información personal</h2>
-    <p class="ayuda">
-      Los campos marcados con * son obligatorios.
-    </p>
+    <p class="ayuda">Los campos marcados con * son obligatorios.</p>
 
     <div class="campos">
-
       <!-- Cédula -->
       <div class="campo">
         <label for="cedula">Cédula *</label>
@@ -35,118 +26,75 @@
           type="text"
           maxlength="10"
           inputmode="numeric"
-          formControlName="cedula">
+          formControlName="cedula"
+        />
 
-        @if (formulario.controls.cedula.touched &&
-             formulario.controls.cedula.invalid) {
-          <small class="error">
-            Ingrese una cédula de 10 dígitos.
-          </small>
+        @if (formulario.controls.cedula.touched && formulario.controls.cedula.invalid) {
+          <small class="error"> Ingrese una cédula de 10 dígitos. </small>
         }
       </div>
 
       <!-- Nombres -->
       <div class="campo">
         <label for="nombres">Nombres *</label>
-        <input
-          id="nombres"
-          type="text"
-          maxlength="60"
-          formControlName="nombres">
+        <input id="nombres" type="text" maxlength="60" formControlName="nombres" />
 
-        @if (formulario.controls.nombres.touched &&
-             formulario.controls.nombres.invalid) {
-          <small class="error">
-            Los nombres son obligatorios.
-          </small>
+        @if (formulario.controls.nombres.touched && formulario.controls.nombres.invalid) {
+          <small class="error"> Los nombres son obligatorios. </small>
         }
       </div>
 
       <!-- Apellidos -->
       <div class="campo">
         <label for="apellidos">Apellidos *</label>
-        <input
-          id="apellidos"
-          type="text"
-          maxlength="60"
-          formControlName="apellidos">
+        <input id="apellidos" type="text" maxlength="60" formControlName="apellidos" />
 
-        @if (formulario.controls.apellidos.touched &&
-             formulario.controls.apellidos.invalid) {
-          <small class="error">
-            Los apellidos son obligatorios.
-          </small>
+        @if (formulario.controls.apellidos.touched && formulario.controls.apellidos.invalid) {
+          <small class="error"> Los apellidos son obligatorios. </small>
         }
       </div>
 
       <!-- Teléfono -->
       <div class="campo">
         <label for="telefono">Teléfono</label>
-        <input
-          id="telefono"
-          type="tel"
-          maxlength="10"
-          formControlName="telefono">
+        <input id="telefono" type="tel" maxlength="10" formControlName="telefono" />
 
-        @if (formulario.controls.telefono.touched &&
-             formulario.controls.telefono.invalid) {
-          <small class="error">
-            Ingrese un celular válido de 10 dígitos.
-          </small>
+        @if (formulario.controls.telefono.touched && formulario.controls.telefono.invalid) {
+          <small class="error"> Ingrese un celular válido de 10 dígitos. </small>
         }
       </div>
 
       <!-- Correo -->
       <div class="campo ancho-completo">
         <label for="correo">Correo electrónico</label>
-        <input
-          id="correo"
-          type="email"
-          formControlName="correo">
+        <input id="correo" type="email" formControlName="correo" />
 
-        @if (formulario.controls.correo.touched &&
-             formulario.controls.correo.invalid) {
-          <small class="error">
-            Ingrese un correo electrónico válido.
-          </small>
+        @if (formulario.controls.correo.touched && formulario.controls.correo.invalid) {
+          <small class="error"> Ingrese un correo electrónico válido. </small>
         }
       </div>
-
     </div>
 
     <!-- Especialidades -->
     <fieldset class="seccion-especialidades">
-
       <legend>Especialidades médicas *</legend>
 
-      <p class="ayuda">
-        Seleccione una o varias especialidades.
-      </p>
+      <p class="ayuda">Seleccione una o varias especialidades.</p>
 
       <div class="lista-especialidades">
-
-        @for (especialidad of especialidadesDisponibles;
-              track especialidad) {
-
+        @for (especialidad of especialidadesDisponibles; track especialidad) {
           <label class="opcion-especialidad">
-
             <input
               #casilla
               type="checkbox"
               [checked]="especialidadesSeleccionadas.includes(especialidad)"
-              (change)="cambiarEspecialidad(
-                especialidad,
-                casilla.checked
-              )">
+              (change)="cambiarEspecialidad(especialidad, casilla.checked)"
+            />
 
             <span>{{ especialidad }}</span>
-
           </label>
-
         }
-
       </div>
-
     </fieldset>
 
     <!-- Errores generales -->
@@ -158,20 +106,11 @@
 
     <!-- Botones -->
     <div class="botones">
+      <a routerLink="/medicos" class="btn-cancelar"> Cancelar </a>
 
-      <a routerLink="/medicos" class="btn-cancelar">
-        Cancelar
-      </a>
-      
-      <button
-      type="submit"
-      class="btn-guardar"
-      [disabled]="medicoNoEncontrado">
-      {{ modoEdicion ? 'Guardar cambios' : 'Guardar médico' }}
-    </button>
-
+      <button type="submit" class="btn-guardar" [disabled]="medicoNoEncontrado">
+        {{ modoEdicion ? 'Guardar cambios' : 'Guardar médico' }}
+      </button>
     </div>
-
   </form>
-
 </section>

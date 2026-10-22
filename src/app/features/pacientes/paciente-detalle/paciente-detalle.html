@@ -1,29 +1,23 @@
-
 <section class="detalle-paciente">
-
   @if (paciente; as p) {
-
     <div class="encabezado">
       <div>
         <h1>Detalle del paciente</h1>
         <p>Información personal registrada</p>
       </div>
 
-      <a [routerLink]="['/pacientes', p.id, 'editar']"
-         class="btn-editar">
-        Editar paciente
-      </a>
+      <a [routerLink]="['/pacientes', p.id, 'editar']" class="btn-editar"> Editar paciente </a>
     </div>
 
     <div class="tarjeta">
-
       <h2>{{ p.nombres }} {{ p.apellidos }}</h2>
 
       <div class="datos">
         <p><strong>Cédula:</strong> {{ p.cedula }}</p>
         <p><strong>Nombres:</strong> {{ p.nombres }}</p>
         <p><strong>Apellidos:</strong> {{ p.apellidos }}</p>
-        <p><strong>Fecha de nacimiento:</strong>
+        <p>
+          <strong>Fecha de nacimiento:</strong>
           {{ p.fechaNacimiento }}
         </p>
         <p><strong>Teléfono:</strong> {{ p.telefono || 'No registrado' }}</p>
@@ -34,20 +28,13 @@
           {{ p.estado ? 'Activo' : 'Inactivo' }}
         </p>
       </div>
-
     </div>
-
   } @else {
-
     <div class="tarjeta" role="alert">
       <h2>Paciente no encontrado</h2>
       <p>No existe un paciente con ese identificador.</p>
     </div>
-
   }
 
-  <a routerLink="/pacientes" class="btn-volver">
-    Volver al listado
-  </a>
-
+  <a routerLink="/pacientes" class="btn-volver"> Volver al listado </a>
 </section>
