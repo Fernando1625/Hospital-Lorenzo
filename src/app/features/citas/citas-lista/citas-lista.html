@@ -1,1 +1,166 @@
-<p>citas-lista works!</p>
+
+<section class="citas">
+
+  <!-- Encabezado -->
+  <div class="encabezado">
+
+    <div>
+      <h1>Gestión de citas médicas</h1>
+      <p>Administración de consultas programadas</p>
+    </div>
+
+  </div>
+
+  <!-- Indicadores -->
+  <div class="estadisticas">
+
+    <div class="tarjeta">
+      <span>Total de citas</span>
+      <h2>{{ totalCitas }}</h2>
+    </div>
+
+    <div class="tarjeta">
+      <span>Programadas</span>
+      <h2>{{ contarPorEstado('Programada') }}</h2>
+    </div>
+
+    <div class="tarjeta">
+      <span>Confirmadas</span>
+      <h2>{{ contarPorEstado('Confirmada') }}</h2>
+    </div>
+
+    <div class="tarjeta">
+      <span>Canceladas</span>
+      <h2>{{ contarPorEstado('Cancelada') }}</h2>
+    </div>
+
+  </div>
+
+  <!-- Listado -->
+  <div class="contenedor">
+
+    <h2>Citas registradas</h2>
+
+    <div class="filtros">
+
+      <!-- Buscar -->
+      <div class="campo-filtro">
+        <label for="buscarCita">Buscar cita</label>
+
+        <input
+          id="buscarCita"
+          type="search"
+          placeholder="Paciente, médico o especialidad"
+          [(ngModel)]="busqueda">
+      </div>
+
+      <!-- Estado -->
+      <div class="campo-filtro">
+        <label for="estadoCita">Estado</label>
+
+        <select
+          id="estadoCita"
+          [(ngModel)]="filtroEstado">
+
+          <option value="todos">Todos</option>
+          <option value="Programada">Programada</option>
+          <option value="Confirmada">Confirmada</option>
+          <option value="En atención">En atención</option>
+          <option value="Atendida">Atendida</option>
+          <option value="Cancelada">Cancelada</option>
+          <option value="No asistió">No asistió</option>
+
+        </select>
+      </div>
+
+      <!-- Fecha -->
+      <div class="campo-filtro">
+        <label for="fechaCita">Fecha</label>
+
+        <input
+          id="fechaCita"
+          type="date"
+          [(ngModel)]="filtroFecha">
+      </div>
+
+    </div>
+
+    <!-- Tabla de citas -->
+    <div class="tabla-contenedor">
+
+      <table>
+
+        <thead>
+          <tr>
+            <th scope="col">Paciente</th>
+            <th scope="col">Médico</th>
+            <th scope="col">Especialidad</th>
+            <th scope="col">Fecha</th>
+            <th scope="col">Horario</th>
+            <th scope="col">Estado</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          @for (cita of citasFiltradas; track cita.id) {
+
+            <tr>
+
+              <td>
+                {{ nombrePaciente(cita.pacienteId) }}
+              </td>
+
+              <td>
+                {{ nombreMedico(cita.medicoId) }}
+              </td>
+
+              <td>{{ cita.especialidad }}</td>
+
+              <td>{{ cita.fecha }}</td>
+
+              <td>
+                {{ cita.horaInicio }} -
+                {{ cita.horaFin }}
+              </td>
+
+              <td>
+                <span
+                  class="estado"
+                  [class.programada]="cita.estado === 'Programada'"
+                  [class.confirmada]="cita.estado === 'Confirmada'"
+                  [class.atendida]="cita.estado === 'Atendida'"
+                  [class.cancelada]="cita.estado === 'Cancelada'"
+                  [class.en-atencion]="cita.estado === 'En atención'"
+                  [class.no-asistio]="cita.estado === 'No asistió'">
+
+                  {{ cita.estado }}
+
+                </span>
+              </td>
+
+            </tr>
+
+          } @empty {
+
+            <tr>
+              <td colspan="6" class="sin-resultados">
+                No se encontraron citas médicas.
+              </td>
+            </tr>
+
+          }
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+    <p class="total">
+      Registros encontrados: {{ citasFiltradas.length }}
+    </p>
+
+  </div>
+
+</section>

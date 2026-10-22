@@ -1,0 +1,193 @@
+
+.citas {
+  color: #183153;
+}
+
+.encabezado {
+  margin-bottom: 24px;
+}
+
+.encabezado h1 {
+  margin: 0 0 8px;
+  font-size: 28px;
+}
+
+.encabezado p {
+  margin: 0;
+  color: #52647a;
+}
+
+/* Indicadores */
+.estadisticas {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.tarjeta {
+  background: white;
+  padding: 22px;
+  border: 1px solid #e1e7ef;
+  border-radius: 12px;
+}
+
+.tarjeta span {
+  color: #52647a;
+  font-size: 14px;
+}
+
+.tarjeta h2 {
+  color: #1763ac;
+  font-size: 30px;
+  margin: 12px 0 0;
+}
+
+/* Contenedor */
+.contenedor {
+  background: white;
+  padding: 24px;
+  border: 1px solid #e1e7ef;
+  border-radius: 12px;
+}
+
+.contenedor h2 {
+  font-size: 20px;
+  margin: 0 0 24px;
+}
+
+/* Filtros */
+.filtros {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.campo-filtro {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.campo-filtro label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.campo-filtro input,
+.campo-filtro select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px;
+  border: 1px solid #a7b4c5;
+  border-radius: 8px;
+  background: white;
+  font-size: 14px;
+  color: #183153;
+}
+
+.campo-filtro input:focus-visible,
+.campo-filtro select:focus-visible {
+  outline: 3px solid #b5d8fa;
+  border-color: #1763ac;
+}
+
+/* Tabla */
+.tabla-contenedor {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+th, td {
+  padding: 14px;
+  border-bottom: 1px solid #e1e7ef;
+  font-size: 14px;
+}
+
+th {
+  background: #f4f7fb;
+  color: #52647a;
+}
+
+/* Estados de citas */
+.estado {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.programada {
+  background: #edf4fb;
+  color: #14558f;
+}
+
+.confirmada {
+  background: #e2f4eb;
+  color: #176344;
+}
+
+.en-atencion {
+  background: #e9e2fa;
+  color: #633c9b;
+}
+
+.atendida {
+  background: #e6f0f1;
+  color: #235b65;
+}
+
+.cancelada {
+  background: #fff0ef;
+  color: #a32119;
+}
+
+.no-asistio {
+  background: #fff0d9;
+  color: #865314;
+}
+
+.sin-resultados {
+  text-align: center;
+  color: #52647a;
+  padding: 24px;
+}
+
+.total {
+  font-size: 13px;
+  color: #52647a;
+  margin: 18px 0 0;
+}
+
+/* Diseño adaptable */
+@media (max-width: 1100px) {
+  .estadisticas {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .filtros {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .estadisticas {
+    grid-template-columns: 1fr;
+  }
+
+  .contenedor {
+    padding: 16px;
+  }
+
+  .encabezado h1 {
+    font-size: 23px;
+  }
+}

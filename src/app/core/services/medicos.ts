@@ -140,6 +140,4 @@ export class MedicosService {
 
     return true;
   }
-
-
 }
