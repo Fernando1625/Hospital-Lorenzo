@@ -1,1 +1,75 @@
-<p>pacientes-lista works!</p>
+
+<section class="pacientes">
+
+  <!-- Encabezado -->
+  <div class="encabezado">
+    <div>
+      <h1>Gestión de pacientes</h1>
+      <p>Administración de pacientes registrados</p>
+    </div>
+
+    <button type="button" class="btn-nuevo" disabled
+      title="Disponible cuando implementemos el formulario">
+      + Nuevo paciente
+    </button>
+  </div>
+
+  <!-- Contenedor de la tabla -->
+  <div class="contenedor">
+
+    <div class="buscador">
+      <label for="buscarPaciente">Buscar paciente</label>
+
+      <input
+        id="buscarPaciente"
+        type="search"
+        placeholder="Cédula, nombres o apellidos"
+        [(ngModel)]="busqueda"
+      />
+    </div>
+
+    <div class="tabla-contenedor">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Cédula</th>
+            <th scope="col">Nombres</th>
+            <th scope="col">Apellidos</th>
+            <th scope="col">Teléfono</th>
+            <th scope="col">Estado</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @for (paciente of pacientesFiltrados; track paciente.id) {
+            <tr>
+              <td>{{ paciente.cedula }}</td>
+              <td>{{ paciente.nombres }}</td>
+              <td>{{ paciente.apellidos }}</td>
+              <td>{{ paciente.telefono }}</td>
+              <td>
+                <span class="estado"
+                  [class.activo]="paciente.estado"
+                  [class.inactivo]="!paciente.estado">
+                  {{ paciente.estado ? 'Activo' : 'Inactivo' }}
+                </span>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="5" class="sin-resultados">
+                No se encontraron pacientes.
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <p class="total">
+      Registros encontrados: {{ pacientesFiltrados.length }}
+    </p>
+
+  </div>
+
+</section>
