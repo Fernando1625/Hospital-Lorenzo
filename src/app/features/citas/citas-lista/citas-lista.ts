@@ -6,11 +6,12 @@ import { PacientesService } from '../../../core/services/pacientes';
 import { MedicosService } from '../../../core/services/medicos';
 
 import { Cita, EstadoCita } from '../../../shared/models/cita.model';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-citas-lista',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, RouterLink],
   templateUrl: './citas-lista.html',
   styleUrl: './citas-lista.css',
 })

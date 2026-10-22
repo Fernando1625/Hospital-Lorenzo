@@ -156,4 +156,11 @@ export const routes: Routes = [
         (m) => m.MedicoFormulario,
       ),
   },
+
+  // Programar una nueva cita médica
+  {
+    path: 'citas/nueva',
+    loadComponent: () =>
+      import('./features/citas/cita-formulario/cita-formulario').then((m) => m.CitaFormulario),
+  },
 ];
