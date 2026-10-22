@@ -36,6 +36,16 @@
   cursor: not-allowed;
 }
 
+.btn-nuevo {
+  display: inline-block;
+  text-decoration: none;
+}
+
+.btn-nuevo:focus-visible {
+  outline: 3px solid #f59e0b;
+  outline-offset: 3px;
+}
+
 .contenedor {
   background: white;
   padding: 24px;
