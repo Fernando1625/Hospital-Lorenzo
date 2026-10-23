@@ -1,0 +1,174 @@
+<section class="detalle-atencion">
+  @if (atencion; as a) {
+    <!-- Encabezado -->
+    <div class="encabezado">
+      <div>
+        <h1>Detalle de atención médica</h1>
+        <p>Consulta de información clínica registrada</p>
+      </div>
+
+      <a [routerLink]="['/historial', pacienteId]" class="btn-volver"> Volver al historial </a>
+    </div>
+
+    <!-- Información general -->
+    <div class="tarjeta">
+      <h2>Información general</h2>
+
+      <div class="datos">
+        <div>
+          <span>N.º de atención</span>
+          <strong>{{ a.id }}</strong>
+        </div>
+
+        <div>
+          <span>Fecha de atención</span>
+          <strong>{{ a.fechaAtencion }}</strong>
+        </div>
+
+        <div>
+          <span>Paciente</span>
+          <strong>
+            @if (paciente; as p) {
+              {{ p.nombres }} {{ p.apellidos }}
+            } @else {
+              Paciente no encontrado
+            }
+          </strong>
+        </div>
+
+        <div>
+          <span>Médico responsable</span>
+          <strong>
+            @if (medico; as m) {
+              {{ m.nombres }} {{ m.apellidos }}
+            } @else {
+              Médico no encontrado
+            }
+          </strong>
+        </div>
+
+        <div>
+          <span>Cita relacionada</span>
+          <strong>
+            @if (a.citaId !== null) {
+              Cita N.º {{ a.citaId }}
+              @if (!cita) {
+                (No encontrada)
+              }
+            } @else {
+              Sin cita asociada
+            }
+          </strong>
+        </div>
+        <div>
+          <span>Estado de la cita</span>
+          <strong>
+            {{ citaActual?.estado ?? 'Sin cita relacionada' }}
+          </strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- Signos vitales -->
+    <div class="tarjeta">
+      <h2>Signos vitales</h2>
+
+      <div class="signos-vitales">
+        <div class="signo">
+          <span>Temperatura</span>
+          <strong>
+            {{ mostrarMedicion(a.temperatura, '°C') }}
+          </strong>
+        </div>
+
+        <div class="signo">
+          <span>Presión arterial</span>
+          <strong>
+            {{ mostrarMedicion(a.presionArterial, 'mmHg') }}
+          </strong>
+        </div>
+
+        <div class="signo">
+          <span>Frecuencia cardíaca</span>
+          <strong>
+            {{ mostrarMedicion(a.frecuenciaCardiaca, 'lpm') }}
+          </strong>
+        </div>
+
+        <div class="signo">
+          <span>Peso</span>
+          <strong>
+            {{ mostrarMedicion(a.peso, 'kg') }}
+          </strong>
+        </div>
+
+        <div class="signo">
+          <span>Estatura</span>
+          <strong>
+            {{ mostrarMedicion(a.estatura, 'm') }}
+          </strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- Información clínica -->
+    <div class="tarjeta">
+      <h2>Información clínica</h2>
+
+      <div class="seccion-clinica">
+        <h3>Síntomas</h3>
+        <p>{{ a.sintomas }}</p>
+      </div>
+
+      <div class="seccion-clinica">
+        <h3>Diagnóstico</h3>
+        <p>{{ a.diagnostico }}</p>
+      </div>
+
+      <div class="seccion-clinica">
+        <h3>Tratamiento</h3>
+        <p>{{ a.tratamiento }}</p>
+      </div>
+
+      <div class="seccion-clinica">
+        <h3>Observaciones</h3>
+        <p>
+          {{ a.observaciones || 'Sin observaciones registradas' }}
+        </p>
+      </div>
+    </div>
+
+    <!-- Mensajes de la operación -->
+    @if (mensajeOperacion) {
+      <p class="mensaje-exito" role="status">
+        {{ mensajeOperacion }}
+      </p>
+    }
+
+    @if (errorOperacion) {
+      <p class="mensaje-error" role="alert">
+        {{ errorOperacion }}
+      </p>
+    }
+
+    <!-- Finalización de la atención médica -->
+    @if (puedeFinalizar) {
+      <div class="acciones-finalizacion">
+        <p>
+          Esta atención ya tiene información clínica registrada. Puede finalizar la consulta médica.
+        </p>
+
+        <button type="button" class="btn-finalizar" (click)="finalizarAtencion()">
+          Finalizar atención
+        </button>
+      </div>
+    }
+  } @else {
+    <div class="tarjeta" role="alert">
+      <h2>Atención no encontrada</h2>
+      <p>La atención solicitada no existe o no corresponde al historial de este paciente.</p>
+
+      <a [routerLink]="['/historial', pacienteId]" class="btn-volver"> Volver al historial </a>
+    </div>
+  }
+</section>

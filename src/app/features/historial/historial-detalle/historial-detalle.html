@@ -69,6 +69,7 @@
               <th scope="col">Médico responsable</th>
               <th scope="col">Diagnóstico</th>
               <th scope="col">Observaciones</th>
+              <th scope="col">Acciones</th>
             </tr>
           </thead>
 
@@ -84,6 +85,15 @@
                 <td>{{ atencion.diagnostico }}</td>
 
                 <td>{{ atencion.observaciones }}</td>
+
+                <td>
+                  <a
+                    [routerLink]="['/historial', pacienteId, 'atenciones', atencion.id]"
+                    class="btn-ver-atencion"
+                  >
+                    Ver atención
+                  </a>
+                </td>
               </tr>
             } @empty {
               <tr>
