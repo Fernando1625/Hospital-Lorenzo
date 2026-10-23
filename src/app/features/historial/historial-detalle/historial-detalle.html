@@ -53,6 +53,12 @@
     <div class="tarjeta">
       <div class="titulo-seccion">
         <h2>Atenciones registradas</h2>
+
+        @if (p.estado) {
+          <a [routerLink]="['/historial', p.id, 'nueva-atencion']" class="btn-nueva-atencion">
+            + Nueva atención
+          </a>
+        }
       </div>
 
       <div class="tabla-contenedor">

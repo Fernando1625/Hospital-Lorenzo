@@ -134,3 +134,24 @@ th {
     font-size: 23px;
   }
 }
+
+.btn-nueva-atencion {
+  display: inline-block;
+  padding: 11px 16px;
+  background: #1763ac;
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.btn-nueva-atencion:hover {
+  background: #104c86;
+}
+
+.btn-nueva-atencion:focus-visible {
+  outline: 3px solid #f59e0b;
+  outline-offset: 3px;
+}

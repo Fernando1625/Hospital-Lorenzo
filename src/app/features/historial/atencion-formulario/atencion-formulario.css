@@ -1,0 +1,184 @@
+
+.atencion-formulario {
+  color: #183153;
+}
+
+.encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.encabezado h1 {
+  margin: 0 0 8px;
+  font-size: 28px;
+}
+
+.encabezado p {
+  margin: 0;
+  color: #52647a;
+}
+
+.tarjeta {
+  background: white;
+  border: 1px solid #e1e7ef;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.tarjeta h2 {
+  margin: 0 0 20px;
+  font-size: 20px;
+}
+
+.informacion-paciente,
+.resumen-cita {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.informacion-paciente p,
+.resumen-cita p {
+  margin: 0;
+  line-height: 1.6;
+}
+
+.resumen-cita {
+  background: #f4f7fb;
+  padding: 16px;
+  border-radius: 8px;
+  margin: 16px 0 24px;
+}
+
+.campos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 30px;
+}
+
+.campos-clinicos {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.campo label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.campo input,
+.campo select,
+.campo textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px;
+  border: 1px solid #a7b4c5;
+  border-radius: 8px;
+  background: white;
+  color: #183153;
+  font: inherit;
+  font-size: 14px;
+}
+
+.campo textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.campo input:focus-visible,
+.campo select:focus-visible,
+.campo textarea:focus-visible {
+  outline: 3px solid #b5d8fa;
+  border-color: #1763ac;
+}
+
+.aviso {
+  color: #865314;
+  font-size: 13px;
+}
+
+.mensaje-error {
+  background: #fff0ef;
+  color: #a32119;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+}
+
+.acciones {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 28px;
+}
+
+.btn-volver,
+.btn-cancelar,
+.btn-guardar {
+  display: inline-block;
+  padding: 12px 18px;
+  border-radius: 8px;
+  border: none;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-volver,
+.btn-cancelar {
+  background: #e8edf3;
+  color: #183153;
+}
+
+.btn-guardar {
+  background: #1763ac;
+  color: white;
+}
+
+.btn-guardar:hover:not(:disabled) {
+  background: #104c86;
+}
+
+.btn-guardar:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.btn-volver:focus-visible,
+.btn-cancelar:focus-visible,
+.btn-guardar:focus-visible {
+  outline: 3px solid #f59e0b;
+  outline-offset: 3px;
+}
+
+@media (max-width: 700px) {
+  .campos,
+  .informacion-paciente,
+  .resumen-cita {
+    grid-template-columns: 1fr;
+  }
+
+  .tarjeta {
+    padding: 16px;
+  }
+
+  .encabezado h1 {
+    font-size: 23px;
+  }
+}
