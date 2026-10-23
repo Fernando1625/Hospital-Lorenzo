@@ -281,3 +281,26 @@ th {
   color: #176344;
   border-radius: 8px;
 }
+
+/* Acciones para actualizar estados */
+.btn-accion-estado {
+  display: inline-block;
+  padding: 8px 12px;
+  background-color: #e2f4eb;
+  color: #176344;
+  border: 1px solid #b6ddc5;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn-accion-estado:hover {
+  background-color: #ccebdc;
+}
+
+.btn-accion-estado:focus-visible {
+  outline: 3px solid #f59e0b;
+  outline-offset: 2px;
+}

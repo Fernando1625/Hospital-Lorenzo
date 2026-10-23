@@ -138,6 +138,16 @@
                       Cancelar
                     </button>
                   }
+                  <!-- Cambios de estado permitidos -->
+                  @for (estado of estadosPermitidos(cita); track estado) {
+                    <button
+                      type="button"
+                      class="btn-accion-estado"
+                      (click)="actualizarEstado(cita, estado)"
+                    >
+                      {{ textoAccion(estado) }}
+                    </button>
+                  }
                 </div>
               </td>
             </tr>
