@@ -58,6 +58,15 @@ export const routes: Routes = [
           ),
       },
 
+      // Consultar el historial de un paciente
+      {
+        path: 'historial/:id',
+        loadComponent: () =>
+          import('./features/historial/historial-detalle/historial-detalle').then(
+            (m) => m.HistorialDetalle,
+          ),
+      },
+
       // Gestión de usuarios
       {
         path: 'usuarios',
@@ -145,7 +154,7 @@ export const routes: Routes = [
         path: 'citas/:id',
         loadComponent: () =>
           import('./features/citas/cita-detalle/cita-detalle').then((m) => m.CitaDetalle),
-      }
+      },
     ],
   },
 
