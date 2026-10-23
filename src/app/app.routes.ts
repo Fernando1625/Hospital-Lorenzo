@@ -155,6 +155,15 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/citas/cita-detalle/cita-detalle').then((m) => m.CitaDetalle),
       },
+
+      // Registrar una atención médica a un paciente
+      {
+        path: 'historial/:id/nueva-atencion',
+        loadComponent: () =>
+          import('./features/historial/atencion-formulario/atencion-formulario').then(
+            (m) => m.AtencionFormulario,
+          ),
+      }
     ],
   },
 

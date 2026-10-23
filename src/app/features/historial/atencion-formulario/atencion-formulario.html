@@ -1,1 +1,232 @@
-<p>atencion-formulario works!</p>
+
+<section class="atencion-formulario">
+
+  <div class="encabezado">
+    <div>
+      <h1>Registrar atención médica</h1>
+      <p>Ingreso de información clínica del paciente</p>
+    </div>
+
+    <a
+      [routerLink]="['/historial', pacienteId]"
+      class="btn-volver">
+      Volver al historial
+    </a>
+  </div>
+
+  @if (paciente; as p) {
+
+    <div class="tarjeta">
+      <h2>Información del paciente</h2>
+
+      <div class="informacion-paciente">
+        <p>
+          <strong>Paciente:</strong>
+          {{ p.nombres }} {{ p.apellidos }}
+        </p>
+
+        <p>
+          <strong>Cédula:</strong>
+          {{ p.cedula }}
+        </p>
+      </div>
+    </div>
+
+    @if (!p.estado) {
+      <p class="mensaje-error" role="alert">
+        El paciente está inactivo.
+        No es posible registrar una nueva atención.
+      </p>
+    } @else {
+
+      <form
+        [formGroup]="formulario"
+        (ngSubmit)="guardarAtencion()"
+        class="tarjeta">
+
+        <h2>Datos de la consulta</h2>
+
+        <!-- Cita médica -->
+        <div class="campo">
+          <label for="citaId">Cita médica *</label>
+
+          <select id="citaId" formControlName="citaId">
+            <option [ngValue]="0">Seleccione una cita</option>
+
+            @for (cita of citasDisponibles; track cita.id) {
+              <option [ngValue]="cita.id">
+                Cita N.º {{ cita.id }} -
+                {{ cita.fecha }} -
+                {{ cita.horaInicio }}
+              </option>
+            }
+          </select>
+
+          @if (citasDisponibles.length === 0) {
+            <small class="aviso">
+              El paciente no tiene citas disponibles en estado
+              En atención.
+            </small>
+          }
+        </div>
+
+        @if (citaSeleccionada; as cita) {
+          <div class="resumen-cita">
+            <p>
+              <strong>Médico responsable:</strong>
+              {{ medicoSeleccionado?.nombres }}
+              {{ medicoSeleccionado?.apellidos }}
+            </p>
+
+            <p>
+              <strong>Especialidad:</strong>
+              {{ cita.especialidad }}
+            </p>
+          </div>
+        }
+
+        <h2>Signos vitales</h2>
+
+        <div class="campos">
+
+          <div class="campo">
+            <label for="temperatura">Temperatura (°C)</label>
+            <input
+              id="temperatura"
+              type="number"
+              step="0.1"
+              min="25"
+              max="45"
+              formControlName="temperatura"
+              placeholder="Ej. 36.5">
+          </div>
+
+          <div class="campo">
+            <label for="presionArterial">
+              Presión arterial (mmHg)
+            </label>
+            <input
+              id="presionArterial"
+              type="text"
+              formControlName="presionArterial"
+              placeholder="Ej. 120/80">
+          </div>
+
+          <div class="campo">
+            <label for="frecuenciaCardiaca">
+              Frecuencia cardíaca (lpm)
+            </label>
+            <input
+              id="frecuenciaCardiaca"
+              type="number"
+              min="20"
+              max="250"
+              formControlName="frecuenciaCardiaca"
+              placeholder="Ej. 75">
+          </div>
+
+          <div class="campo">
+            <label for="peso">Peso (kg)</label>
+            <input
+              id="peso"
+              type="number"
+              step="0.1"
+              min="0.1"
+              formControlName="peso"
+              placeholder="Ej. 68">
+          </div>
+
+          <div class="campo">
+            <label for="estatura">Estatura (m)</label>
+            <input
+              id="estatura"
+              type="number"
+              step="0.01"
+              min="0.01"
+              formControlName="estatura"
+              placeholder="Ej. 1.70">
+          </div>
+
+        </div>
+
+        <h2>Información clínica</h2>
+
+        <div class="campos-clinicos">
+
+          <div class="campo">
+            <label for="sintomas">Síntomas *</label>
+            <textarea
+              id="sintomas"
+              rows="4"
+              maxlength="2000"
+              formControlName="sintomas"
+              placeholder="Describa los síntomas"></textarea>
+          </div>
+
+          <div class="campo">
+            <label for="diagnostico">Diagnóstico *</label>
+            <textarea
+              id="diagnostico"
+              rows="4"
+              maxlength="2000"
+              formControlName="diagnostico"
+              placeholder="Ingrese el diagnóstico"></textarea>
+          </div>
+
+          <div class="campo">
+            <label for="tratamiento">Tratamiento *</label>
+            <textarea
+              id="tratamiento"
+              rows="4"
+              maxlength="2000"
+              formControlName="tratamiento"
+              placeholder="Ingrese el tratamiento"></textarea>
+          </div>
+
+          <div class="campo">
+            <label for="observaciones">Observaciones</label>
+            <textarea
+              id="observaciones"
+              rows="4"
+              maxlength="2000"
+              formControlName="observaciones"
+              placeholder="Observaciones adicionales"></textarea>
+          </div>
+
+        </div>
+
+        @if (mensajeError) {
+          <p class="mensaje-error" role="alert">
+            {{ mensajeError }}
+          </p>
+        }
+
+        <div class="acciones">
+          <a
+            [routerLink]="['/historial', pacienteId]"
+            class="btn-cancelar">
+            Cancelar
+          </a>
+
+          <button
+            type="submit"
+            class="btn-guardar"
+            [disabled]="citasDisponibles.length === 0">
+            Guardar atención
+          </button>
+        </div>
+
+      </form>
+    }
+
+  } @else {
+    <div class="tarjeta" role="alert">
+      <h2>Paciente no encontrado</h2>
+      <p>No se encontró el paciente solicitado.</p>
+      <a routerLink="/historial" class="btn-volver">
+        Volver al listado
+      </a>
+    </div>
+  }
+
+</section>
