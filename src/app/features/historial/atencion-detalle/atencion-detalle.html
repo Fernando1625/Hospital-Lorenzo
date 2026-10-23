@@ -60,6 +60,12 @@
             }
           </strong>
         </div>
+        <div>
+          <span>Estado de la cita</span>
+          <strong>
+            {{ citaActual?.estado ?? 'Sin cita relacionada' }}
+          </strong>
+        </div>
       </div>
     </div>
 
@@ -131,6 +137,32 @@
         </p>
       </div>
     </div>
+
+    <!-- Mensajes de la operación -->
+    @if (mensajeOperacion) {
+      <p class="mensaje-exito" role="status">
+        {{ mensajeOperacion }}
+      </p>
+    }
+
+    @if (errorOperacion) {
+      <p class="mensaje-error" role="alert">
+        {{ errorOperacion }}
+      </p>
+    }
+
+    <!-- Finalización de la atención médica -->
+    @if (puedeFinalizar) {
+      <div class="acciones-finalizacion">
+        <p>
+          Esta atención ya tiene información clínica registrada. Puede finalizar la consulta médica.
+        </p>
+
+        <button type="button" class="btn-finalizar" (click)="finalizarAtencion()">
+          Finalizar atención
+        </button>
+      </div>
+    }
   } @else {
     <div class="tarjeta" role="alert">
       <h2>Atención no encontrada</h2>

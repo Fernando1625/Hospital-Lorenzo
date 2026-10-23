@@ -1,1 +1,162 @@
-<p>usuarios-lista works!</p>
+
+<section class="usuarios">
+
+  <!-- Encabezado -->
+  <div class="encabezado">
+
+    <div>
+      <h1>Gestión de usuarios</h1>
+      <p>Administración de cuentas y roles del sistema</p>
+    </div>
+
+  </div>
+
+  <!-- Indicadores -->
+  <div class="estadisticas">
+
+    <div class="tarjeta">
+      <span>Total de usuarios</span>
+      <h2>{{ totalUsuarios }}</h2>
+    </div>
+
+    <div class="tarjeta">
+      <span>Usuarios activos</span>
+      <h2>{{ usuariosActivos }}</h2>
+    </div>
+
+    <div class="tarjeta">
+      <span>Usuarios inactivos</span>
+      <h2>{{ usuariosInactivos }}</h2>
+    </div>
+
+  </div>
+
+  <!-- Listado general -->
+  <div class="contenedor">
+
+    <h2>Usuarios registrados</h2>
+
+    <!-- Filtros -->
+    <div class="filtros">
+
+      <div class="campo-filtro">
+        <label for="buscarUsuario">
+          Buscar usuario
+        </label>
+
+        <input
+          id="buscarUsuario"
+          type="search"
+          placeholder="Nombre, usuario o correo"
+          [(ngModel)]="busqueda">
+      </div>
+
+      <div class="campo-filtro">
+        <label for="filtroRol">
+          Rol
+        </label>
+
+        <select
+          id="filtroRol"
+          [(ngModel)]="filtroRol">
+
+          <option value="todos">Todos los roles</option>
+
+          @for (rol of roles; track rol) {
+            <option [value]="rol">{{ rol }}</option>
+          }
+
+        </select>
+      </div>
+
+      <div class="campo-filtro">
+        <label for="filtroEstado">
+          Estado
+        </label>
+
+        <select
+          id="filtroEstado"
+          [(ngModel)]="filtroEstado">
+
+          <option value="todos">Todos</option>
+          <option value="activos">Activos</option>
+          <option value="inactivos">Inactivos</option>
+
+        </select>
+      </div>
+
+    </div>
+
+    <!-- Tabla de usuarios -->
+    <div class="tabla-contenedor">
+
+      <table>
+
+        <thead>
+          <tr>
+            <th scope="col">Usuario</th>
+            <th scope="col">Nombre completo</th>
+            <th scope="col">Correo electrónico</th>
+            <th scope="col">Rol</th>
+            <th scope="col">Estado</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          @for (usuario of usuariosFiltrados; track usuario.id) {
+
+            <tr>
+
+              <td>{{ usuario.nombreUsuario }}</td>
+
+              <td>
+                {{ usuario.nombres }}
+                {{ usuario.apellidos }}
+              </td>
+
+              <td>{{ usuario.correo }}</td>
+
+              <td>
+                <span class="rol">
+                  {{ usuario.rol }}
+                </span>
+              </td>
+
+              <td>
+                <span
+                  class="estado"
+                  [class.activo]="usuario.estado"
+                  [class.inactivo]="!usuario.estado">
+
+                  {{ usuario.estado ? 'Activo' : 'Inactivo' }}
+
+                </span>
+              </td>
+
+            </tr>
+
+          } @empty {
+
+            <tr>
+              <td colspan="5" class="sin-resultados">
+                No se encontraron usuarios.
+              </td>
+            </tr>
+
+          }
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+    <p class="total">
+      Registros encontrados:
+      {{ usuariosFiltrados.length }}
+    </p>
+
+  </div>
+
+</section>

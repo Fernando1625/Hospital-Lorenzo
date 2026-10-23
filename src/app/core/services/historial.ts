@@ -133,4 +133,27 @@ export class HistorialService {
 
     return true;
   }
+
+  // Comprobar si una cita tiene un registro clínico
+  tieneAtencionRegistrada(citaId: number): boolean {
+    return this.atencionesSignal().some((atencion) => atencion.citaId === citaId);
+  }
+
+  // Finalizar una cita con atención clínica registrada
+  finalizarAtencion(citaId: number): boolean {
+    const cita = this.citasService.obtenerCitaPorId(citaId);
+
+    // Debe existir y encontrarse en atención
+    if (!cita || cita.estado !== 'En atención') {
+      return false;
+    }
+
+    // Debe contar con información clínica registrada
+    if (!this.tieneAtencionRegistrada(citaId)) {
+      return false;
+    }
+
+    // Aplicar las reglas de estado de las citas
+    return this.citasService.cambiarEstadoCita(citaId, 'Atendida');
+  }
 }

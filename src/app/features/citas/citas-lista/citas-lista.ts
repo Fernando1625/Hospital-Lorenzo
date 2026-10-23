@@ -116,10 +116,11 @@ export class CitasLista {
   }
 
   // Obtener las acciones permitidas para una cita
+
   estadosPermitidos(cita: Cita): EstadoCita[] {
     return this.citasService
       .obtenerEstadosPermitidos(cita)
-      .filter((estado) => estado !== 'Cancelada');
+      .filter((estado) => estado !== 'Cancelada' && estado !== 'Atendida');
   }
 
   // Identificar la acción de cada cambio

@@ -56,4 +56,43 @@ export class AtencionDetalle {
 
     return `${valor}${unidad ? ' ' + unidad : ''}`;
   }
+
+  // Mensajes del resultado de la operación
+  mensajeOperacion = '';
+  errorOperacion = '';
+
+  // Consultar el estado actual de la cita
+  get citaActual() {
+    return this.atencion?.citaId != null
+      ? this.citasService.obtenerCitaPorId(this.atencion.citaId)
+      : undefined;
+  }
+
+  // Determinar si puede finalizarse la atención
+  get puedeFinalizar(): boolean {
+    return (
+      this.citaActual?.estado === 'En atención' &&
+      this.atencion?.citaId != null &&
+      this.historialService.tieneAtencionRegistrada(this.atencion.citaId)
+    );
+  }
+
+  // Completar la atención médica
+  finalizarAtencion(): void {
+    this.mensajeOperacion = '';
+    this.errorOperacion = '';
+
+    if (!this.puedeFinalizar || !this.atencion?.citaId) {
+      this.errorOperacion = 'La atención no puede finalizarse en su estado actual.';
+      return;
+    }
+
+    const resultado = this.historialService.finalizarAtencion(this.atencion.citaId);
+
+    if (resultado) {
+      this.mensajeOperacion = 'La atención fue finalizada correctamente.';
+    } else {
+      this.errorOperacion = 'No se pudo finalizar la atención médica.';
+    }
+  }
 }

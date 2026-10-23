@@ -1,0 +1,190 @@
+
+.usuarios {
+  color: #183153;
+}
+
+/* Encabezado */
+.encabezado {
+  margin-bottom: 24px;
+}
+
+.encabezado h1 {
+  font-size: 28px;
+  margin: 0 0 8px;
+}
+
+.encabezado p {
+  color: #52647a;
+  margin: 0;
+}
+
+/* Tarjetas de indicadores */
+.estadisticas {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.tarjeta {
+  background: #ffffff;
+  border: 1px solid #e1e7ef;
+  border-radius: 12px;
+  padding: 22px;
+}
+
+.tarjeta span {
+  color: #52647a;
+  font-size: 14px;
+}
+
+.tarjeta h2 {
+  color: #1763ac;
+  margin: 12px 0 0;
+  font-size: 30px;
+}
+
+/* Contenedor general */
+.contenedor {
+  background: white;
+  border: 1px solid #e1e7ef;
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.contenedor h2 {
+  margin: 0 0 24px;
+  font-size: 20px;
+}
+
+/* Filtros */
+.filtros {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.campo-filtro {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.campo-filtro label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.campo-filtro input,
+.campo-filtro select {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #a7b4c5;
+  border-radius: 8px;
+  color: #183153;
+  background-color: #ffffff;
+  font-size: 14px;
+}
+
+.campo-filtro input:focus-visible,
+.campo-filtro select:focus-visible {
+  outline: 3px solid #b5d8fa;
+  border-color: #1763ac;
+}
+
+/* Tabla */
+.tabla-contenedor {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+th,
+td {
+  padding: 14px;
+  border-bottom: 1px solid #e1e7ef;
+  font-size: 14px;
+}
+
+th {
+  background: #f4f7fb;
+  color: #52647a;
+}
+
+td {
+  overflow-wrap: anywhere;
+}
+
+/* Rol */
+.rol {
+  display: inline-block;
+  background: #edf4fb;
+  color: #14558f;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* Estado */
+.estado {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.activo {
+  color: #176344;
+  background: #e2f4eb;
+}
+
+.inactivo {
+  color: #a32119;
+  background: #fff0ef;
+}
+
+.sin-resultados {
+  text-align: center;
+  padding: 24px;
+  color: #52647a;
+}
+
+.total {
+  margin: 18px 0 0;
+  color: #52647a;
+  font-size: 13px;
+}
+
+/* Diseño adaptable */
+@media (max-width: 1000px) {
+  .estadisticas {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .filtros {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .estadisticas {
+    grid-template-columns: 1fr;
+  }
+
+  .contenedor {
+    padding: 16px;
+  }
+
+  .encabezado h1 {
+    font-size: 23px;
+  }
+}
