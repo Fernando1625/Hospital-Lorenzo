@@ -1,1 +1,86 @@
-<p>historial-lista works!</p>
+<section class="historial">
+  <!-- Encabezado -->
+  <div class="encabezado">
+    <h1>Historial clínico</h1>
+    <p>Consulta de expedientes médicos de pacientes</p>
+  </div>
+
+  <!-- Indicadores -->
+  <div class="estadisticas">
+    <div class="tarjeta">
+      <span>Pacientes registrados</span>
+      <h2>{{ totalPacientes }}</h2>
+    </div>
+
+    <div class="tarjeta">
+      <span>Atenciones registradas</span>
+      <h2>{{ totalAtenciones }}</h2>
+    </div>
+  </div>
+
+  <!-- Listado de expedientes -->
+  <div class="contenedor">
+    <h2>Expedientes de pacientes</h2>
+
+    <div class="filtros">
+      <div class="campo-filtro">
+        <label for="buscarPaciente">Buscar paciente</label>
+
+        <input
+          id="buscarPaciente"
+          type="search"
+          placeholder="Nombre o número de cédula"
+          [(ngModel)]="busqueda"
+        />
+      </div>
+    </div>
+
+    <div class="tabla-contenedor">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Cédula</th>
+            <th scope="col">Paciente</th>
+            <th scope="col">Estado</th>
+            <th scope="col">Atenciones</th>
+            <th scope="col">Acciones</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @for (paciente of pacientesFiltrados; track paciente.id) {
+            <tr>
+              <td>{{ paciente.cedula }}</td>
+
+              <td>{{ paciente.nombres }} {{ paciente.apellidos }}</td>
+
+              <td>
+                <span
+                  class="estado"
+                  [class.activo]="paciente.estado"
+                  [class.inactivo]="!paciente.estado"
+                >
+                  {{ paciente.estado ? 'Activo' : 'Inactivo' }}
+                </span>
+              </td>
+
+              <td>
+                {{ contarAtenciones(paciente.id) }}
+              </td>
+
+              <td>
+                <a [routerLink]="['/historial', paciente.id]" class="btn-ver"> Ver historial </a>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="5" class="sin-resultados">No se encontraron pacientes.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <p class="total">Registros encontrados: {{ pacientesFiltrados.length }}</p>
+  </div>
+</section>
