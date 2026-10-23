@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { Cita } from '../../shared/models/cita.model';
+import { Cita, EstadoCita } from '../../shared/models/cita.model';
 
 import { inject } from '@angular/core';
 import { PacientesService } from './pacientes';
@@ -46,6 +46,74 @@ export class CitasService {
       estado: 'Cancelada',
     },
   ]);
+
+  // Reglas de transición entre los estados
+  private transiciones: Record<EstadoCita, EstadoCita[]> = {
+    Programada: ['Confirmada', 'Cancelada', 'No asistió'],
+    Confirmada: ['En atención', 'Cancelada', 'No asistió'],
+    'En atención': ['Atendida'],
+    Atendida: [],
+    Cancelada: [],
+    'No asistió': [],
+  };
+
+  // Consultar las opciones disponibles para una cita
+  obtenerEstadosPermitidos(cita: Cita): EstadoCita[] {
+    const estados = this.transiciones[cita.estado];
+
+    return estados.filter((estado) => this.puedeCambiarEstado(cita, estado));
+  }
+
+  // Obtener la fecha y hora de inicio de una cita
+  private fechaHoraInicio(cita: Cita): Date {
+    return new Date(`${cita.fecha}T${cita.horaInicio}:00`);
+  }
+
+  // Obtener la fecha y hora de finalización
+  private fechaHoraFin(cita: Cita): Date {
+    return new Date(`${cita.fecha}T${cita.horaFin}:00`);
+  }
+
+  // Comprobar si se permite el cambio
+  puedeCambiarEstado(cita: Cita, nuevoEstado: EstadoCita): boolean {
+    if (!this.transiciones[cita.estado].includes(nuevoEstado)) {
+      return false;
+    }
+
+    const ahora = new Date();
+
+    // No se puede iniciar una atención antes de su horario
+    if (nuevoEstado === 'En atención' && ahora < this.fechaHoraInicio(cita)) {
+      return false;
+    }
+
+    // No asistió solo después de finalizar el horario
+    if (nuevoEstado === 'No asistió' && ahora < this.fechaHoraFin(cita)) {
+      return false;
+    }
+
+    // No confirmar ni cancelar citas cuyo horario ya terminó
+    if (['Confirmada', 'Cancelada'].includes(nuevoEstado) && ahora >= this.fechaHoraFin(cita)) {
+      return false;
+    }
+
+    return true;
+  }
+
+  // Actualizar el estado de una cita
+  cambiarEstadoCita(id: number, nuevoEstado: EstadoCita): boolean {
+    const cita = this.obtenerCitaPorId(id);
+
+    if (!cita || !this.puedeCambiarEstado(cita, nuevoEstado)) {
+      return false;
+    }
+
+    this.citasSignal.update((citas) =>
+      citas.map((c) => (c.id === id ? { ...c, estado: nuevoEstado } : c)),
+    );
+
+    return true;
+  }
 
   // Consulta reactiva de las citas
   citas = this.citasSignal.asReadonly();
@@ -319,17 +387,8 @@ export class CitasService {
     );
   }
 
+  // Cancelar una cita utilizando las reglas de transición
   cancelarCita(id: number): boolean {
-    const cita = this.obtenerCitaPorId(id);
-
-    if (!cita || !['Programada', 'Confirmada'].includes(cita.estado)) {
-      return false;
-    }
-
-    this.citasSignal.update((citas) =>
-      citas.map((c) => (c.id === id ? { ...c, estado: 'Cancelada' } : c)),
-    );
-
-    return true;
+    return this.cambiarEstadoCita(id, 'Cancelada');
   }
 }

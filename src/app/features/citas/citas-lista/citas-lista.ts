@@ -114,4 +114,34 @@ export class CitasLista {
   contarPorEstado(estado: EstadoCita): number {
     return this.citas().filter((cita) => cita.estado === estado).length;
   }
+
+  // Obtener las acciones permitidas para una cita
+  estadosPermitidos(cita: Cita): EstadoCita[] {
+    return this.citasService
+      .obtenerEstadosPermitidos(cita)
+      .filter((estado) => estado !== 'Cancelada');
+  }
+
+  // Identificar la acción de cada cambio
+  textoAccion(estado: EstadoCita): string {
+    const textos: Partial<Record<EstadoCita, string>> = {
+      Confirmada: 'Confirmar cita',
+      'En atención': 'Iniciar atención',
+      Atendida: 'Finalizar atención',
+      'No asistió': 'No asistió',
+    };
+
+    return textos[estado] ?? estado;
+  }
+
+  // Actualizar el estado desde el listado
+  actualizarEstado(cita: Cita, estado: EstadoCita): void {
+    this.mensajeOperacion = '';
+
+    const actualizado = this.citasService.cambiarEstadoCita(cita.id, estado);
+
+    this.mensajeOperacion = actualizado
+      ? `La cita N.º ${cita.id} cambió al estado ${estado}.`
+      : 'No se pudo actualizar el estado de la cita.';
+  }
 }
