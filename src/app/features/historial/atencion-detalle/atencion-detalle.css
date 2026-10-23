@@ -1,0 +1,147 @@
+
+.detalle-atencion {
+  color: #183153;
+}
+
+.encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.encabezado h1 {
+  margin: 0 0 8px;
+  font-size: 28px;
+}
+
+.encabezado p {
+  margin: 0;
+  color: #52647a;
+}
+
+/* Tarjetas */
+.tarjeta {
+  background: #ffffff;
+  border: 1px solid #e1e7ef;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.tarjeta h2 {
+  margin: 0 0 20px;
+  font-size: 20px;
+}
+
+/* Información general */
+.datos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.datos div {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.datos span,
+.signo span {
+  color: #52647a;
+  font-size: 13px;
+}
+
+.datos strong,
+.signo strong {
+  font-size: 15px;
+  overflow-wrap: anywhere;
+}
+
+/* Signos vitales */
+.signos-vitales {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.signo {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #f4f7fb;
+  padding: 18px;
+  border-radius: 8px;
+}
+
+/* Información clínica */
+.seccion-clinica {
+  margin-bottom: 20px;
+}
+
+.seccion-clinica:last-child {
+  margin-bottom: 0;
+}
+
+.seccion-clinica h3 {
+  font-size: 15px;
+  margin: 0 0 10px;
+}
+
+.seccion-clinica p {
+  background: #f4f7fb;
+  padding: 16px;
+  border-radius: 8px;
+  line-height: 1.6;
+  font-size: 14px;
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* Botones */
+.btn-volver {
+  display: inline-block;
+  padding: 12px 18px;
+  border-radius: 8px;
+  background: #e8edf3;
+  color: #183153;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.btn-volver:hover {
+  background: #d7e1ec;
+}
+
+.btn-volver:focus-visible {
+  outline: 3px solid #f59e0b;
+  outline-offset: 3px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .signos-vitales {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .datos,
+  .signos-vitales {
+    grid-template-columns: 1fr;
+  }
+
+  .tarjeta {
+    padding: 16px;
+  }
+
+  .encabezado h1 {
+    font-size: 23px;
+  }
+}

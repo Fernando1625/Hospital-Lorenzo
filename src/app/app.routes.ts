@@ -20,13 +20,19 @@ export const routes: Routes = [
     loadComponent: () => import('./layout/main-layout/main-layout').then((m) => m.MainLayout),
 
     children: [
-      // Dashboard
+      // ==========================================
+      // DASHBOARD
+      // ==========================================
       {
         path: 'dashboard',
         loadComponent: () => import('./features/dashboard/dashboard').then((m) => m.Dashboard),
       },
 
-      // Gestión de pacientes
+      // ==========================================
+      // GESTIÓN DE PACIENTES
+      // ==========================================
+
+      // Listado de pacientes
       {
         path: 'pacientes',
         loadComponent: () =>
@@ -35,54 +41,7 @@ export const routes: Routes = [
           ),
       },
 
-      // Gestión de médicos
-      {
-        path: 'medicos',
-        loadComponent: () =>
-          import('./features/medicos/medico-lista/medico-lista').then((m) => m.MedicosLista),
-      },
-
-      // Gestión de citas médicas
-      {
-        path: 'citas',
-        loadComponent: () =>
-          import('./features/citas/citas-lista/citas-lista').then((m) => m.CitasLista),
-      },
-
-      // Historial clínico
-      {
-        path: 'historial',
-        loadComponent: () =>
-          import('./features/historial/historial-lista/historial-lista').then(
-            (m) => m.HistorialLista,
-          ),
-      },
-
-      // Consultar el historial de un paciente
-      {
-        path: 'historial/:id',
-        loadComponent: () =>
-          import('./features/historial/historial-detalle/historial-detalle').then(
-            (m) => m.HistorialDetalle,
-          ),
-      },
-
-      // Gestión de usuarios
-      {
-        path: 'usuarios',
-        loadComponent: () =>
-          import('./features/usuarios/usuarios-lista/usuarios-lista').then((m) => m.UsuariosLista),
-      },
-
-      // Facturación
-      {
-        path: 'facturacion',
-        loadComponent: () =>
-          import('./features/facturacion/facturas-lista/facturas-lista').then(
-            (m) => m.FacturasLista,
-          ),
-      },
-
+      // Registrar paciente
       {
         path: 'pacientes/nuevo',
         loadComponent: () =>
@@ -90,16 +49,8 @@ export const routes: Routes = [
             (m) => m.PacienteFormulario,
           ),
       },
-      // Consultar información de un paciente
-      {
-        path: 'pacientes/:id',
-        loadComponent: () =>
-          import('./features/pacientes/paciente-detalle/paciente-detalle').then(
-            (m) => m.PacienteDetalle,
-          ),
-      },
 
-      // Editar un paciente existente
+      // Editar paciente
       {
         path: 'pacientes/:id/editar',
         loadComponent: () =>
@@ -108,7 +59,27 @@ export const routes: Routes = [
           ),
       },
 
-      // Registrar nuevo médico
+      // Consultar paciente
+      {
+        path: 'pacientes/:id',
+        loadComponent: () =>
+          import('./features/pacientes/paciente-detalle/paciente-detalle').then(
+            (m) => m.PacienteDetalle,
+          ),
+      },
+
+      // ==========================================
+      // GESTIÓN DE MÉDICOS
+      // ==========================================
+
+      // Listado de médicos
+      {
+        path: 'medicos',
+        loadComponent: () =>
+          import('./features/medicos/medico-lista/medico-lista').then((m) => m.MedicosLista),
+      },
+
+      // Registrar médico
       {
         path: 'medicos/nuevo',
         loadComponent: () =>
@@ -117,14 +88,7 @@ export const routes: Routes = [
           ),
       },
 
-      // Consultar información de un médico
-      {
-        path: 'medicos/:id',
-        loadComponent: () =>
-          import('./features/medicos/medico-detalle/medico-detalle').then((m) => m.MedicoDetalle),
-      },
-
-      // Editar un médico existente
+      // Editar médico
       {
         path: 'medicos/:id/editar',
         loadComponent: () =>
@@ -133,7 +97,7 @@ export const routes: Routes = [
           ),
       },
 
-      // Horarios de atención de un médico
+      // Gestionar horarios de atención
       {
         path: 'medicos/:id/horarios',
         loadComponent: () =>
@@ -142,57 +106,112 @@ export const routes: Routes = [
           ),
       },
 
-      // Reprogramar una cita médica
+      // Consultar médico
+      {
+        path: 'medicos/:id',
+        loadComponent: () =>
+          import('./features/medicos/medico-detalle/medico-detalle').then((m) => m.MedicoDetalle),
+      },
+
+      // ==========================================
+      // GESTIÓN DE CITAS MÉDICAS
+      // ==========================================
+
+      // Listado de citas
+      {
+        path: 'citas',
+        loadComponent: () =>
+          import('./features/citas/citas-lista/citas-lista').then((m) => m.CitasLista),
+      },
+
+      // Programar nueva cita
+      {
+        path: 'citas/nueva',
+        loadComponent: () =>
+          import('./features/citas/cita-formulario/cita-formulario').then((m) => m.CitaFormulario),
+      },
+
+      // Reprogramar cita
       {
         path: 'citas/:id/editar',
         loadComponent: () =>
           import('./features/citas/cita-formulario/cita-formulario').then((m) => m.CitaFormulario),
       },
 
-      // Consultar detalles de una cita
+      // Consultar cita
       {
         path: 'citas/:id',
         loadComponent: () =>
           import('./features/citas/cita-detalle/cita-detalle').then((m) => m.CitaDetalle),
       },
 
-      // Registrar una atención médica a un paciente
+      // ==========================================
+      // HISTORIAL CLÍNICO
+      // ==========================================
+
+      // Listado de historiales
+      {
+        path: 'historial',
+        loadComponent: () =>
+          import('./features/historial/historial-lista/historial-lista').then(
+            (m) => m.HistorialLista,
+          ),
+      },
+
+      // Registrar atención médica
       {
         path: 'historial/:id/nueva-atencion',
         loadComponent: () =>
           import('./features/historial/atencion-formulario/atencion-formulario').then(
             (m) => m.AtencionFormulario,
           ),
-      }
+      },
+
+      // Consultar historial de un paciente
+      {
+        path: 'historial/:id',
+        loadComponent: () =>
+          import('./features/historial/historial-detalle/historial-detalle').then(
+            (m) => m.HistorialDetalle,
+          ),
+      },
+
+      // Consultar el detalle de una atención médica
+      {
+        path: 'historial/:id/atenciones/:atencionId',
+        loadComponent: () =>
+          import('./features/historial/atencion-detalle/atencion-detalle').then(
+            (m) => m.AtencionDetalle,
+          ),
+      },
+
+      // ==========================================
+      // GESTIÓN DE USUARIOS
+      // ==========================================
+      {
+        path: 'usuarios',
+        loadComponent: () =>
+          import('./features/usuarios/usuarios-lista/usuarios-lista').then((m) => m.UsuariosLista),
+      },
+
+      // ==========================================
+      // FACTURACIÓN
+      // ==========================================
+      {
+        path: 'facturacion',
+        loadComponent: () =>
+          import('./features/facturacion/facturas-lista/facturas-lista').then(
+            (m) => m.FacturasLista,
+          ),
+      },
     ],
   },
 
-  // Rutas no encontradas
+  // ==========================================
+  // RUTAS NO ENCONTRADAS
+  // ==========================================
   {
     path: '**',
     redirectTo: 'login',
-  },
-
-  // Consultar información de un médico
-  {
-    path: 'medicos/:id',
-    loadComponent: () =>
-      import('./features/medicos/medico-detalle/medico-detalle').then((m) => m.MedicoDetalle),
-  },
-
-  // Editar un médico existente
-  {
-    path: 'medicos/:id/editar',
-    loadComponent: () =>
-      import('./features/medicos/medico-formulario/medico-formulario').then(
-        (m) => m.MedicoFormulario,
-      ),
-  },
-
-  // Programar una nueva cita médica
-  {
-    path: 'citas/nueva',
-    loadComponent: () =>
-      import('./features/citas/cita-formulario/cita-formulario').then((m) => m.CitaFormulario),
   },
 ];
