@@ -1,0 +1,136 @@
+.historial-detalle {
+  color: #183153;
+}
+
+.encabezado {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.encabezado h1 {
+  margin: 0 0 8px;
+  font-size: 28px;
+}
+
+.encabezado p {
+  color: #52647a;
+  margin: 0;
+}
+
+.tarjeta {
+  background: white;
+  border: 1px solid #e1e7ef;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.tarjeta h2 {
+  margin: 0 0 20px;
+  font-size: 20px;
+}
+
+/* Información del paciente */
+.datos-paciente {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.datos-paciente div {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.datos-paciente span {
+  font-size: 13px;
+  color: #52647a;
+}
+
+.datos-paciente strong {
+  font-size: 15px;
+  overflow-wrap: anywhere;
+}
+
+.titulo-seccion {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.titulo-seccion h2 {
+  margin: 0;
+}
+
+/* Tabla de atenciones */
+.tabla-contenedor {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+th,
+td {
+  padding: 14px;
+  border-bottom: 1px solid #e1e7ef;
+  font-size: 14px;
+}
+
+th {
+  background: #f4f7fb;
+  color: #52647a;
+}
+
+.sin-resultados {
+  padding: 24px;
+  text-align: center;
+  color: #52647a;
+}
+
+/* Botón */
+.btn-volver {
+  display: inline-block;
+  padding: 12px 18px;
+  border-radius: 8px;
+  background: #e8edf3;
+  color: #183153;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.btn-volver:hover {
+  background: #d7e1ec;
+}
+
+.btn-volver:focus-visible {
+  outline: 3px solid #f59e0b;
+  outline-offset: 3px;
+}
+
+/* Adaptación a pantallas pequeñas */
+@media (max-width: 650px) {
+  .datos-paciente {
+    grid-template-columns: 1fr;
+  }
+
+  .tarjeta {
+    padding: 16px;
+  }
+
+  .encabezado h1 {
+    font-size: 23px;
+  }
+}
