@@ -11,7 +11,7 @@ import {
 })
 export class UsuariosService {
 
-  // Registros ficticios para las pruebas del frontend
+  // Datos ficticios del sistema
   private usuariosSignal = signal<Usuario[]>([
     {
       id: 1,
@@ -51,17 +51,17 @@ export class UsuariosService {
     }
   ]);
 
-  // Lectura reactiva de los usuarios
+  // Lista de usuarios de solo lectura
   usuarios = this.usuariosSignal.asReadonly();
 
-  // Buscar un usuario por identificador
+  // Buscar usuario por ID
   obtenerUsuarioPorId(id: number): Usuario | undefined {
     return this.usuariosSignal().find(
       usuario => usuario.id === id
     );
   }
 
-  // Verificar nombres de usuario duplicados
+  // Validar nombre de usuario duplicado
   existeNombreUsuario(
     nombreUsuario: string,
     idExcluir?: number
@@ -75,7 +75,7 @@ export class UsuariosService {
     );
   }
 
-  // Comprobar correos duplicados
+  // Validar correo duplicado
   existeCorreo(
     correo: string,
     idExcluir?: number
@@ -89,10 +89,80 @@ export class UsuariosService {
     );
   }
 
-  // Contar usuarios de un rol determinado
+  // Contar usuarios por rol
   contarPorRol(rol: RolUsuario): number {
     return this.usuariosSignal().filter(
       usuario => usuario.rol === rol
     ).length;
+  }
+
+  // REGISTRAR UN NUEVO USUARIO
+  registrarUsuario(datos: Omit<Usuario, 'id'>): boolean {
+
+    if (
+      this.existeNombreUsuario(datos.nombreUsuario) ||
+      this.existeCorreo(datos.correo)
+    ) {
+      return false;
+    }
+
+    const usuariosActuales = this.usuariosSignal();
+
+    const nuevoId = Math.max(
+      0,
+      ...usuariosActuales.map(usuario => usuario.id)
+    ) + 1;
+
+    this.usuariosSignal.update(usuarios => [
+      ...usuarios,
+      {
+        ...datos,
+        nombres: datos.nombres.trim(),
+        apellidos: datos.apellidos.trim(),
+        nombreUsuario: datos.nombreUsuario.trim(),
+        correo: datos.correo.trim().toLowerCase(),
+        id: nuevoId
+      }
+    ]);
+
+    return true;
+  }
+
+  // ACTUALIZAR UN USUARIO EXISTENTE
+  actualizarUsuario(
+    id: number,
+    datos: Omit<Usuario, 'id'>
+  ): boolean {
+
+    const usuarioActual = this.obtenerUsuarioPorId(id);
+
+    if (!usuarioActual) {
+      return false;
+    }
+
+    // Evitar duplicados, excluyendo al usuario editado
+    if (
+      this.existeNombreUsuario(datos.nombreUsuario, id) ||
+      this.existeCorreo(datos.correo, id)
+    ) {
+      return false;
+    }
+
+    this.usuariosSignal.update(usuarios =>
+      usuarios.map(usuario =>
+        usuario.id === id
+          ? {
+              ...datos,
+              nombres: datos.nombres.trim(),
+              apellidos: datos.apellidos.trim(),
+              nombreUsuario: datos.nombreUsuario.trim(),
+              correo: datos.correo.trim().toLowerCase(),
+              id
+            }
+          : usuario
+      )
+    );
+
+    return true;
   }
 }

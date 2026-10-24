@@ -194,6 +194,24 @@ export const routes: Routes = [
           import('./features/usuarios/usuarios-lista/usuarios-lista').then((m) => m.UsuariosLista),
       },
 
+      // Registrar nuevo usuario
+      {
+        path: 'usuarios/nuevo',
+        loadComponent: () =>
+          import('./features/usuarios/usuario-formulario/usuario-formulario').then(
+            (m) => m.UsuarioFormulario,
+          ),
+      },
+
+      // Editar usuario existente
+      {
+        path: 'usuarios/:id/editar',
+        loadComponent: () =>
+          import('./features/usuarios/usuario-formulario/usuario-formulario').then(
+            (m) => m.UsuarioFormulario,
+          ),
+      },
+
       // ==========================================
       // FACTURACIÓN
       // ==========================================
