@@ -1,0 +1,277 @@
+
+/* Página completa del login */
+.login-pagina {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  box-sizing: border-box;
+  background: #eef3f9;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Contenedor principal */
+.login-contenedor {
+  width: 100%;
+  max-width: 1050px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 12px 38px rgba(20, 48, 82, 0.12);
+}
+
+/* Panel izquierdo */
+.panel-informativo {
+  background: linear-gradient(150deg, #173b6b, #0d294e);
+  color: white;
+  min-height: 530px;
+  padding: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.logo-hospital {
+  width: 76px;
+  height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid rgba(255,255,255,0.65);
+  border-radius: 18px;
+  margin-bottom: 20px;
+}
+
+.simbolo-hospital {
+  font-size: 52px;
+  line-height: 1;
+  font-weight: 700;
+}
+
+.panel-informativo h1 {
+  font-size: 29px;
+  margin: 0 0 12px;
+}
+
+.subtitulo {
+  color: #dcebf9;
+  font-size: 16px;
+  margin: 0;
+}
+
+.linea {
+  width: 70px;
+  height: 3px;
+  background: #76bafa;
+  border-radius: 4px;
+  margin: 32px 0;
+}
+
+.descripcion {
+  max-width: 300px;
+  font-size: 15px;
+  color: #dcebf9;
+  line-height: 1.7;
+}
+
+.texto-inferior {
+  color: #b4d1ef;
+  font-size: 12px;
+  margin-top: 40px;
+}
+
+/* Panel derecho */
+.panel-formulario {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 42px;
+}
+
+.formulario-contenido {
+  width: 100%;
+  max-width: 360px;
+}
+
+.formulario-contenido h2 {
+  color: #183153;
+  font-size: 29px;
+  margin: 0 0 10px;
+}
+
+.mensaje-bienvenida {
+  color: #64748b;
+  font-size: 14px;
+  margin-bottom: 32px;
+}
+
+/* Campos */
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-bottom: 22px;
+}
+
+.campo label {
+  color: #183153;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.campo input {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #b8c6d6;
+  border-radius: 8px;
+  padding: 13px;
+  font-size: 14px;
+  color: #183153;
+  background: white;
+}
+
+.campo input:focus-visible {
+  outline: 3px solid #b5d8fa;
+  border-color: #1763ac;
+}
+
+/* Contraseña */
+.contenedor-contrasena {
+  position: relative;
+}
+
+.contenedor-contrasena input {
+  padding-right: 88px;
+}
+
+.btn-mostrar {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  color: #1763ac;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 8px;
+}
+
+/* Botón */
+.btn-ingresar {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  background: #1763ac;
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+.btn-ingresar:hover {
+  background: #104c86;
+}
+
+.btn-ingresar:focus-visible,
+.btn-mostrar:focus-visible {
+  outline: 3px solid #f59e0b;
+  outline-offset: 3px;
+}
+
+/* Validaciones */
+.error-campo {
+  color: #a32119;
+  font-size: 12px;
+}
+
+.mensaje-error {
+  background: #fff0ef;
+  border-radius: 8px;
+  color: #a32119;
+  padding: 12px;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+/* Información del prototipo */
+.datos-demo {
+  margin-top: 30px;
+  padding: 16px;
+  border-radius: 8px;
+  background: #f4f7fb;
+  color: #52647a;
+}
+
+.datos-demo h3 {
+  color: #183153;
+  font-size: 14px;
+  margin: 0 0 12px;
+}
+
+.datos-demo p {
+  font-size: 13px;
+  margin: 7px 0;
+}
+
+.datos-demo small {
+  display: block;
+  margin-top: 12px;
+  line-height: 1.5;
+  font-size: 11px;
+}
+
+/* Adaptación a tablets */
+@media (max-width: 850px) {
+  .login-contenedor {
+    max-width: 550px;
+    grid-template-columns: 1fr;
+  }
+
+  .panel-informativo {
+    min-height: auto;
+    padding: 32px;
+  }
+
+  .descripcion,
+  .linea,
+  .texto-inferior {
+    display: none;
+  }
+
+  .panel-formulario {
+    padding: 36px 26px;
+  }
+}
+
+/* Adaptación a móviles */
+@media (max-width: 480px) {
+  .login-pagina {
+    padding: 12px;
+  }
+
+  .panel-informativo {
+    padding: 24px 16px;
+  }
+
+  .panel-informativo h1 {
+    font-size: 24px;
+  }
+
+  .panel-formulario {
+    padding: 28px 18px;
+  }
+
+  .formulario-contenido h2 {
+    font-size: 25px;
+  }
+}

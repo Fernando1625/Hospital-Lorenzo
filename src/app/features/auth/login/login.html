@@ -1,1 +1,157 @@
-<p>login works!</p>
+
+<section class="login-pagina">
+
+  <div class="login-contenedor">
+
+    <!-- Panel informativo -->
+    <div class="panel-informativo">
+
+      <div class="logo-hospital">
+        <span class="simbolo-hospital">+</span>
+      </div>
+
+      <h1>Hospital-Lorenzo</h1>
+
+      <p class="subtitulo">
+        Sistema de Gestión Hospitalaria
+      </p>
+
+      <div class="linea"></div>
+
+      <p class="descripcion">
+        Plataforma para la administración de pacientes,
+        médicos, citas e historiales clínicos.
+      </p>
+
+      <p class="texto-inferior">
+        Prototipo académico
+      </p>
+
+    </div>
+
+    <!-- Panel del formulario -->
+    <div class="panel-formulario">
+
+      <div class="formulario-contenido">
+
+        <h2>Bienvenido</h2>
+
+        <p class="mensaje-bienvenida">
+          Ingrese sus credenciales para continuar.
+        </p>
+
+        <form
+          [formGroup]="formulario"
+          (ngSubmit)="iniciarSesion()">
+
+          <!-- Nombre de usuario -->
+          <div class="campo">
+
+            <label for="nombreUsuario">
+              Nombre de usuario
+            </label>
+
+            <input
+              id="nombreUsuario"
+              type="text"
+              formControlName="nombreUsuario"
+              placeholder="Ingrese su usuario"
+              autocomplete="username">
+
+            @if (
+              formulario.controls.nombreUsuario.invalid &&
+              formulario.controls.nombreUsuario.touched
+            ) {
+              <small class="error-campo">
+                Ingrese un usuario válido.
+              </small>
+            }
+
+          </div>
+
+          <!-- Contraseña -->
+          <div class="campo">
+
+            <label for="contrasena">
+              Contraseña
+            </label>
+
+            <div class="contenedor-contrasena">
+
+              <input
+                id="contrasena"
+                [type]="mostrarContrasena() ? 'text' : 'password'"
+                formControlName="contrasena"
+                placeholder="Ingrese su contraseña"
+                autocomplete="current-password">
+
+              <button
+                type="button"
+                class="btn-mostrar"
+                [attr.aria-label]="
+                  mostrarContrasena()
+                    ? 'Ocultar contraseña'
+                    : 'Mostrar contraseña'
+                "
+                (click)="alternarContrasena()">
+
+                {{ mostrarContrasena() ? 'Ocultar' : 'Mostrar' }}
+
+              </button>
+
+            </div>
+
+            @if (
+              formulario.controls.contrasena.invalid &&
+              formulario.controls.contrasena.touched
+            ) {
+              <small class="error-campo">
+                La contraseña es obligatoria.
+              </small>
+            }
+
+          </div>
+
+          <!-- Errores de ingreso -->
+          @if (mensajeError) {
+
+            <div class="mensaje-error" role="alert">
+              {{ mensajeError }}
+            </div>
+
+          }
+
+          <!-- Botón de ingreso -->
+          <button type="submit" class="btn-ingresar">
+            Iniciar sesión
+          </button>
+
+        </form>
+
+        <!-- Información para pruebas -->
+        <div class="datos-demo">
+
+          <h3>Acceso de demostración</h3>
+
+          <p>
+            <strong>Usuario:</strong> admin
+          </p>
+
+          <p>
+            <strong>Contraseña:</strong> demo1234
+          </p>
+
+          <small>
+            Estas credenciales son ficticias y
+            funcionan únicamente en el prototipo.
+          </small>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>

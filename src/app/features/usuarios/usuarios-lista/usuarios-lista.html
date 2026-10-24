@@ -99,6 +99,7 @@
                 </span>
               </td>
 
+              <!-- Estado del usuario -->
               <td>
                 <span
                   class="estado"
@@ -108,12 +109,26 @@
                   {{ usuario.estado ? 'Activo' : 'Inactivo' }}
                 </span>
               </td>
+
               <!-- Acciones -->
+
               <td>
                 <div class="acciones">
+                  <!-- Editar usuario -->
                   <a [routerLink]="['/usuarios', usuario.id, 'editar']" class="btn-editar">
                     Editar
                   </a>
+
+                  <!-- Activar o desactivar usuario -->
+                  <button
+                    type="button"
+                    class="btn-estado"
+                    [class.btn-desactivar]="usuario.estado"
+                    [class.btn-activar]="!usuario.estado"
+                    (click)="solicitarCambioEstado(usuario)"
+                  >
+                    {{ usuario.estado ? 'Desactivar' : 'Activar' }}
+                  </button>
                 </div>
               </td>
             </tr>
@@ -132,3 +147,35 @@
     </p>
   </div>
 </section>
+
+<!-- Mensaje de operación completada -->
+@if (mensajeOperacion) {
+  <p class="mensaje-operacion" role="status">
+    {{ mensajeOperacion }}
+  </p>
+}
+
+<!-- Mensaje de error -->
+@if (errorOperacion) {
+  <p class="mensaje-error" role="alert">
+    {{ errorOperacion }}
+  </p>
+}
+
+<!-- Confirmación del cambio de estado -->
+@if (usuarioSeleccionado; as usuario) {
+  <app-confirm-dialog
+    titulo="Confirmar cambio de estado"
+    [mensaje]="
+      '¿Deseas ' +
+      (usuario.estado ? 'desactivar' : 'activar') +
+      ' la cuenta ' +
+      usuario.nombreUsuario +
+      '?'
+    "
+    [textoConfirmar]="usuario.estado ? 'Desactivar' : 'Activar'"
+    (confirmado)="confirmarCambioEstado()"
+    (cancelado)="cancelarCambioEstado()"
+  >
+  </app-confirm-dialog>
+}
