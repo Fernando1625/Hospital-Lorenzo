@@ -1,0 +1,295 @@
+
+/* Contenedor principal */
+.factura-formulario {
+  color: #183153;
+}
+
+/* Encabezado */
+.encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.encabezado h1 {
+  margin: 0 0 8px;
+  font-size: 28px;
+}
+
+.encabezado p {
+  margin: 0;
+  color: #52647a;
+}
+
+/* Tarjetas */
+.tarjeta {
+  background: white;
+  border: 1px solid #e1e7ef;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 22px;
+}
+
+.tarjeta h2 {
+  margin: 0 0 18px;
+  font-size: 20px;
+}
+
+.tarjeta p {
+  color: #52647a;
+  font-size: 14px;
+}
+
+/* Campo de paciente */
+.campos-paciente {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 550px;
+}
+
+.campo label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.campo select {
+  padding: 12px;
+  border: 1px solid #a7b4c5;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #183153;
+  background: #ffffff;
+}
+
+/* Información del paciente */
+.datos-paciente {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  background: #f4f7fb;
+  padding: 18px;
+  border-radius: 8px;
+}
+
+.datos-paciente > div {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.datos-paciente span {
+  color: #52647a;
+  font-size: 13px;
+}
+
+.datos-paciente strong {
+  font-size: 14px;
+}
+
+/* Cabecera de conceptos */
+.titulo-seccion {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.titulo-seccion h2 {
+  margin: 0 0 6px;
+}
+
+.titulo-seccion p {
+  margin: 0;
+}
+
+/* Tabla de conceptos */
+.tabla-contenedor {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  min-width: 690px;
+}
+
+th,
+td {
+  padding: 12px;
+  border-bottom: 1px solid #e1e7ef;
+  font-size: 14px;
+  vertical-align: middle;
+}
+
+th {
+  background: #f4f7fb;
+  color: #52647a;
+  font-weight: 600;
+}
+
+td input {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 180px;
+  padding: 10px;
+  border: 1px solid #a7b4c5;
+  border-radius: 7px;
+  color: #183153;
+  background: white;
+  font-size: 14px;
+}
+
+td input.input-numero {
+  min-width: 70px;
+  width: 90px;
+}
+
+td input.input-precio {
+  min-width: 110px;
+  width: 130px;
+}
+
+.subtotal-fila {
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* Resumen */
+.resumen {
+  max-width: 440px;
+  margin-left: auto;
+}
+
+.resumen > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 12px 0;
+}
+
+.resumen span {
+  color: #52647a;
+  font-size: 14px;
+}
+
+.resumen strong {
+  white-space: nowrap;
+}
+
+.resumen .total-final {
+  border-top: 2px solid #e1e7ef;
+  margin-top: 8px;
+  padding-top: 18px;
+}
+
+.total-final span,
+.total-final strong {
+  color: #1763ac;
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.nota {
+  margin: 24px 0 0;
+  padding: 12px;
+  border-radius: 8px;
+  background: #f4f7fb;
+  line-height: 1.6;
+}
+
+/* Botones */
+.btn-volver,
+.btn-cancelar,
+.btn-agregar,
+.btn-guardar,
+.btn-eliminar {
+  display: inline-block;
+  padding: 11px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn-volver,
+.btn-cancelar {
+  background: #e8edf3;
+  color: #183153;
+  border: none;
+}
+
+.btn-agregar,
+.btn-guardar {
+  background: #1763ac;
+  color: white;
+  border: none;
+}
+
+.btn-eliminar {
+  background: #fff0ef;
+  color: #a32119;
+  border: none;
+}
+
+.btn-eliminar:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.acciones {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+
+.mensaje-error {
+  margin-bottom: 18px;
+  padding: 14px;
+  border-radius: 8px;
+  color: #a32119;
+  background: #fff0ef;
+}
+
+/* Accesibilidad */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 3px solid #f59e0b;
+  outline-offset: 2px;
+}
+
+/* Móviles */
+@media (max-width: 700px) {
+  .tarjeta {
+    padding: 16px;
+  }
+
+  .datos-paciente {
+    grid-template-columns: 1fr;
+  }
+
+  .encabezado h1 {
+    font-size: 23px;
+  }
+
+  .resumen {
+    max-width: none;
+  }
+}

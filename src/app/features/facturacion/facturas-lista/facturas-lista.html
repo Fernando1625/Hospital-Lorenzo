@@ -1,1 +1,147 @@
-<p>facturas-lista works!</p>
+<section class="facturacion">
+  <!-- ENCABEZADO -->
+
+  <!-- ENCABEZADO -->
+  <div class="encabezado">
+    <div>
+      <h1>Gestión de facturación</h1>
+      <p>Consulta y seguimiento de facturas hospitalarias</p>
+    </div>
+
+    <!-- Abrir el formulario de una nueva factura -->
+    <a routerLink="/facturacion/nueva" class="btn-nueva-factura"> + Nueva factura </a>
+  </div>
+
+  <!-- INDICADORES -->
+  <div class="estadisticas">
+    <div class="tarjeta">
+      <span>Total de facturas</span>
+      <h2>{{ totalFacturas }}</h2>
+    </div>
+
+    <div class="tarjeta">
+      <span>Facturas pagadas</span>
+      <h2 class="valor-verde">{{ totalPagadas }}</h2>
+    </div>
+
+    <div class="tarjeta">
+      <span>Facturas pendientes</span>
+      <h2 class="valor-amarillo">{{ totalPendientes }}</h2>
+    </div>
+  </div>
+
+  <!-- RESUMEN DE IMPORTES -->
+  <div class="resumen-importes">
+    <div>
+      <span>Importe pagado (demostración)</span>
+
+      <strong class="valor-verde"> $ {{ montoPagado | number: '1.2-2' }} </strong>
+    </div>
+
+    <div>
+      <span>Importe pendiente (demostración)</span>
+
+      <strong class="valor-amarillo"> $ {{ montoPendiente | number: '1.2-2' }} </strong>
+    </div>
+  </div>
+
+  <!-- LISTADO -->
+  <div class="contenedor">
+    <div class="titulo-tabla">
+      <div>
+        <h2>Facturas registradas</h2>
+        <p>Listado de comprobantes ficticios.</p>
+      </div>
+    </div>
+
+    <!-- FILTROS -->
+    <div class="filtros">
+      <div class="campo-filtro">
+        <label for="buscarFactura"> Buscar factura </label>
+
+        <input
+          id="buscarFactura"
+          type="search"
+          placeholder="Número, paciente o cédula"
+          [(ngModel)]="busqueda"
+        />
+      </div>
+
+      <div class="campo-filtro">
+        <label for="filtroEstadoFactura"> Estado </label>
+
+        <select id="filtroEstadoFactura" [(ngModel)]="filtroEstado">
+          <option value="todos">Todos los estados</option>
+
+          @for (estado of estados; track estado) {
+            <option [value]="estado">
+              {{ estado }}
+            </option>
+          }
+        </select>
+      </div>
+    </div>
+
+    <!-- TABLA DE FACTURAS -->
+    <div class="tabla-contenedor">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Número</th>
+            <th scope="col">Fecha</th>
+            <th scope="col">Paciente</th>
+            <th scope="col">Descripción</th>
+            <th scope="col">Total</th>
+            <th scope="col">Estado</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @for (factura of facturasFiltradas; track factura.id) {
+            <tr>
+              <td class="numero-factura">
+                {{ factura.numero }}
+              </td>
+
+              <td>
+                {{ formatearFecha(factura.fechaEmision) }}
+              </td>
+
+              <td>
+                <div class="paciente-info">
+                  <strong>{{ factura.pacienteNombre }}</strong>
+                  <span>{{ factura.pacienteCedula }}</span>
+                </div>
+              </td>
+
+              <td>
+                {{ factura.descripcion }}
+              </td>
+
+              <td class="monto">$ {{ factura.total | number: '1.2-2' }}</td>
+
+              <td>
+                <span
+                  class="estado"
+                  [class.estado-pagada]="factura.estado === 'Pagada'"
+                  [class.estado-pendiente]="factura.estado === 'Pendiente'"
+                  [class.estado-anulada]="factura.estado === 'Anulada'"
+                >
+                  {{ factura.estado }}
+                </span>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="6" class="sin-resultados">
+                No se encontraron facturas con los filtros indicados.
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <p class="total-registros">Registros encontrados: {{ facturasFiltradas.length }}</p>
+  </div>
+</section>
