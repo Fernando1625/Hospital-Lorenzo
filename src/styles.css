@@ -1,1 +1,27 @@
-/* You can add global styles to this file, and also import other style files */
+
+/* ==========================================
+   ESTILOS GLOBALES - HOSPITAL LORENZO
+   ========================================== */
+
+html {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  margin: 0;
+  font-family: inherit;
+  background-color: #f5f7fb;
+  color: #183153;
+}
+
+/* Aplicar fuente a toda la interfaz */
+body,
+body * {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Mantener iconos tipográficos especiales */
+.material-icons,
+.material-symbols-outlined {
+  font-family: 'Material Icons', sans-serif;
+}

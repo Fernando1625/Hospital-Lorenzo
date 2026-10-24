@@ -47,6 +47,8 @@ export interface Factura {
   pacienteId: number;
   pacienteNombre: string;
   pacienteCedula: string;
+  // Atención clínica vinculada, si corresponde
+  atencionId?: number | null;
 
   descripcion: string;
   subtotal: number;
@@ -55,10 +57,13 @@ export interface Factura {
 
   estado: EstadoFactura;
 
-  // Detalles asociados al comprobante
+  // Conceptos y pagos del comprobante
   detalles?: DetalleFactura[];
-  // Historial de pagos del comprobante
   pagos?: PagoFactura[];
+
+  // Información de anulación del comprobante
+  motivoAnulacion?: string;
+  fechaAnulacion?: string;
 }
 
 /**

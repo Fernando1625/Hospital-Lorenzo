@@ -308,4 +308,65 @@ export class FacturasService {
 
     return true;
   }
+
+  /**
+   * Anular un comprobante interno de demostración.
+   *
+   * Solo permite facturas pendientes y sin pagos.
+   * Conserva el registro para posteriores consultas.
+   */
+  anularFactura(id: number, motivo: string): boolean {
+    // Consultar el comprobante
+    const factura = this.obtenerFacturaPorId(id);
+
+    if (!factura) {
+      return false;
+    }
+
+    // Solo se pueden anular facturas pendientes
+    if (factura.estado !== 'Pendiente') {
+      return false;
+    }
+
+    // No anular un comprobante con pagos registrados
+    if ((factura.pagos ?? []).length > 0) {
+      return false;
+    }
+
+    // Validar el motivo
+    const motivoLimpio = motivo.trim();
+
+    if (motivoLimpio.length < 10 || motivoLimpio.length > 300) {
+      return false;
+    }
+
+    // Registrar fecha y hora local
+    const ahora = new Date();
+
+    const anio = ahora.getFullYear();
+    const mes = String(ahora.getMonth() + 1).padStart(2, '0');
+    const dia = String(ahora.getDate()).padStart(2, '0');
+
+    const hora = String(ahora.getHours()).padStart(2, '0');
+    const minuto = String(ahora.getMinutes()).padStart(2, '0');
+    const segundo = String(ahora.getSeconds()).padStart(2, '0');
+
+    const fechaAnulacion = `${anio}-${mes}-${dia} ${hora}:${minuto}:${segundo}`;
+
+    // Actualizar estado y conservar el motivo
+    this.facturasSignal.update((facturas) =>
+      facturas.map((f) =>
+        f.id === id
+          ? {
+              ...f,
+              estado: 'Anulada' as const,
+              motivoAnulacion: motivoLimpio,
+              fechaAnulacion,
+            }
+          : f,
+      ),
+    );
+
+    return true;
+  }
 }

@@ -1,16 +1,50 @@
-.main-content {
+/* Contenedor general de la aplicación */
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #f5f7fb;
+}
+
+/* Sidebar y contenido en una misma fila */
+.layout-cuerpo {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  flex: 1;
+  min-height: 0;
+}
+
+/* Menú lateral */
+app-sidebar {
+  display: block;
+  flex: 0 0 250px;
+  width: 250px;
+  align-self: stretch;
+}
+
+/* Área donde Angular muestra las páginas */
+.layout-contenido {
   flex: 1;
   min-width: 0;
   padding: 24px;
-  background-color: #f5f7fb;
+  box-sizing: border-box;
+  background: #f5f7fb;
 }
 
+/* Adaptación a pantallas pequeñas */
 @media (max-width: 768px) {
-  .layout-body {
+  .layout-cuerpo {
     flex-direction: column;
   }
 
-  .main-content {
+  app-sidebar {
+    flex: none;
+    width: 100%;
+  }
+
+  .layout-contenido {
+    width: 100%;
     padding: 16px;
   }
 }

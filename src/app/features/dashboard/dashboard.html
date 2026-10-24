@@ -1,82 +1,203 @@
 <section class="dashboard">
-  <!-- Encabezado -->
-  <div class="dashboard-header">
-    <h1>Panel principal</h1>
-    <p>Bienvenido al sistema de gestión hospitalaria.</p>
+  <!-- ENCABEZADO DEL DASHBOARD -->
+  <div class="encabezado">
+    <div>
+      <h1>Panel principal</h1>
+
+      @if (usuarioActual(); as usuario) {
+        <p>
+          Bienvenido,
+          {{ usuario.nombres }} {{ usuario.apellidos }}. Resumen general del sistema hospitalario.
+        </p>
+      } @else {
+        <p>Resumen general del sistema hospitalario.</p>
+      }
+    </div>
   </div>
 
-  <!-- Indicadores -->
+  <!-- INDICADORES GENERALES -->
   <div class="estadisticas">
+    <!-- Pacientes -->
     <div class="tarjeta">
       <span>Pacientes registrados</span>
-      <h2>{{ totalPacientes }}</h2>
+      <h2>{{ totalPacientes() }}</h2>
+
+      <p>{{ pacientesActivos() }} activos</p>
     </div>
 
+    <!-- Médicos -->
     <div class="tarjeta">
       <span>Médicos activos</span>
-      <h2>{{ medicosActivos }}</h2>
+      <h2>{{ medicosActivos() }}</h2>
+
+      <p>De {{ totalMedicos() }} registrados</p>
     </div>
 
+    <!-- Citas -->
     <div class="tarjeta">
-      <span>Citas de hoy</span>
-      <h2>{{ citasHoy }}</h2>
+      <span>Citas programadas</span>
+      <h2>{{ citasProgramadas() }}</h2>
+
+      <p>De {{ totalCitas() }} citas registradas</p>
     </div>
 
+    <!-- Facturación -->
     <div class="tarjeta">
-      <span>Citas pendientes</span>
-      <h2>{{ citasPendientes }}</h2>
+      <span>Facturas pendientes</span>
+      <h2>{{ facturasPendientes() }}</h2>
+
+      <p>De {{ totalFacturas() }} comprobantes</p>
     </div>
   </div>
 
-  <!-- Accesos rápidos -->
-  <div class="seccion">
-    <h2>Accesos rápidos</h2>
+  <!-- RESÚMENES DE LOS MÓDULOS -->
+  <div class="paneles">
+    <!-- Resumen de citas -->
+    <div class="panel">
+      <div class="panel-encabezado">
+        <h2>Resumen de citas médicas</h2>
+        <p>Distribución por estado</p>
+      </div>
 
-    <div class="accesos">
-      <a routerLink="/pacientes/nuevo"> Registrar paciente </a>
+      <div class="filas">
+        <div class="fila">
+          <span>Programadas</span>
+          <strong>{{ citasProgramadas() }}</strong>
+        </div>
 
-      <a routerLink="/citas/nueva"> Programar cita </a>
+        <div class="fila">
+          <span>Confirmadas</span>
+          <strong>{{ citasConfirmadas() }}</strong>
+        </div>
 
-      <a routerLink="/medicos"> Consultar médicos </a>
+        <div class="fila">
+          <span>En atención</span>
+          <strong>{{ citasEnAtencion() }}</strong>
+        </div>
 
-      <a routerLink="/facturacion"> Facturación </a>
+        <div class="fila">
+          <span>Atendidas</span>
+          <strong>{{ citasAtendidas() }}</strong>
+        </div>
+
+        <div class="fila">
+          <span>Canceladas</span>
+          <strong>{{ citasCanceladas() }}</strong>
+        </div>
+
+        <div class="fila">
+          <span>No asistieron</span>
+          <strong>{{ citasNoAsistio() }}</strong>
+        </div>
+      </div>
+
+      @if (
+        usuarioActual()?.rol === 'Administrador' ||
+        usuarioActual()?.rol === 'Médico' ||
+        usuarioActual()?.rol === 'Recepción'
+      ) {
+        <a routerLink="/citas" class="enlace-modulo"> Ver gestión de citas </a>
+      }
+    </div>
+
+    <!-- Resumen de facturación -->
+    <div class="panel">
+      <div class="panel-encabezado">
+        <h2>Resumen de facturación</h2>
+        <p>Comprobantes internos de demostración</p>
+      </div>
+
+      <div class="filas">
+        <div class="fila">
+          <span>Total de facturas</span>
+          <strong>{{ totalFacturas() }}</strong>
+        </div>
+
+        <div class="fila">
+          <span>Pagadas</span>
+          <strong class="valor-verde">
+            {{ facturasPagadas() }}
+          </strong>
+        </div>
+
+        <div class="fila">
+          <span>Pendientes</span>
+          <strong class="valor-amarillo">
+            {{ facturasPendientes() }}
+          </strong>
+        </div>
+
+        <div class="fila">
+          <span>Anuladas</span>
+          <strong class="valor-rojo">
+            {{ facturasAnuladas() }}
+          </strong>
+        </div>
+      </div>
+
+      <div class="importes">
+        <div>
+          <span>Importe pagado</span>
+
+          <strong class="valor-verde"> $ {{ montoPagado() | number: '1.2-2' }} </strong>
+        </div>
+
+        <div>
+          <span>Importe pendiente</span>
+
+          <strong class="valor-amarillo"> $ {{ montoPendiente() | number: '1.2-2' }} </strong>
+        </div>
+      </div>
+
+      @if (usuarioActual()?.rol === 'Administrador' || usuarioActual()?.rol === 'Facturación') {
+        <a routerLink="/facturacion" class="enlace-modulo"> Ver gestión de facturación </a>
+      }
     </div>
   </div>
 
-  <!-- Listado de citas -->
-  <div class="seccion">
-    <h2>Próximas citas</h2>
+  <!-- ACCESOS DIRECTOS -->
+  @if (usuarioActual(); as usuario) {
+    <div class="panel accesos">
+      <div class="panel-encabezado">
+        <h2>Accesos rápidos</h2>
+        <p>Ir a los módulos del hospital</p>
+      </div>
 
-    <div class="tabla-contenedor">
-      <table>
-        <thead>
-          <tr>
-            <th scope="col">Paciente</th>
-            <th scope="col">Médico</th>
-            <th scope="col">Hora</th>
-            <th scope="col">Estado</th>
-          </tr>
-        </thead>
+      <div class="accesos-grid">
+        @if (
+          usuario.rol === 'Administrador' || usuario.rol === 'Médico' || usuario.rol === 'Recepción'
+        ) {
+          <a routerLink="/pacientes" class="acceso"> Pacientes </a>
+        }
 
-        <tbody>
-          @for (cita of proximasCitas; track $index) {
-            <tr>
-              <td>{{ cita.paciente }}</td>
-              <td>{{ cita.medico }}</td>
-              <td>{{ cita.hora }}</td>
-              <td>
-                <span
-                  class="estado"
-                  [class.confirmada]="cita.estado === 'Confirmada'"
-                  [class.pendiente]="cita.estado === 'Pendiente'"
-                >
-                  {{ cita.estado }}
-                </span>
-              </td>
-            </tr>
-          }
-        </tbody>
-      </table>
+        @if (usuario.rol === 'Administrador' || usuario.rol === 'Recepción') {
+          <a routerLink="/medicos" class="acceso"> Médicos </a>
+        }
+
+        @if (
+          usuario.rol === 'Administrador' || usuario.rol === 'Médico' || usuario.rol === 'Recepción'
+        ) {
+          <a routerLink="/citas" class="acceso"> Citas médicas </a>
+        }
+
+        @if (usuario.rol === 'Administrador' || usuario.rol === 'Médico') {
+          <a routerLink="/historial" class="acceso"> Historial clínico </a>
+        }
+
+        @if (usuario.rol === 'Administrador') {
+          <a routerLink="/usuarios" class="acceso"> Gestión de usuarios </a>
+        }
+
+        @if (usuario.rol === 'Administrador' || usuario.rol === 'Facturación') {
+          <a routerLink="/facturacion" class="acceso"> Facturación </a>
+        }
+      </div>
     </div>
-  </div>
+  }
+
+  <!-- NOTA DEL PROTOTIPO -->
+  <p class="nota">
+    Los indicadores utilizan los registros disponibles en memoria. Los datos y operaciones de
+    facturación son de demostración.
+  </p>
 </section>
