@@ -1,64 +1,71 @@
 
-<aside class="sidebar-hospital">
+<aside class="sidebar">
 
-  <div class="sidebar-header">
-    <h2>Menú principal</h2>
-    <p>Gestión hospitalaria</p>
+  <!-- Encabezado del menú -->
+  <div class="sidebar-encabezado">
+    <span class="etiqueta-menu">NAVEGACIÓN</span>
   </div>
 
-  <nav class="sidebar-menu" aria-label="Navegación principal">
+  <!-- Opciones de navegación -->
+  <nav
+    class="sidebar-navegacion"
+    aria-label="Menú principal del hospital">
 
-    <!-- Dashboard -->
-    <a routerLink="/dashboard"
-       routerLinkActive="activo"
-       [routerLinkActiveOptions]="{ exact: true }">
-      <span class="icono" aria-hidden="true">▦</span>
-      <span>Dashboard</span>
-    </a>
+    @for (opcion of opcionesVisibles(); track opcion.ruta) {
 
-    <!-- Pacientes -->
-    <a routerLink="/pacientes"
-       routerLinkActive="activo">
-      <span class="icono" aria-hidden="true">👥</span>
-      <span>Pacientes</span>
-    </a>
+      <a
+        [routerLink]="opcion.ruta"
+        routerLinkActive="activo"
+        class="opcion-menu">
 
-    <!-- Médicos -->
-    <a routerLink="/medicos"
-       routerLinkActive="activo">
-      <span class="icono" aria-hidden="true">🩺</span>
-      <span>Médicos</span>
-    </a>
+        <span class="opcion-icono" aria-hidden="true">
+          {{ opcion.icono }}
+        </span>
 
-    <!-- Citas -->
-    <a routerLink="/citas"
-       routerLinkActive="activo">
-      <span class="icono" aria-hidden="true">📅</span>
-      <span>Citas médicas</span>
-    </a>
+        <span class="opcion-texto">
+          {{ opcion.titulo }}
+        </span>
 
-    <!-- Historial -->
-    <a routerLink="/historial"
-       routerLinkActive="activo">
-      <span class="icono" aria-hidden="true">📋</span>
-      <span>Historial clínico</span>
-    </a>
+      </a>
 
-    <!-- Usuarios -->
-    <a routerLink="/usuarios"
-       routerLinkActive="activo">
-      <span class="icono" aria-hidden="true">⚙️</span>
-      <span>Usuarios</span>
-    </a>
+    } @empty {
 
-    <!-- Facturación -->
-    <a routerLink="/facturacion"
-       routerLinkActive="activo">
-      <span class="icono" aria-hidden="true">🧾</span>
-      <span>Facturación</span>
-    </a>
+      <div class="sin-sesion">
+
+        <p>No hay una sesión de demostración activa.</p>
+
+        <p>
+          Inicie sesión para visualizar las opciones
+          correspondientes a su rol.
+        </p>
+
+        <a routerLink="/login" class="enlace-login">
+          Ir al inicio de sesión
+        </a>
+
+      </div>
+
+    }
 
   </nav>
 
-</aside>
+  <!-- Información inferior -->
+  <div class="sidebar-pie">
 
+    @if (usuarioActual(); as usuario) {
+
+      <span>Rol actual</span>
+
+      <strong>{{ usuario.rol }}</strong>
+
+    } @else {
+
+      <span>Hospital-Lorenzo</span>
+
+      <strong>Sin sesión</strong>
+
+    }
+
+  </div>
+
+</aside>
