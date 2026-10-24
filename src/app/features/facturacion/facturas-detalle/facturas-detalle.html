@@ -1,44 +1,31 @@
-
 <section class="factura-detalle">
-
-  <!-- Encabezado de la pantalla -->
+  <!-- ENCABEZADO -->
   <div class="encabezado">
-
     <div>
       <h1>Detalle de factura</h1>
-      <p>Consulta de un comprobante hospitalario</p>
+      <p>Consulta y seguimiento de comprobantes</p>
     </div>
 
-    <a routerLink="/facturacion" class="btn-volver">
-      Volver a facturación
-    </a>
-
+    <a routerLink="/facturacion" class="btn-volver"> Volver a facturación </a>
   </div>
 
-  <!-- Comprobar si existe la factura -->
-  @if (factura; as f) {
-
-    <!-- Encabezado del comprobante -->
+  <!-- FACTURA ENCONTRADA -->
+  @if (factura(); as f) {
+    <!-- INFORMACIÓN DEL COMPROBANTE -->
     <div class="tarjeta">
-
       <div class="cabecera-comprobante">
-
         <div>
           <h2>Hospital-Lorenzo</h2>
-          <p>
-            Comprobante interno de demostración
-          </p>
+          <p>Comprobante interno de demostración</p>
         </div>
 
         <div class="identificacion-factura">
           <span>Número de comprobante</span>
           <strong>{{ f.numero }}</strong>
         </div>
-
       </div>
 
       <div class="informacion-general">
-
         <div>
           <span>Fecha de registro</span>
           <strong>
@@ -53,24 +40,19 @@
             class="estado"
             [class.estado-pagada]="f.estado === 'Pagada'"
             [class.estado-pendiente]="f.estado === 'Pendiente'"
-            [class.estado-anulada]="f.estado === 'Anulada'">
-
+            [class.estado-anulada]="f.estado === 'Anulada'"
+          >
             {{ f.estado }}
-
           </strong>
         </div>
-
       </div>
-
     </div>
 
-    <!-- Datos del paciente -->
+    <!-- DATOS DEL PACIENTE -->
     <div class="tarjeta">
-
       <h2>Información del paciente</h2>
 
       <div class="informacion-general">
-
         <div>
           <span>Nombre completo</span>
           <strong>{{ f.pacienteNombre }}</strong>
@@ -80,22 +62,16 @@
           <span>Cédula o identificación</span>
           <strong>{{ f.pacienteCedula }}</strong>
         </div>
-
       </div>
-
     </div>
 
-    <!-- Conceptos -->
+    <!-- DETALLE DE CONCEPTOS -->
     <div class="tarjeta">
-
       <h2>Detalle de conceptos</h2>
 
       @if (tieneDetalles) {
-
         <div class="tabla-contenedor">
-
           <table>
-
             <thead>
               <tr>
                 <th scope="col">Descripción</th>
@@ -106,44 +82,24 @@
             </thead>
 
             <tbody>
-
               @for (detalle of detalles; track detalle.id) {
-
                 <tr>
+                  <td>{{ detalle.descripcion }}</td>
 
-                  <td>
-                    {{ detalle.descripcion }}
-                  </td>
+                  <td>{{ detalle.cantidad }}</td>
 
-                  <td>
-                    {{ detalle.cantidad }}
-                  </td>
+                  <td>$ {{ detalle.precioUnitario | number: '1.2-2' }}</td>
 
-                  <td>
-                    $ {{ detalle.precioUnitario | number:'1.2-2' }}
-                  </td>
-
-                  <td class="monto">
-                    $ {{ detalle.subtotal | number:'1.2-2' }}
-                  </td>
-
+                  <td class="monto">$ {{ detalle.subtotal | number: '1.2-2' }}</td>
                 </tr>
-
               }
-
             </tbody>
-
           </table>
-
         </div>
-
       } @else {
-
         <div class="detalle-no-disponible">
-
           <p>
-            Esta factura pertenece a los datos iniciales
-            de demostración y no dispone de un desglose
+            Esta factura pertenece a los datos iniciales de demostración y no tiene un desglose
             individual de conceptos.
           </p>
 
@@ -151,78 +107,166 @@
             <strong>Descripción registrada:</strong>
             {{ f.descripcion }}
           </p>
-
         </div>
-
       }
-
     </div>
 
-    <!-- Resumen de valores -->
+    <!-- RESUMEN -->
     <div class="tarjeta">
-
       <h2>Resumen del comprobante</h2>
 
       <div class="resumen">
-
         <div>
           <span>Subtotal</span>
-          <strong>
-            $ {{ f.subtotal | number:'1.2-2' }}
-          </strong>
+          <strong> $ {{ f.subtotal | number: '1.2-2' }} </strong>
         </div>
 
         <div>
           <span>Impuestos</span>
-          <strong>
-            No calculados en el prototipo
-          </strong>
+          <strong>No calculados en el prototipo</strong>
         </div>
 
         <div class="total-final">
           <span>Total referencial</span>
-          <strong>
-            $ {{ f.total | number:'1.2-2' }}
-          </strong>
+          <strong> $ {{ f.total | number: '1.2-2' }} </strong>
         </div>
-
       </div>
 
       <p class="nota">
-        Este documento es un registro académico de
-        demostración. No constituye una factura electrónica
-        autorizada ni un comprobante tributario válido.
+        Este comprobante es únicamente un registro académico. No constituye una factura electrónica
+        autorizada ni acredita un pago real.
       </p>
-
     </div>
 
-    <!-- Acciones -->
+    <!-- REGISTRAR PAGO -->
+    @if (puedeRegistrarPago) {
+      <div class="tarjeta">
+        <h2>Registrar pago</h2>
+
+        <p class="descripcion-pago">
+          Registre un pago ficticio por el valor total pendiente de este comprobante.
+        </p>
+
+        <form (ngSubmit)="registrarPago()">
+          <div class="campos-pago">
+            <!-- Forma de pago -->
+            <div class="campo-pago">
+              <label for="formaPago"> Forma de pago * </label>
+
+              <select id="formaPago" name="formaPago" [(ngModel)]="formaPago">
+                <option value="Efectivo">Efectivo</option>
+
+                <option value="Transferencia">Transferencia</option>
+
+                <option value="Tarjeta">Tarjeta</option>
+              </select>
+            </div>
+
+            <!-- Referencia de operación -->
+            @if (formaPago !== 'Efectivo') {
+              <div class="campo-pago">
+                <label for="referencia"> Referencia de operación * </label>
+
+                <input
+                  id="referencia"
+                  name="referencia"
+                  type="text"
+                  maxlength="80"
+                  [(ngModel)]="referencia"
+                  required
+                  placeholder="Ingrese la referencia"
+                />
+              </div>
+            }
+          </div>
+
+          <!-- Monto a registrar -->
+          <div class="monto-pago">
+            <span>Importe del pago</span>
+
+            <strong> $ {{ f.total | number: '1.2-2' }} </strong>
+          </div>
+
+          <p class="nota">
+            El importe corresponde al total del comprobante. Este formulario no procesa dinero real.
+          </p>
+
+          <div class="acciones-pago">
+            <button type="submit" class="btn-registrar-pago">Registrar pago</button>
+          </div>
+        </form>
+      </div>
+    }
+
+    <!-- RESULTADO DE LA OPERACIÓN -->
+    @if (mensajeOperacion) {
+      <p class="mensaje-exito" role="status">
+        {{ mensajeOperacion }}
+      </p>
+    }
+
+    @if (errorOperacion) {
+      <p class="mensaje-error" role="alert">
+        {{ errorOperacion }}
+      </p>
+    }
+
+    <!-- HISTORIAL DE PAGOS -->
+    <div class="tarjeta">
+      <h2>Historial de pagos</h2>
+
+      @if (pagos.length > 0) {
+        <div class="tabla-contenedor">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Fecha y hora</th>
+                <th scope="col">Forma de pago</th>
+                <th scope="col">Referencia</th>
+                <th scope="col">Importe</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              @for (pago of pagos; track pago.id) {
+                <tr>
+                  <td>
+                    {{ formatearFechaHora(pago.fechaPago) }}
+                  </td>
+
+                  <td>
+                    {{ pago.formaPago }}
+                  </td>
+
+                  <td>
+                    {{ pago.referencia ?? 'No aplica' }}
+                  </td>
+
+                  <td class="monto">$ {{ pago.monto | number: '1.2-2' }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      } @else {
+        <p class="sin-pagos">
+          No existen pagos registrados en el historial de demostración de esta factura.
+        </p>
+      }
+    </div>
+
+    <!-- ACCIONES -->
     <div class="acciones">
-
-      <a routerLink="/facturacion" class="btn-volver">
-        Regresar al listado
-      </a>
-
+      <a routerLink="/facturacion" class="btn-volver"> Regresar al listado </a>
     </div>
-
   } @else {
-
-    <!-- Factura inexistente -->
+    <!-- FACTURA INEXISTENTE -->
     <div class="tarjeta mensaje-no-encontrado" role="alert">
-
       <h2>Factura no encontrada</h2>
 
-      <p>
-        No existe un comprobante con el identificador
-        solicitado.
-      </p>
+      <p>No existe un comprobante con el identificador solicitado.</p>
 
-      <a routerLink="/facturacion" class="btn-volver">
-        Volver al listado de facturas
-      </a>
-
+      <a routerLink="/facturacion" class="btn-volver"> Volver al listado </a>
     </div>
-
   }
-
 </section>

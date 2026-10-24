@@ -1,6 +1,12 @@
 import { Injectable, inject, signal } from '@angular/core';
 
-import { Factura, DetalleFactura, NuevaFactura } from '../../shared/models/factura.model';
+import {
+  Factura,
+  DetalleFactura,
+  NuevaFactura,
+  NuevoPagoFactura,
+  PagoFactura,
+} from '../../shared/models/factura.model';
 
 import { PacientesService } from './pacientes';
 
@@ -209,6 +215,96 @@ export class FacturasService {
 
     // Agregar la factura al Signal
     this.facturasSignal.update((facturas) => [...facturas, nuevaFactura]);
+
+    return true;
+  }
+
+  /**
+   * Registrar un pago completo de demostración.
+   *
+   * No ejecuta transferencias, cobros bancarios
+   * ni operaciones tributarias reales.
+   */
+  registrarPago(datos: NuevoPagoFactura): boolean {
+    const factura = this.obtenerFacturaPorId(datos.facturaId);
+
+    // Solo se pueden pagar facturas pendientes
+    if (!factura || factura.estado !== 'Pendiente') {
+      return false;
+    }
+
+    // Evitar registrar un segundo pago
+    if ((factura.pagos ?? []).length > 0) {
+      return false;
+    }
+
+    // Validar la forma de pago
+    const formasPermitidas = ['Efectivo', 'Transferencia', 'Tarjeta'];
+
+    if (!formasPermitidas.includes(datos.formaPago)) {
+      return false;
+    }
+
+    const referencia = datos.referencia.trim();
+
+    // Transferencia y tarjeta necesitan referencia
+    if (datos.formaPago !== 'Efectivo' && referencia.length === 0) {
+      return false;
+    }
+
+    if (referencia.length > 80) {
+      return false;
+    }
+
+    // Comprobar que el importe sea válido
+    const montoCentavos = Math.round(factura.total * 100);
+
+    if (!Number.isSafeInteger(montoCentavos) || montoCentavos <= 0) {
+      return false;
+    }
+
+    // Generar el siguiente ID de pago
+    const idsPagos = this.facturasSignal()
+      .flatMap((f) => f.pagos ?? [])
+      .map((pago) => pago.id);
+
+    const nuevoId = Math.max(0, ...idsPagos) + 1;
+
+    // Fecha y hora local del registro
+    const ahora = new Date();
+
+    const anio = ahora.getFullYear();
+    const mes = String(ahora.getMonth() + 1).padStart(2, '0');
+    const dia = String(ahora.getDate()).padStart(2, '0');
+
+    const hora = String(ahora.getHours()).padStart(2, '0');
+    const minuto = String(ahora.getMinutes()).padStart(2, '0');
+    const segundo = String(ahora.getSeconds()).padStart(2, '0');
+
+    const fechaPago = `${anio}-${mes}-${dia} ${hora}:${minuto}:${segundo}`;
+
+    // Construir el pago ficticio
+    const nuevoPago: PagoFactura = {
+      id: nuevoId,
+      facturaId: factura.id,
+      fechaPago,
+      formaPago: datos.formaPago,
+      referencia: datos.formaPago === 'Efectivo' ? null : referencia,
+      monto: montoCentavos / 100,
+    };
+
+    // Registrar el pago y actualizar la factura juntos
+    this.facturasSignal.update((facturas) =>
+      facturas.map((f) =>
+        f.id === factura.id
+          ? {
+              ...f,
+              estado: 'Pagada' as const,
+              pagos: [...(f.pagos ?? []), nuevoPago],
+            }
+          : f,
+      ),
+    );
 
     return true;
   }

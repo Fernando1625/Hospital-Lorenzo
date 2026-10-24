@@ -1,6 +1,7 @@
 
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
 import {
@@ -8,67 +9,124 @@ import {
 } from '../../../core/services/facturas';
 
 import {
-  Factura,
-  DetalleFactura
+  DetalleFactura,
+  FormaPago,
+  PagoFactura
 } from '../../../shared/models/factura.model';
 
 @Component({
   selector: 'app-factura-detalle',
   standalone: true,
-  imports: [DecimalPipe, RouterLink],
+  imports: [DecimalPipe, FormsModule, RouterLink],
   templateUrl: './facturas-detalle.html',
   styleUrl: './facturas-detalle.css'
 })
 export class FacturaDetalle {
 
-  // Servicios necesarios
   private route = inject(ActivatedRoute);
   private facturasService = inject(FacturasService);
 
-  // Factura seleccionada
-  factura: Factura | undefined;
+  // Identificador de la factura recibido en la URL
+  private readonly facturaId = Number(
+    this.route.snapshot.paramMap.get('id')
+  );
 
-  // Indicar si se encontró el comprobante
-  facturaNoEncontrada = false;
+  // Consultar la factura directamente del Signal
+  readonly factura = computed(() => {
 
-  constructor() {
-
-    // Obtener el identificador desde la URL
-    const idParametro =
-      this.route.snapshot.paramMap.get('id');
-
-    const id = Number(idParametro);
-
-    // Validar el identificador recibido
     if (
-      idParametro === null ||
-      !Number.isInteger(id) ||
-      id <= 0
+      !Number.isInteger(this.facturaId) ||
+      this.facturaId <= 0
     ) {
-      this.facturaNoEncontrada = true;
-      return;
+      return undefined;
     }
 
-    // Buscar la factura en el servicio
-    this.factura =
-      this.facturasService.obtenerFacturaPorId(id);
+    // Leer el Signal para detectar sus actualizaciones
+    const facturas = this.facturasService.facturas();
 
-    if (!this.factura) {
-      this.facturaNoEncontrada = true;
-    }
-  }
+    return facturas.find(
+      factura => factura.id === this.facturaId
+    );
+  });
 
-  // Obtener conceptos disponibles
+  // Valores para registrar el pago
+  formaPago: FormaPago = 'Efectivo';
+  referencia = '';
+
+  // Mensajes de resultado
+  mensajeOperacion = '';
+  errorOperacion = '';
+
+  // Consultar los detalles del comprobante
   get detalles(): DetalleFactura[] {
-    return this.factura?.detalles ?? [];
+    return this.factura()?.detalles ?? [];
   }
 
-  // Saber si existen conceptos detallados
+  // Comprobar si tiene conceptos individuales
   get tieneDetalles(): boolean {
     return this.detalles.length > 0;
   }
 
-  // Mostrar fechas sin cambiar de zona horaria
+  // Historial de pagos disponibles
+  get pagos(): PagoFactura[] {
+    return this.factura()?.pagos ?? [];
+  }
+
+  // Determinar si se puede registrar un pago
+  get puedeRegistrarPago(): boolean {
+    const factura = this.factura();
+
+    return !!factura &&
+      factura.estado === 'Pendiente' &&
+      (factura.pagos ?? []).length === 0 &&
+      Number.isFinite(factura.total) &&
+      factura.total > 0;
+  }
+
+  // Registrar el pago completo de demostración
+  registrarPago(): void {
+
+    this.mensajeOperacion = '';
+    this.errorOperacion = '';
+
+    const factura = this.factura();
+
+    if (!factura || !this.puedeRegistrarPago) {
+      this.errorOperacion =
+        'La factura no está disponible para registrar pagos.';
+      return;
+    }
+
+    if (
+      this.formaPago !== 'Efectivo' &&
+      !this.referencia.trim()
+    ) {
+      this.errorOperacion =
+        'Ingrese la referencia de la operación.';
+      return;
+    }
+
+    const resultado = this.facturasService.registrarPago({
+      facturaId: factura.id,
+      formaPago: this.formaPago,
+      referencia: this.referencia
+    });
+
+    if (!resultado) {
+      this.errorOperacion =
+        'No fue posible registrar el pago. Revise los datos.';
+      return;
+    }
+
+    // Limpiar los controles después de guardar
+    this.formaPago = 'Efectivo';
+    this.referencia = '';
+
+    this.mensajeOperacion =
+      'Pago de demostración registrado correctamente.';
+  }
+
+  // Formatear fecha del comprobante
   formatearFecha(fecha: string): string {
 
     const partes = fecha.split('-');
@@ -80,5 +138,13 @@ export class FacturaDetalle {
     const [anio, mes, dia] = partes;
 
     return `${dia}/${mes}/${anio}`;
+  }
+
+  // Formatear fecha y hora del pago
+  formatearFechaHora(fecha: string): string {
+
+    const [fechaParte, horaParte] = fecha.split(' ');
+
+    return `${this.formatearFecha(fechaParte)} ${horaParte ?? ''}`;
   }
 }

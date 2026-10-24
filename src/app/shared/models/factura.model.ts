@@ -1,11 +1,27 @@
-
 /**
  * Estados referenciales del comprobante.
  */
-export type EstadoFactura =
-  | 'Pendiente'
-  | 'Pagada'
-  | 'Anulada';
+export type EstadoFactura = 'Pendiente' | 'Pagada' | 'Anulada';
+
+// Formas de pago admitidas por el prototipo
+export type FormaPago = 'Efectivo' | 'Transferencia' | 'Tarjeta';
+
+// Registro de un pago ficticio asociado a una factura
+export interface PagoFactura {
+  id: number;
+  facturaId: number;
+  fechaPago: string;
+  formaPago: FormaPago;
+  referencia: string | null;
+  monto: number;
+}
+
+// Datos que recibe el servicio para registrar un pago
+export interface NuevoPagoFactura {
+  facturaId: number;
+  formaPago: FormaPago;
+  referencia: string;
+}
 
 /**
  * Concepto registrado dentro de una factura.
@@ -41,6 +57,8 @@ export interface Factura {
 
   // Detalles asociados al comprobante
   detalles?: DetalleFactura[];
+  // Historial de pagos del comprobante
+  pagos?: PagoFactura[];
 }
 
 /**
