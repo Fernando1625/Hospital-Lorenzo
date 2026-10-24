@@ -1,28 +1,24 @@
-
 import { Component, inject, signal } from '@angular/core';
 
-import {
-  FormBuilder,
-  ReactiveFormsModule,
-  Validators
-} from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { Router } from '@angular/router';
 
 import { UsuariosService } from '../../../core/services/usuarios';
+import { SesionService } from '../../../core/services/sesion';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [ReactiveFormsModule],
   templateUrl: './login.html',
-  styleUrl: './login.css'
+  styleUrl: './login.css',
 })
 export class Login {
-
   private fb = inject(FormBuilder);
   private router = inject(Router);
   private usuariosService = inject(UsuariosService);
+  private sesionService = inject(SesionService);
 
   // Control visual de contraseña
   mostrarContrasena = signal(false);
@@ -35,34 +31,24 @@ export class Login {
 
   // Formulario reactivo
   formulario = this.fb.nonNullable.group({
+    nombreUsuario: ['', [Validators.required, Validators.minLength(4)]],
 
-    nombreUsuario: ['', [
-      Validators.required,
-      Validators.minLength(4)
-    ]],
-
-    contrasena: ['', [
-      Validators.required
-    ]]
-
+    contrasena: ['', [Validators.required]],
   });
 
   // Mostrar u ocultar contraseña
   alternarContrasena(): void {
-    this.mostrarContrasena.update(valor => !valor);
+    this.mostrarContrasena.update((valor) => !valor);
   }
 
   // Simular el ingreso al sistema
   iniciarSesion(): void {
-
     this.mensajeError = '';
 
     if (this.formulario.invalid) {
-
       this.formulario.markAllAsTouched();
 
-      this.mensajeError =
-        'Ingrese su nombre de usuario y contraseña.';
+      this.mensajeError = 'Ingrese su nombre de usuario y contraseña.';
 
       return;
     }
@@ -72,24 +58,20 @@ export class Login {
     const nombre = datos.nombreUsuario.trim().toLowerCase();
 
     // Buscar entre los usuarios ficticios
-    const usuario = this.usuariosService.usuarios()
-      .find(u =>
-        u.nombreUsuario.toLowerCase() === nombre
-      );
+    const usuario = this.usuariosService
+      .usuarios()
+      .find((u) => u.nombreUsuario.toLowerCase() === nombre);
 
-    if (
-      !usuario ||
-      !usuario.estado ||
-      datos.contrasena !== this.claveDemo
-    ) {
-
-      this.mensajeError =
-        'Credenciales de demostración incorrectas o usuario inactivo.';
+    if (!usuario || !usuario.estado || datos.contrasena !== this.claveDemo) {
+      this.mensajeError = 'Credenciales de demostración incorrectas o usuario inactivo.';
 
       return;
     }
 
-    // Acceso simulado: no se crea una sesión real
+    // Guardar el usuario de demostración seleccionado
+    this.sesionService.iniciarSesion(usuario);
+
+    // Navegar al panel principal
     this.router.navigate(['/dashboard']);
   }
 }

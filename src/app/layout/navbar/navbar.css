@@ -1,109 +1,144 @@
 
-.navbar-hospital {
+/* Barra superior del hospital */
+.navbar {
+  min-height: 76px;
+  padding: 14px 26px;
+  box-sizing: border-box;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 20px;
-  padding: 14px 24px;
-  background-color: #ffffff;
+
+  background: #ffffff;
   border-bottom: 1px solid #e1e7ef;
-  min-height: 76px;
+  color: #183153;
 }
 
+/* Identificación */
 .navbar-marca {
   display: flex;
   align-items: center;
   gap: 12px;
-  text-decoration: none;
-  color: #183153;
+  min-width: 0;
 }
 
-.navbar-logo {
+.logo-hospital {
+  width: 40px;
+  height: 40px;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
+
+  flex-shrink: 0;
   border-radius: 10px;
-  background-color: #1763ac;
-  color: white;
-  font-size: 32px;
-  font-weight: bold;
+
+  background: #1763ac;
+  color: #ffffff;
+  font-size: 30px;
+  font-weight: 700;
 }
 
-.navbar-titulo {
+.marca-textos,
+.usuario-datos {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 4px;
+  min-width: 0;
 }
 
-.navbar-titulo strong {
-  font-size: 18px;
+.marca-textos strong {
+  font-size: 16px;
 }
 
-.navbar-titulo small {
+.marca-textos span {
   font-size: 12px;
-  color: #52647a;
+  color: #64748b;
 }
 
+/* Información del usuario */
 .navbar-usuario {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 12px;
 }
 
-.usuario-info {
+.usuario-icono {
+  width: 38px;
+  height: 38px;
+
   display: flex;
-  flex-direction: column;
-  text-align: right;
-  gap: 3px;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+  border-radius: 50%;
+
+  background: #e8f0fa;
+  color: #1763ac;
+  font-weight: 700;
 }
 
-.usuario-info strong {
-  font-size: 14px;
-  color: #183153;
+.usuario-datos strong {
+  font-size: 13px;
+  overflow-wrap: anywhere;
 }
 
-.usuario-info small {
+.usuario-datos span {
   font-size: 12px;
-  color: #52647a;
+  color: #64748b;
 }
 
+/* Cerrar sesión */
 .btn-salir {
-  padding: 9px 16px;
-  background-color: #1763ac;
-  color: white;
-  border: none;
-  border-radius: 7px;
-  font-weight: 500;
+  padding: 10px 14px;
+  border: 1px solid #d3deeb;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #183153;
+  font-size: 13px;
+  font-weight: 600;
   cursor: pointer;
+  white-space: nowrap;
 }
 
 .btn-salir:hover {
-  background-color: #104c86;
+  background: #f0f5fa;
 }
 
-.btn-salir:focus-visible,
-.navbar-marca:focus-visible {
+.btn-salir:focus-visible {
   outline: 3px solid #f59e0b;
   outline-offset: 3px;
 }
 
-@media (max-width: 600px) {
-  .navbar-hospital {
-    padding: 12px;
+/* Pantallas pequeñas */
+@media (max-width: 700px) {
+  .navbar {
+    padding: 14px 16px;
     flex-wrap: wrap;
   }
 
-  .navbar-titulo small {
-    display: none;
+  .navbar-marca {
+    width: 100%;
   }
 
   .navbar-usuario {
-    gap: 10px;
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
+
+@media (max-width: 420px) {
+  .marca-textos span {
+    display: none;
   }
 
-  .usuario-info {
-    display: none;
+  .usuario-datos strong {
+    font-size: 12px;
+  }
+
+  .btn-salir {
+    padding: 9px 10px;
   }
 }
