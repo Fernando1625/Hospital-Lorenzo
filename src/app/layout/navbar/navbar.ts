@@ -1,15 +1,29 @@
-import { Component } from '@angular/core';
-import {RouterLink}  from '@angular/router';
+
+import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
+
+import { SesionService } from '../../core/services/sesion';
 
 @Component({
-  imports: [RouterLink],
   selector: 'app-navbar',
   standalone: true,
-  styleUrl: './navbar.css',
+  imports: [],
   templateUrl: './navbar.html',
+  styleUrl: './navbar.css'
 })
 export class Navbar {
-  //Datos temporales hasta implementar el login
-  nombreUsuario: string = "Administrador";
-  rolUsuario: string = "Usuario de prueba";
+
+  private router = inject(Router);
+  private sesionService = inject(SesionService);
+
+  // Usuario que inició sesión en el prototipo
+  usuarioActual = this.sesionService.usuarioActual;
+
+  // Cerrar la sesión temporal
+  cerrarSesion(): void {
+
+    this.sesionService.cerrarSesion();
+
+    this.router.navigate(['/login']);
+  }
 }
