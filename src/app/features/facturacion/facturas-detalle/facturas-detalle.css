@@ -1,0 +1,275 @@
+
+/* Pantalla de consulta de facturas */
+.factura-detalle {
+  color: #183153;
+}
+
+/* Encabezado */
+.encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.encabezado h1 {
+  margin: 0 0 8px;
+  font-size: 28px;
+}
+
+.encabezado p {
+  color: #52647a;
+  margin: 0;
+}
+
+/* Tarjetas */
+.tarjeta {
+  background: #ffffff;
+  border: 1px solid #e1e7ef;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 22px;
+}
+
+.tarjeta h2 {
+  margin: 0 0 22px;
+  font-size: 20px;
+}
+
+/* Identificación del comprobante */
+.cabecera-comprobante {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e1e7ef;
+}
+
+.cabecera-comprobante h2 {
+  margin: 0 0 8px;
+}
+
+.cabecera-comprobante p {
+  color: #52647a;
+  margin: 0;
+  font-size: 14px;
+}
+
+.identificacion-factura {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.identificacion-factura span {
+  color: #52647a;
+  font-size: 13px;
+}
+
+.identificacion-factura strong {
+  color: #1763ac;
+  font-size: 20px;
+}
+
+/* Información general */
+.informacion-general {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+  margin-top: 22px;
+}
+
+.informacion-general > div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  min-width: 0;
+}
+
+.informacion-general span {
+  color: #52647a;
+  font-size: 13px;
+}
+
+.informacion-general strong {
+  font-size: 15px;
+  overflow-wrap: anywhere;
+}
+
+/* Estados */
+.estado {
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 12px !important;
+}
+
+.estado-pagada {
+  background: #e2f4eb;
+  color: #176344;
+}
+
+.estado-pendiente {
+  background: #fff4dc;
+  color: #966212;
+}
+
+.estado-anulada {
+  background: #fff0ef;
+  color: #a32119;
+}
+
+/* Tabla de conceptos */
+.tabla-contenedor {
+  width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  min-width: 540px;
+}
+
+th,
+td {
+  border-bottom: 1px solid #e1e7ef;
+  padding: 14px;
+  font-size: 14px;
+}
+
+th {
+  background: #f4f7fb;
+  color: #52647a;
+}
+
+.monto {
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* Comprobantes antiguos sin desglose */
+.detalle-no-disponible {
+  padding: 18px;
+  border-radius: 8px;
+  background: #f4f7fb;
+}
+
+.detalle-no-disponible p {
+  color: #52647a;
+  margin: 0 0 12px;
+  line-height: 1.6;
+}
+
+.detalle-no-disponible p:last-child {
+  margin-bottom: 0;
+}
+
+/* Resumen de importes */
+.resumen {
+  max-width: 460px;
+  margin-left: auto;
+}
+
+.resumen > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 12px 0;
+}
+
+.resumen span {
+  color: #52647a;
+  font-size: 14px;
+}
+
+.resumen strong {
+  text-align: right;
+  font-size: 14px;
+}
+
+.total-final {
+  border-top: 2px solid #e1e7ef;
+  margin-top: 10px;
+  padding-top: 18px !important;
+}
+
+.total-final span,
+.total-final strong {
+  color: #1763ac;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+/* Nota informativa */
+.nota {
+  margin: 24px 0 0;
+  padding: 14px;
+  background: #f4f7fb;
+  border-radius: 8px;
+  color: #52647a;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* Acciones */
+.acciones {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 26px;
+}
+
+.btn-volver {
+  display: inline-block;
+  padding: 12px 18px;
+  background: #e8edf3;
+  color: #183153;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.btn-volver:hover {
+  background: #d7e1ec;
+}
+
+.btn-volver:focus-visible {
+  outline: 3px solid #f59e0b;
+  outline-offset: 3px;
+}
+
+/* Factura inexistente */
+.mensaje-no-encontrado p {
+  color: #52647a;
+  line-height: 1.6;
+}
+
+/* Pantallas pequeñas */
+@media (max-width: 700px) {
+
+  .tarjeta {
+    padding: 16px;
+  }
+
+  .encabezado h1 {
+    font-size: 23px;
+  }
+
+  .informacion-general {
+    grid-template-columns: 1fr;
+  }
+
+  .resumen {
+    max-width: none;
+  }
+
+  .resumen > div {
+    gap: 12px;
+  }
+}

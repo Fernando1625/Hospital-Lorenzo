@@ -1,1 +1,228 @@
-<p>facturas-detalle works!</p>
+
+<section class="factura-detalle">
+
+  <!-- Encabezado de la pantalla -->
+  <div class="encabezado">
+
+    <div>
+      <h1>Detalle de factura</h1>
+      <p>Consulta de un comprobante hospitalario</p>
+    </div>
+
+    <a routerLink="/facturacion" class="btn-volver">
+      Volver a facturación
+    </a>
+
+  </div>
+
+  <!-- Comprobar si existe la factura -->
+  @if (factura; as f) {
+
+    <!-- Encabezado del comprobante -->
+    <div class="tarjeta">
+
+      <div class="cabecera-comprobante">
+
+        <div>
+          <h2>Hospital-Lorenzo</h2>
+          <p>
+            Comprobante interno de demostración
+          </p>
+        </div>
+
+        <div class="identificacion-factura">
+          <span>Número de comprobante</span>
+          <strong>{{ f.numero }}</strong>
+        </div>
+
+      </div>
+
+      <div class="informacion-general">
+
+        <div>
+          <span>Fecha de registro</span>
+          <strong>
+            {{ formatearFecha(f.fechaEmision) }}
+          </strong>
+        </div>
+
+        <div>
+          <span>Estado</span>
+
+          <strong
+            class="estado"
+            [class.estado-pagada]="f.estado === 'Pagada'"
+            [class.estado-pendiente]="f.estado === 'Pendiente'"
+            [class.estado-anulada]="f.estado === 'Anulada'">
+
+            {{ f.estado }}
+
+          </strong>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Datos del paciente -->
+    <div class="tarjeta">
+
+      <h2>Información del paciente</h2>
+
+      <div class="informacion-general">
+
+        <div>
+          <span>Nombre completo</span>
+          <strong>{{ f.pacienteNombre }}</strong>
+        </div>
+
+        <div>
+          <span>Cédula o identificación</span>
+          <strong>{{ f.pacienteCedula }}</strong>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Conceptos -->
+    <div class="tarjeta">
+
+      <h2>Detalle de conceptos</h2>
+
+      @if (tieneDetalles) {
+
+        <div class="tabla-contenedor">
+
+          <table>
+
+            <thead>
+              <tr>
+                <th scope="col">Descripción</th>
+                <th scope="col">Cantidad</th>
+                <th scope="col">Precio unitario</th>
+                <th scope="col">Subtotal</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              @for (detalle of detalles; track detalle.id) {
+
+                <tr>
+
+                  <td>
+                    {{ detalle.descripcion }}
+                  </td>
+
+                  <td>
+                    {{ detalle.cantidad }}
+                  </td>
+
+                  <td>
+                    $ {{ detalle.precioUnitario | number:'1.2-2' }}
+                  </td>
+
+                  <td class="monto">
+                    $ {{ detalle.subtotal | number:'1.2-2' }}
+                  </td>
+
+                </tr>
+
+              }
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      } @else {
+
+        <div class="detalle-no-disponible">
+
+          <p>
+            Esta factura pertenece a los datos iniciales
+            de demostración y no dispone de un desglose
+            individual de conceptos.
+          </p>
+
+          <p>
+            <strong>Descripción registrada:</strong>
+            {{ f.descripcion }}
+          </p>
+
+        </div>
+
+      }
+
+    </div>
+
+    <!-- Resumen de valores -->
+    <div class="tarjeta">
+
+      <h2>Resumen del comprobante</h2>
+
+      <div class="resumen">
+
+        <div>
+          <span>Subtotal</span>
+          <strong>
+            $ {{ f.subtotal | number:'1.2-2' }}
+          </strong>
+        </div>
+
+        <div>
+          <span>Impuestos</span>
+          <strong>
+            No calculados en el prototipo
+          </strong>
+        </div>
+
+        <div class="total-final">
+          <span>Total referencial</span>
+          <strong>
+            $ {{ f.total | number:'1.2-2' }}
+          </strong>
+        </div>
+
+      </div>
+
+      <p class="nota">
+        Este documento es un registro académico de
+        demostración. No constituye una factura electrónica
+        autorizada ni un comprobante tributario válido.
+      </p>
+
+    </div>
+
+    <!-- Acciones -->
+    <div class="acciones">
+
+      <a routerLink="/facturacion" class="btn-volver">
+        Regresar al listado
+      </a>
+
+    </div>
+
+  } @else {
+
+    <!-- Factura inexistente -->
+    <div class="tarjeta mensaje-no-encontrado" role="alert">
+
+      <h2>Factura no encontrada</h2>
+
+      <p>
+        No existe un comprobante con el identificador
+        solicitado.
+      </p>
+
+      <a routerLink="/facturacion" class="btn-volver">
+        Volver al listado de facturas
+      </a>
+
+    </div>
+
+  }
+
+</section>

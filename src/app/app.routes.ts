@@ -228,7 +228,16 @@ export const routes: Routes = [
         path: 'facturacion/nueva',
         loadComponent: () =>
           import('./features/facturacion/facturas-formulario/facturas-formulario').then(
-            (m) => m.FacturaFormulario, 
+            (m) => m.FacturaFormulario,
+          ),
+      },
+
+      // Consultar el detalle de una factura
+      {
+        path: 'facturacion/:id',
+        loadComponent: () =>
+          import('./features/facturacion/facturas-detalle/facturas-detalle').then(
+            (m) => m.FacturaDetalle,
           ),
       },
     ],
