@@ -1,7 +1,5 @@
 <section class="facturacion">
   <!-- ENCABEZADO -->
-
-  <!-- ENCABEZADO -->
   <div class="encabezado">
     <div>
       <h1>Gestión de facturación</h1>
@@ -93,6 +91,7 @@
             <th scope="col">Descripción</th>
             <th scope="col">Total</th>
             <th scope="col">Estado</th>
+            <th scope="col">Acciones</th>
           </tr>
         </thead>
 
@@ -130,10 +129,17 @@
                   {{ factura.estado }}
                 </span>
               </td>
+
+              <!-- Consultar el detalle de la factura -->
+              <td>
+                <a [routerLink]="['/facturacion', factura.id]" class="btn-ver-factura">
+                  Ver factura
+                </a>
+              </td>
             </tr>
           } @empty {
             <tr>
-              <td colspan="6" class="sin-resultados">
+              <td colspan="7" class="sin-resultados">
                 No se encontraron facturas con los filtros indicados.
               </td>
             </tr>
