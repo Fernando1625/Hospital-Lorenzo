@@ -1,16 +1,11 @@
-
 import { Injectable, signal } from '@angular/core';
 
-import {
-  Usuario,
-  RolUsuario
-} from '../../shared/models/usuario.model';
+import { Usuario, RolUsuario } from '../../shared/models/usuario.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UsuariosService {
-
   // Datos ficticios del sistema
   private usuariosSignal = signal<Usuario[]>([
     {
@@ -20,7 +15,7 @@ export class UsuariosService {
       nombreUsuario: 'admin',
       correo: 'admin@hospital.example',
       rol: 'Administrador',
-      estado: true
+      estado: true,
     },
     {
       id: 2,
@@ -29,7 +24,7 @@ export class UsuariosService {
       nombreUsuario: 'medico01',
       correo: 'medico@hospital.example',
       rol: 'Médico',
-      estado: true
+      estado: true,
     },
     {
       id: 3,
@@ -38,7 +33,7 @@ export class UsuariosService {
       nombreUsuario: 'recepcion01',
       correo: 'recepcion@hospital.example',
       rol: 'Recepción',
-      estado: true
+      estado: true,
     },
     {
       id: 4,
@@ -47,8 +42,8 @@ export class UsuariosService {
       nombreUsuario: 'facturacion01',
       correo: 'facturacion@hospital.example',
       rol: 'Facturación',
-      estado: false
-    }
+      estado: false,
+    },
   ]);
 
   // Lista de usuarios de solo lectura
@@ -56,64 +51,43 @@ export class UsuariosService {
 
   // Buscar usuario por ID
   obtenerUsuarioPorId(id: number): Usuario | undefined {
-    return this.usuariosSignal().find(
-      usuario => usuario.id === id
-    );
+    return this.usuariosSignal().find((usuario) => usuario.id === id);
   }
 
   // Validar nombre de usuario duplicado
-  existeNombreUsuario(
-    nombreUsuario: string,
-    idExcluir?: number
-  ): boolean {
-
+  existeNombreUsuario(nombreUsuario: string, idExcluir?: number): boolean {
     const nombre = nombreUsuario.trim().toLowerCase();
 
-    return this.usuariosSignal().some(usuario =>
-      usuario.nombreUsuario.toLowerCase() === nombre &&
-      usuario.id !== idExcluir
+    return this.usuariosSignal().some(
+      (usuario) => usuario.nombreUsuario.toLowerCase() === nombre && usuario.id !== idExcluir,
     );
   }
 
   // Validar correo duplicado
-  existeCorreo(
-    correo: string,
-    idExcluir?: number
-  ): boolean {
-
+  existeCorreo(correo: string, idExcluir?: number): boolean {
     const correoNormalizado = correo.trim().toLowerCase();
 
-    return this.usuariosSignal().some(usuario =>
-      usuario.correo.toLowerCase() === correoNormalizado &&
-      usuario.id !== idExcluir
+    return this.usuariosSignal().some(
+      (usuario) => usuario.correo.toLowerCase() === correoNormalizado && usuario.id !== idExcluir,
     );
   }
 
   // Contar usuarios por rol
   contarPorRol(rol: RolUsuario): number {
-    return this.usuariosSignal().filter(
-      usuario => usuario.rol === rol
-    ).length;
+    return this.usuariosSignal().filter((usuario) => usuario.rol === rol).length;
   }
 
   // REGISTRAR UN NUEVO USUARIO
   registrarUsuario(datos: Omit<Usuario, 'id'>): boolean {
-
-    if (
-      this.existeNombreUsuario(datos.nombreUsuario) ||
-      this.existeCorreo(datos.correo)
-    ) {
+    if (this.existeNombreUsuario(datos.nombreUsuario) || this.existeCorreo(datos.correo)) {
       return false;
     }
 
     const usuariosActuales = this.usuariosSignal();
 
-    const nuevoId = Math.max(
-      0,
-      ...usuariosActuales.map(usuario => usuario.id)
-    ) + 1;
+    const nuevoId = Math.max(0, ...usuariosActuales.map((usuario) => usuario.id)) + 1;
 
-    this.usuariosSignal.update(usuarios => [
+    this.usuariosSignal.update((usuarios) => [
       ...usuarios,
       {
         ...datos,
@@ -121,35 +95,40 @@ export class UsuariosService {
         apellidos: datos.apellidos.trim(),
         nombreUsuario: datos.nombreUsuario.trim(),
         correo: datos.correo.trim().toLowerCase(),
-        id: nuevoId
-      }
+        id: nuevoId,
+      },
     ]);
 
     return true;
   }
 
   // ACTUALIZAR UN USUARIO EXISTENTE
-  actualizarUsuario(
-    id: number,
-    datos: Omit<Usuario, 'id'>
-  ): boolean {
-
+  actualizarUsuario(id: number, datos: Omit<Usuario, 'id'>): boolean {
     const usuarioActual = this.obtenerUsuarioPorId(id);
 
     if (!usuarioActual) {
       return false;
     }
 
-    // Evitar duplicados, excluyendo al usuario editado
+    
+    // Impedir dejar el sistema sin administradores activos
     if (
-      this.existeNombreUsuario(datos.nombreUsuario, id) ||
-      this.existeCorreo(datos.correo, id)
+      this.esUltimoAdministradorActivo(id) &&
+      (
+        datos.rol !== 'Administrador' ||
+        datos.estado === false
+      )
     ) {
       return false;
     }
+    
+    // Evitar duplicados, excluyendo al usuario editado
+    if (this.existeNombreUsuario(datos.nombreUsuario, id) || this.existeCorreo(datos.correo, id)) {
+      return false;
+    }
 
-    this.usuariosSignal.update(usuarios =>
-      usuarios.map(usuario =>
+    this.usuariosSignal.update((usuarios) =>
+      usuarios.map((usuario) =>
         usuario.id === id
           ? {
               ...datos,
@@ -157,10 +136,45 @@ export class UsuariosService {
               apellidos: datos.apellidos.trim(),
               nombreUsuario: datos.nombreUsuario.trim(),
               correo: datos.correo.trim().toLowerCase(),
-              id
+              id,
             }
-          : usuario
-      )
+          : usuario,
+      ),
+    );
+
+    return true;
+  }
+
+  // Comprobar si el usuario es el último administrador activo
+  esUltimoAdministradorActivo(id: number): boolean {
+    const usuario = this.obtenerUsuarioPorId(id);
+
+    if (!usuario || usuario.rol !== 'Administrador' || !usuario.estado) {
+      return false;
+    }
+
+    const administradoresActivos = this.usuariosSignal().filter(
+      (u) => u.rol === 'Administrador' && u.estado,
+    );
+
+    return administradoresActivos.length === 1;
+  }
+
+  // Activar o desactivar una cuenta de usuario
+  cambiarEstadoUsuario(id: number): boolean {
+    const usuario = this.obtenerUsuarioPorId(id);
+
+    if (!usuario) {
+      return false;
+    }
+
+    // Impedir desactivar al último administrador activo
+    if (this.esUltimoAdministradorActivo(id)) {
+      return false;
+    }
+
+    this.usuariosSignal.update((usuarios) =>
+      usuarios.map((u) => (u.id === id ? { ...u, estado: !u.estado } : u)),
     );
 
     return true;
