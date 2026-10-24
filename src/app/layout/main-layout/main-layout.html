@@ -1,15 +1,16 @@
-<div class = "hospital-layout">
+<!-- Contenedor general del sistema hospitalario -->
+<div class="layout">
+  <!-- Barra superior -->
+  <app-navbar></app-navbar>
 
-    <!-- Barra superior -->
-    <app-navbar></app-navbar>
-    <div class = layout-body>
+  <!-- Área principal: menú lateral + contenido -->
+  <div class="layout-cuerpo">
+    <!-- Menú lateral -->
+    <app-sidebar></app-sidebar>
 
-        <!-- Menu lateral -->
-        <app-sidebar></app-sidebar>
-
-        <!-- Contenido de cada modulo -->
-        <main class = "main-content">
-            <router-outlet></router-outlet>
-        </main>
-    </div>
+    <!-- Contenido del módulo seleccionado -->
+    <main class="layout-contenido">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
 </div>

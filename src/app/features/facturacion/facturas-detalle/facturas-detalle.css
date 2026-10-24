@@ -1,4 +1,3 @@
-
 /* Pantalla de consulta de facturas */
 .factura-detalle {
   color: #183153;
@@ -252,7 +251,6 @@ th {
 
 /* Pantallas pequeñas */
 @media (max-width: 700px) {
-
   .tarjeta {
     padding: 16px;
   }
@@ -271,5 +269,266 @@ th {
 
   .resumen > div {
     gap: 12px;
+  }
+}
+
+/* Descripción de la sección de pagos */
+.descripcion-pago {
+  color: #52647a;
+  font-size: 14px;
+  margin: 0 0 24px;
+  line-height: 1.6;
+}
+
+/* Campos para registrar pagos */
+.campos-pago {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.campo-pago {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.campo-pago label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #183153;
+}
+
+.campo-pago select,
+.campo-pago input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px;
+  border: 1px solid #a7b4c5;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #183153;
+  background: #ffffff;
+}
+
+/* Resumen del importe a pagar */
+.monto-pago {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+
+  padding: 18px;
+  border-radius: 8px;
+  background: #f4f7fb;
+}
+
+.monto-pago span {
+  color: #52647a;
+  font-size: 14px;
+}
+
+.monto-pago strong {
+  color: #1763ac;
+  font-size: 22px;
+  white-space: nowrap;
+}
+
+/* Botón Registrar pago */
+.acciones-pago {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 24px;
+}
+
+.btn-registrar-pago {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  background: #1763ac;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-registrar-pago:hover {
+  background: #104c86;
+}
+
+.btn-registrar-pago:focus-visible,
+.campo-pago input:focus-visible,
+.campo-pago select:focus-visible {
+  outline: 3px solid #f59e0b;
+  outline-offset: 3px;
+}
+
+/* Mensajes de las operaciones */
+.mensaje-exito,
+.mensaje-error {
+  padding: 14px 18px;
+  border-radius: 8px;
+  margin-bottom: 22px;
+  font-size: 14px;
+}
+
+.mensaje-exito {
+  background: #e2f4eb;
+  color: #176344;
+}
+
+.mensaje-error {
+  background: #fff0ef;
+  color: #a32119;
+}
+
+/* Historial sin registros */
+.sin-pagos {
+  color: #52647a;
+  padding: 16px;
+  margin: 0;
+  border-radius: 8px;
+  background: #f4f7fb;
+  line-height: 1.6;
+}
+
+/* Formulario adaptable */
+@media (max-width: 700px) {
+  .campos-pago {
+    grid-template-columns: 1fr;
+  }
+
+  .monto-pago {
+    flex-wrap: wrap;
+  }
+
+  .acciones-pago {
+    justify-content: stretch;
+  }
+
+  .btn-registrar-pago {
+    width: 100%;
+  }
+}
+
+/* Descripción de la anulación */
+.descripcion-anulacion {
+  color: #52647a;
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 0 0 22px;
+}
+
+/* Campo del motivo */
+.campo-anulacion {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.campo-anulacion label {
+  color: #183153;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.campo-anulacion textarea {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 110px;
+  padding: 12px;
+
+  border: 1px solid #a7b4c5;
+  border-radius: 8px;
+
+  background: #ffffff;
+  color: #183153;
+
+  font-size: 14px;
+  font-family: inherit;
+  resize: vertical;
+}
+
+.campo-anulacion small {
+  font-size: 12px;
+  color: #52647a;
+}
+
+.campo-anulacion textarea:focus-visible {
+  outline: 3px solid #b5d8fa;
+  border-color: #1763ac;
+}
+
+/* Botón de anulación */
+.acciones-anulacion {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 22px;
+}
+
+.btn-anular {
+  padding: 12px 18px;
+  border: none;
+  border-radius: 8px;
+
+  background: #a32119;
+  color: #ffffff;
+
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-anular:hover {
+  background: #801b15;
+}
+
+.btn-anular:focus-visible {
+  outline: 3px solid #f59e0b;
+  outline-offset: 3px;
+}
+
+/* Información de comprobantes anulados */
+.informacion-anulacion {
+  border-left: 4px solid #a32119;
+}
+
+.datos-anulacion {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.datos-anulacion > div {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.datos-anulacion span {
+  color: #52647a;
+  font-size: 13px;
+}
+
+.datos-anulacion strong {
+  color: #183153;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 700px) {
+  .datos-anulacion {
+    grid-template-columns: 1fr;
+  }
+
+  .acciones-anulacion {
+    justify-content: stretch;
+  }
+
+  .btn-anular {
+    width: 100%;
   }
 }
