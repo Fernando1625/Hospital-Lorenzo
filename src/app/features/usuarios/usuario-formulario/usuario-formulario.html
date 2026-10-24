@@ -1,1 +1,194 @@
-<p>usuario-formulario works!</p>
+
+<section class="usuario-formulario">
+
+  <!-- Encabezado -->
+  <div class="encabezado">
+
+    <div>
+      <h1>
+        {{ modoEdicion ? 'Editar usuario' : 'Registrar usuario' }}
+      </h1>
+
+      <p>
+        {{ modoEdicion
+          ? 'Actualización de los datos del usuario'
+          : 'Registro de un nuevo usuario del sistema' }}
+      </p>
+    </div>
+
+    <a routerLink="/usuarios" class="btn-volver">
+      Volver a usuarios
+    </a>
+
+  </div>
+
+  <!-- Usuario inexistente -->
+  @if (usuarioNoEncontrado) {
+
+    <div class="tarjeta" role="alert">
+      <h2>Usuario no encontrado</h2>
+
+      <p>
+        No existe un usuario con el identificador solicitado.
+      </p>
+
+      <a routerLink="/usuarios" class="btn-volver">
+        Volver al listado
+      </a>
+    </div>
+
+  } @else {
+
+    <!-- Formulario -->
+    <form
+      [formGroup]="formulario"
+      (ngSubmit)="guardarUsuario()"
+      class="tarjeta">
+
+      <h2>Datos del usuario</h2>
+
+      <p class="ayuda">
+        Complete los campos obligatorios (*).
+      </p>
+
+      <div class="campos">
+
+        <!-- Nombres -->
+        <div class="campo">
+          <label for="nombres">Nombres *</label>
+
+          <input
+            id="nombres"
+            type="text"
+            formControlName="nombres"
+            maxlength="60"
+            placeholder="Ingrese los nombres">
+
+          @if (
+            formulario.controls.nombres.invalid &&
+            formulario.controls.nombres.touched
+          ) {
+            <small class="error-campo">
+              Ingrese al menos 2 caracteres.
+            </small>
+          }
+        </div>
+
+        <!-- Apellidos -->
+        <div class="campo">
+          <label for="apellidos">Apellidos *</label>
+
+          <input
+            id="apellidos"
+            type="text"
+            formControlName="apellidos"
+            maxlength="60"
+            placeholder="Ingrese los apellidos">
+
+          @if (
+            formulario.controls.apellidos.invalid &&
+            formulario.controls.apellidos.touched
+          ) {
+            <small class="error-campo">
+              Ingrese al menos 2 caracteres.
+            </small>
+          }
+        </div>
+
+        <!-- Nombre de usuario -->
+        <div class="campo">
+          <label for="nombreUsuario">
+            Nombre de usuario *
+          </label>
+
+          <input
+            id="nombreUsuario"
+            type="text"
+            formControlName="nombreUsuario"
+            maxlength="30"
+            placeholder="Ej. medico01">
+
+          @if (
+            formulario.controls.nombreUsuario.invalid &&
+            formulario.controls.nombreUsuario.touched
+          ) {
+            <small class="error-campo">
+              Use de 4 a 30 caracteres: letras, números,
+              puntos, guiones o guiones bajos.
+            </small>
+          }
+        </div>
+
+        <!-- Correo -->
+        <div class="campo">
+          <label for="correo">Correo electrónico *</label>
+
+          <input
+            id="correo"
+            type="email"
+            formControlName="correo"
+            maxlength="120"
+            placeholder="usuario@hospital.example">
+
+          @if (
+            formulario.controls.correo.invalid &&
+            formulario.controls.correo.touched
+          ) {
+            <small class="error-campo">
+              Ingrese un correo electrónico válido.
+            </small>
+          }
+        </div>
+
+        <!-- Rol -->
+        <div class="campo">
+          <label for="rol">Rol *</label>
+
+          <select id="rol" formControlName="rol">
+
+            @for (rol of roles; track rol) {
+              <option [value]="rol">
+                {{ rol }}
+              </option>
+            }
+
+          </select>
+        </div>
+
+        <!-- Estado -->
+        <div class="campo">
+          <label for="estado">Estado del usuario</label>
+
+          <select id="estado" formControlName="estado">
+            <option [ngValue]="true">Activo</option>
+            <option [ngValue]="false">Inactivo</option>
+          </select>
+        </div>
+
+      </div>
+
+      <!-- Mensaje de error -->
+      @if (mensajeError) {
+        <div class="mensaje-error" role="alert">
+          {{ mensajeError }}
+        </div>
+      }
+
+      <!-- Botones -->
+      <div class="acciones">
+
+        <a routerLink="/usuarios" class="btn-cancelar">
+          Cancelar
+        </a>
+
+        <button type="submit" class="btn-guardar">
+          {{ modoEdicion ? 'Guardar cambios' : 'Registrar usuario' }}
+        </button>
+
+      </div>
+
+    </form>
+
+  }
+
+</section>

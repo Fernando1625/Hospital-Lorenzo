@@ -1,4 +1,3 @@
-
 .usuarios {
   color: #183153;
 }
@@ -187,4 +186,60 @@ td {
   .encabezado h1 {
     font-size: 23px;
   }
+}
+
+/* Encabezado con botón de registro */
+.encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+/* Botón Nuevo usuario */
+.btn-nuevo {
+  display: inline-block;
+  padding: 12px 18px;
+  background: #1763ac;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.btn-nuevo:hover {
+  background: #104c86;
+}
+
+/* Acciones de la tabla */
+.acciones {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+/* Botón Editar */
+.btn-editar {
+  display: inline-block;
+  padding: 8px 12px;
+  background: #edf4fb;
+  color: #14558f;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.btn-editar:hover {
+  background: #d8e8f8;
+}
+
+/* Navegación con teclado */
+.btn-nuevo:focus-visible,
+.btn-editar:focus-visible {
+  outline: 3px solid #f59e0b;
+  outline-offset: 2px;
 }

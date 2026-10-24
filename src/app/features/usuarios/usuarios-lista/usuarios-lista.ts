@@ -1,6 +1,7 @@
 
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 
 import { UsuariosService } from '../../../core/services/usuarios';
 
@@ -12,7 +13,7 @@ import {
 @Component({
   selector: 'app-usuarios-lista',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, RouterLink],
   templateUrl: './usuarios-lista.html',
   styleUrl: './usuarios-lista.css'
 })
