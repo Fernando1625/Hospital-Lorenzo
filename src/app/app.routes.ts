@@ -222,6 +222,15 @@ export const routes: Routes = [
             (m) => m.FacturasLista,
           ),
       },
+
+      // Registrar una nueva factura de demostración
+      {
+        path: 'facturacion/nueva',
+        loadComponent: () =>
+          import('./features/facturacion/facturas-formulario/facturas-formulario').then(
+            (m) => m.FacturaFormulario, 
+          ),
+      },
     ],
   },
 

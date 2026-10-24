@@ -1,0 +1,286 @@
+/* Contenedor principal */
+.facturacion {
+  color: #183153;
+}
+
+/* Encabezado */
+.encabezado {
+  margin-bottom: 24px;
+}
+
+.encabezado h1 {
+  margin: 0 0 8px;
+  font-size: 28px;
+}
+
+.encabezado p {
+  margin: 0;
+  color: #52647a;
+}
+
+/* Indicadores */
+.estadisticas {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 20px;
+}
+
+.tarjeta {
+  background: white;
+  border: 1px solid #e1e7ef;
+  border-radius: 12px;
+  padding: 22px;
+}
+
+.tarjeta span {
+  font-size: 14px;
+  color: #52647a;
+}
+
+.tarjeta h2 {
+  font-size: 30px;
+  margin: 12px 0 0;
+  color: #1763ac;
+}
+
+.valor-verde {
+  color: #176344 !important;
+}
+
+.valor-amarillo {
+  color: #966212 !important;
+}
+
+/* Resumen de importes */
+.resumen-importes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.resumen-importes > div {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  background: #fff;
+  border: 1px solid #e1e7ef;
+  border-radius: 12px;
+}
+
+.resumen-importes span {
+  font-size: 14px;
+  color: #52647a;
+}
+
+.resumen-importes strong {
+  font-size: 24px;
+}
+
+/* Panel del listado */
+.contenedor {
+  background: #ffffff;
+  border: 1px solid #e1e7ef;
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.titulo-tabla h2 {
+  font-size: 20px;
+  margin: 0 0 8px;
+}
+
+.titulo-tabla p {
+  font-size: 14px;
+  color: #52647a;
+  margin: 0 0 24px;
+}
+
+/* Filtros */
+.filtros {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.campo-filtro {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.campo-filtro label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.campo-filtro input,
+.campo-filtro select {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #a7b4c5;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #183153;
+  font-size: 14px;
+}
+
+.campo-filtro input:focus-visible,
+.campo-filtro select:focus-visible {
+  outline: 3px solid #b5d8fa;
+  border-color: #1763ac;
+}
+
+/* Tabla */
+.tabla-contenedor {
+  width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+th,
+td {
+  padding: 14px;
+  border-bottom: 1px solid #e1e7ef;
+  font-size: 14px;
+  vertical-align: middle;
+}
+
+th {
+  background: #f4f7fb;
+  color: #52647a;
+  font-weight: 600;
+}
+
+td {
+  overflow-wrap: anywhere;
+}
+
+.numero-factura {
+  color: #1763ac;
+  font-weight: 700;
+}
+
+.paciente-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.paciente-info strong {
+  font-size: 14px;
+}
+
+.paciente-info span {
+  font-size: 12px;
+  color: #52647a;
+}
+
+.monto {
+  white-space: nowrap;
+  font-weight: 700;
+}
+
+/* Etiquetas de estado */
+.estado {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.estado-pagada {
+  color: #176344;
+  background: #e2f4eb;
+}
+
+.estado-pendiente {
+  color: #966212;
+  background: #fff4dc;
+}
+
+.estado-anulada {
+  color: #a32119;
+  background: #fff0ef;
+}
+
+/* Mensaje sin resultados */
+.sin-resultados {
+  color: #52647a;
+  text-align: center;
+  padding: 24px;
+}
+
+/* Contador */
+.total-registros {
+  margin: 18px 0 0;
+  font-size: 13px;
+  color: #52647a;
+}
+
+/* Adaptación a tablets */
+@media (max-width: 1000px) {
+  .estadisticas {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Adaptación a teléfonos */
+@media (max-width: 700px) {
+  .estadisticas,
+  .resumen-importes,
+  .filtros {
+    grid-template-columns: 1fr;
+  }
+
+  .contenedor {
+    padding: 16px;
+  }
+
+  .encabezado h1 {
+    font-size: 23px;
+  }
+}
+
+/* Encabezado con botón de registro */
+.encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+/* Botón Nueva factura */
+.btn-nueva-factura {
+  display: inline-block;
+  padding: 12px 18px;
+  background: #1763ac;
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.btn-nueva-factura:hover {
+  background: #104c86;
+}
+
+.btn-nueva-factura:focus-visible {
+  outline: 3px solid #f59e0b;
+  outline-offset: 3px;
+}
